@@ -12,7 +12,7 @@ main.app.post("/api/LED/ALL", function (req, res) {
         try {
             main.currentClientsws[i].send(`${r},${g},${b},${v}`);
         } catch (error) {
-            main.loggererror.error("LED Send: Client " + i + " nicht Verfügbar");
+            main.loggererror.error("LED Send /ALL: Client " + i + " nicht Verfügbar");
         }
     }
     res.sendStatus(200);
@@ -30,7 +30,7 @@ main.app.post("/api/LED/Single", function (req, res) {
     try {
         main.currentClientsws[i].send(`${r},${g},${b},${v}`);
     } catch (error) {
-        main.loggererror.error("LED Send: Client nicht Verfügbar");
+        main.loggererror.error("LED Send /Single: Client" + i +  " nicht Verfügbar");
     }
     res.sendStatus(200);
 });
