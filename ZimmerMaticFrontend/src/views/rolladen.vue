@@ -45,6 +45,7 @@ export default {
   },
   methods: {
     send_fetch(pDirection) {
+      console.log("Fetch Rolladen: " + pDirection);
       axios.post(IP + "/api/Rolladen", {direction: pDirection})
     },
   },

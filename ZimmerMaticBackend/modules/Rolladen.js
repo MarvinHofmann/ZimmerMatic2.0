@@ -5,6 +5,7 @@ const main = require("../index")
  */
 main.app.post("/api/Rolladen", function (req, res) {
     let dir = req.body.direction;
+    main.loggerinfo.info("Incoming shutter Request to: " + dir)
     //Executes the Direction requested by frontend
     try {
         main.currentClientsws[0].send(dir);
