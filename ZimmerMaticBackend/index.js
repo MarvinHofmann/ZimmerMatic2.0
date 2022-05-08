@@ -56,7 +56,6 @@ MongoClient.connect(uri)
             const tempCollection = db.collection('TempCollection');
             app.locals.temperature = tempCollection;
             loggerinfo.info("Connection to DB established")
-            
         } catch (error) {
             loggererror.fatal("Connection to DB not established")
         }
@@ -89,6 +88,7 @@ app.listen(port, () => {
 //Handle Whitelist WS Clients
 wssLED.on("connection", function connection(ws, req) {
     const ip = req.socket.remoteAddress;
+    loggerinfo.info("Incoming Request from IP: " + ip)
     if (ip === d1) {
         loggerinfo.info("Client Rolladen (0) Connected with IP: " + ip);
         currentClientsws[0] = ws;
@@ -112,3 +112,22 @@ wssLED.on("connection", function connection(ws, req) {
         currentClientsws[6] = ws;
     }
 });
+
+
+function writeToDB(temp, hum, spot) {
+    let json = {
+      spot: spot,
+      temperature: temp,
+      humidity: hum,
+      time: time.getDBFormatTime(),
+      date: time.getDBFormatDate(),
+      timestamp: new Date().toLocaleString("de-DE", { timeZone: "Europe/Berlin" })
+    }
+    app.locals.temperature.insertOne(json, function (err, res){
+        if (err) {
+            main.loggererror.error("Error writing Temp Data to DB: " + err)
+        }else{
+            console.log("All jut");
+        };
+    });
+}
