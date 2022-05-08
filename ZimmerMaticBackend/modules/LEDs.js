@@ -26,11 +26,10 @@ main.app.post("/api/LED/Single", function (req, res) {
     let b = req.body.blue;
     let v = Number(req.body.value) * 2.5;
     let spot = req.body.spot
-    console.log(`r: ${r}, g: ${g}, b: ${b}, v: ${v}, s: ${spot}` );
     try {
-        main.currentClientsws[i].send(`${r},${g},${b},${v}`);
+        main.currentClientsws[spot].send(`${r},${g},${b},${v}`);
     } catch (error) {
-        main.loggererror.error("LED Send /Single: Client" + i +  " nicht Verfügbar");
+        main.loggererror.error("LED Send /Single: Client" + spot +  " nicht Verfügbar");
     }
     res.sendStatus(200);
 });
