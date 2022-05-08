@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+    frontend:
+        build:
+            context: ./ZimmerMaticFrontend
+            dockerfile: Dockerfile
+        ports:
+            - "3000:3000"
+
+    backend:
+        build:
+            context: ./ZimmerMaticBackend
+            dockerfile: Dockerfile
+        ports:
+            - "3443:3443"

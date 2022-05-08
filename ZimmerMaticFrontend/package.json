@@ -1,0 +1,30 @@
+{
+  "name": "zimmermaticfrontend",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@caohenghu/vue-colorpicker": "^1.2.4",
+    "@jaames/iro": "^5.5.2",
+    "@radial-color-picker/vue-color-picker": "^5.0.1",
+    "@vueform/slider": "^2.0.9",
+    "axios": "^0.27.2",
+    "bootstrap": "^5.1.3",
+    "bootstrap-vue": "^2.22.0",
+    "mdb-vue-ui-kit": "^1.12.0",
+    "nouislider": "^15.6.0",
+    "url-loader": "^4.1.1",
+    "veeno": "^0.0.4",
+    "vue": "^3.2.33",
+    "vue-color-kit": "^1.0.5",
+    "vue-router": "^4.0.14"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.1",
+    "vite": "^2.9.5"
+  }
+}
