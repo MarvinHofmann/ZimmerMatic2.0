@@ -24,7 +24,7 @@ exports.fetchSteckdose = fetchSteckdose;
  */
 function fetchLampe(lampe, mode, value) {
     let adresse = "http://192.168.0.138:8080/rest/items/" + lampe + "_" + mode;
-    main.axios.post(adresse, value, {
+    main.axios.post(adresse, String(value), {
         headers: { "content-type": "text/plain" }
     }).then(function (response) {
         //Succes
