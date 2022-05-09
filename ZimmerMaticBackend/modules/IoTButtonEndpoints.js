@@ -29,6 +29,8 @@ main.app.get("/hello", function (req, res) {
         main.currentClientsws[3].send("40,191,255,255"); //Uhr
     } catch (error) {
         main.loggererror.error("Client LEDs [1,2,3] not available")
+        res.sendStatus(500);
+        return;
     }
     let a = new Date();
     //If its in the evening turn a small light on when comming home
@@ -59,6 +61,8 @@ main.app.get("/tschuess", function (req, res) {
             main.currentClientsws[i].send("0,0,0,0");
         } catch (error) {
             main.loggererror.error("Error turning off LEDs for /tschuess :" + error);
+            res.sendStatus(500);
+            return;
         }
     }
     //Turnign off heater and lights

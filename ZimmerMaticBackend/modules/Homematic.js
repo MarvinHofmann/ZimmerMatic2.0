@@ -7,8 +7,14 @@ const main = require("../index");
  */
 function fetchHeizung(Heizung, wert) {
     let adresse = "http://192.168.0.138:8080/rest/items/" + Heizung;
-    main.axios.post(adresse, wert,{
+    main.axios.post(adresse, wert, {
         headers: { "content-type": "text/plain" }
+    }).then(function (response) {
+        // handle success
+    })
+    .catch(function (error) {
+            // handle error
+        main.loggererror.error("Erroro fetching heater")
     });
 }
 

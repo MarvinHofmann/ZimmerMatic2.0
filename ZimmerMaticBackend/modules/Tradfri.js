@@ -8,6 +8,10 @@ function fetchSteckdose(mode) {
     let adresse = "http://192.168.0.138:8080/rest/items/StD_Betrieb";
     main.axios.post(adresse, mode, {
         headers: { "content-type": "text/plain" }
+    }).then(function (response) {
+        //Succes
+    }).catch(function (error) {
+        main.loggererror.error("Failed to Fetch Steckdose")
     });
 }
 exports.fetchSteckdose = fetchSteckdose;
@@ -22,6 +26,10 @@ function fetchLampe(lampe, mode, value) {
     let adresse = "http://192.168.0.138:8080/rest/items/" + lampe + "_" + mode;
     main.axios.post(adresse, value, {
         headers: { "content-type": "text/plain" }
+    }).then(function (response) {
+        //Succes
+    }).catch(function (error) {
+        main.loggererror.error("Failed to Fetch Lampe: " + lampe)
     });
 }
 exports.fetchLampe = fetchLampe;
