@@ -29,7 +29,7 @@ function fetchLampe(lampe, mode, value) {
     }).then(function (response) {
         //Succes
     }).catch(function (error) {
-        main.loggererror.error("Failed to Fetch lampe: " + lampe + " with Error: " + error)
+        main.loggererror.error("Failed to Fetch lampe: " + {lampe, mode, value, adresse} + " with Error: " + error)
     });
 }
 exports.fetchLampe = fetchLampe;
