@@ -68,6 +68,7 @@ const time = require("./modules/timeLibrary")
 const Rolladen = require("./modules/Rolladen")
 const leds = require("./modules/LEDs")
 const Ikea = require("./modules/Tradfri")
+const IoTbtn = require("./modules/IoTButtonEndpoints")
 
 //WS Whitelist
 //Allowed Clients for our Websocket connection 
