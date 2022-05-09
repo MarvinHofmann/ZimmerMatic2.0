@@ -7,11 +7,9 @@
           <div class="col-lg-12 mx-auto mb-2 text-black text-center">
             <h1 class="display-3">Licht</h1>
           </div>
-
           <div class="container">
             <div class="row">
-              <Slider @changeValue="send_fetch" :slidername="'Helligkeit'" />
-              <div class="col-lg-2 text-black text-center" id="mid">
+              <div class="col-lg-12 text-black text-center">
                 <input
                   id="checkboxBL"
                   class="btn-check"
@@ -45,12 +43,14 @@
                   >Basteltisch</label
                 >
               </div>
-
+               <div class="row">
+              <Slider @changeValue="send_fetch" :slidername="'Helligkeit'" />
               <Slider
                 id="slider2"
                 @changeValue="send_fetch"
                 :slidername="'Farbtemperatur'"
               />
+              </div>
             </div>
           </div>
         </div>
@@ -99,8 +99,5 @@ export default {
 .btn {
   width: 160px;
   margin: 10px 10px 10px 10px;
-}
-#mid {
-  margin-top: 7%;
 }
 </style>

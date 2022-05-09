@@ -8,11 +8,11 @@
         </div>
 
         <div class="d-flex flex-column text-center mt-5 mb-4">
-          <h6 class="display-4 mb-0 font-weight-bold" style="color: #1c2331">
+          <h6 class="display-4 mb-0 " style="color: #1c2331; font-weight: 400">
             {{ responsedata.temperature }}°C
           </h6>
         </div>
-        <hr class="bg-dark border-2 border-top" />
+        <hr class="bg-dark border-3 border-dark border-top" />
         <div class="row">
           <div class="col-lg-6 text-center mt-4">
             <div>

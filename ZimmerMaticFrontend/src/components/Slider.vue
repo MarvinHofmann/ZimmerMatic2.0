@@ -1,5 +1,5 @@
 <template>
-  <div class="col-lg-5 text-black text-center mt-2">
+  <div class="col-lg-6 text-black text-center mt-2">
     
     <p id="rangeValue" class="mb-0">{{ this.rangeSlider }}%</p>
     <p class="mt-0 mb-0">{{ this.caption_top }}</p>
