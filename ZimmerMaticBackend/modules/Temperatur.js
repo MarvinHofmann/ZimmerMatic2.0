@@ -19,7 +19,7 @@ main.app.post("/api/TempData", function (req, res) {
  * Middleware acces point for temp sensor one
  */
 main.app.post("/", function (req, res) {
-  main.loggerinfo.debug("Incoming Request from temp sensor one")
+  //main.loggerinfo.debug("Incoming Request from temp sensor one")
   writeToDB(req.body.temperatur, req.body.feuchtigkeit, "Bett")
   getTempAverage();
   res.sendStatus(200);
@@ -29,7 +29,7 @@ main.app.post("/", function (req, res) {
  * Middleware acces point for temp sensor two
  */
 main.app.post("/senderZwei", function (req, res) {
-  main.loggerinfo.debug("Incoming Request from temp sensor two")
+  //main.loggerinfo.debug("Incoming Request from temp sensor two")
   writeToDB(req.body.temperatur, req.body.feuchtigkeit, "Couch")
   getTempAverage();
   res.sendStatus(200);
@@ -39,12 +39,13 @@ main.app.post("/senderZwei", function (req, res) {
  * Middleware acces point for temp sensor three
  */
 main.app.post("/senderDrei", function (req, res) {
-  main.loggerinfo.debug("Incoming Request from temp sensor three")
+  //main.loggerinfo.debug("Incoming Request from temp sensor three")
   writeToDB(req.body.temperatur, req.body.feuchtigkeit, "Schreibtisch")
   getTempAverage();
   res.sendStatus(200);
 });
 
+let counterDBwrites = 0;
 /**
  * Writes every incoming sensor value into DB
  * @param {*} temp sensor temperature
@@ -52,6 +53,7 @@ main.app.post("/senderDrei", function (req, res) {
  * @param {*} spot sensor spot
  */
 function writeToDB(temp, hum, spot) {
+  counterDBwrites == 100 ? main.loggerinfo.debug("100 Database Writes") : counterDBwrites++;
   let json = {
     spot: spot,
     temperature: temp,
