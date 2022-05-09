@@ -11,7 +11,7 @@ function fetchSteckdose(mode) {
     }).then(function (response) {
         //Succes
     }).catch(function (error) {
-        main.loggererror.error("Failed to Fetch Steckdose")
+        main.loggererror.error("Failed to Fetch socket with Error: " + error)
     });
 }
 exports.fetchSteckdose = fetchSteckdose;
@@ -29,7 +29,7 @@ function fetchLampe(lampe, mode, value) {
     }).then(function (response) {
         //Succes
     }).catch(function (error) {
-        main.loggererror.error("Failed to Fetch Lampe: " + lampe)
+        main.loggererror.error("Failed to Fetch lampe: " + lampe + " with Error: " + error)
     });
 }
 exports.fetchLampe = fetchLampe;

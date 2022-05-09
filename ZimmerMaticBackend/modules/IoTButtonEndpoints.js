@@ -88,7 +88,11 @@ main.app.get("/druckerButton", function (req, res) {
                 Ikea.fetchSteckdose("OFF");
             }
         })
-        .catch(err => main.loggererror.error("Error fetching current state of Printer: " + err));
+        .catch(function(err){
+            main.loggererror.error("Error fetching current state of Printer: " + err)
+            res.sendStaus(500);
+            return;
+        });
     res.sendStatus(200);
 });
 
