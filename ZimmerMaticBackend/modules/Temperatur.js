@@ -1,6 +1,6 @@
 const main = require("../index.js")
 const time = require("./timeLibrary")
-const rol = require("./Rolladen")
+const shutter = require("./Rolladen")
 /**
  * Middleware for fetching Temperature Data from frontend 
  * to Display curren measured Temperature and Humidity
@@ -8,7 +8,7 @@ const rol = require("./Rolladen")
 main.app.post("/api/TempData", function (req, res) {
   let _spot = req.body.spot;
   //Get values from DB and send response
-  main.app.locals.temperature.find({ spot: _spot }).toArray(function (err, response) {
+  main.app.locals.temperature.find({spot: _spot, date: time.getDBFormatDate()}).sort({_id: -1}).toArray(function (err, response) {
     let return_json = response[0];
     return_json.lastTemperature = response[1].temperature
     res.status(200).json(return_json);
@@ -74,6 +74,6 @@ function writeToDB(temp, hum, spot) {
 function getTempAverage() {
   average = ((temp + temp2 + temp3) / 3).toFixed(2);
   if (average > 24) {
-    rol.rolladenDown();
+    shutter.rolladenDown();
   }
 }

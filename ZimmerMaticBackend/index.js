@@ -116,7 +116,8 @@ wssLED.on("connection", function connection(ws, req) {
 });
 
 function printDB(){
-    app.locals.temperature.find({spot: "Schreibtisch", date: time.getDBFormatDate()}).toArray(function (err, response) {
-        console.log(response);
+    app.locals.temperature.find({spot: "Schreibtisch", date: time.getDBFormatDate()}).sort({_id: -1}).toArray(function (err, response) {
+        console.log(response[0]);
+        console.log(response[1]);
     })
 }
