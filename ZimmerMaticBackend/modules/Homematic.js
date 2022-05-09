@@ -14,7 +14,7 @@ function fetchHeizung(Heizung, wert) {
     })
         .catch(function (error) {
             // handle error
-            main.loggererror.error("Erroro fetching heater: " + { Heizung, wert, adresse } + " with Error: " + error);
+            main.loggererror.error("Erroro fetching heater: " + Heizung, wert, adresse + " with Error: " + error);
         });
 }
 
@@ -22,8 +22,8 @@ function fetchHeizung(Heizung, wert) {
  * Turns all heater off
  */
 function heizungOff() {
-    fetchHeizung("HZFen_ST", 0);
-    fetchHeizung("HZF_ST", 0);
+    fetchHeizung("HZFen_ST", "0");
+    fetchHeizung("HZF_ST", "0");
 }
 exports.heizungOff = heizungOff;
 

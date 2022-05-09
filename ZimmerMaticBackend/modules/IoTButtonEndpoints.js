@@ -66,9 +66,9 @@ main.app.get("/tschuess", function (req, res) {
         }
     }
     //Turnign off heater and lights
-    Ikea.fetchLampe("BL", "Helligkeit", 0);
-    Ikea.fetchLampe("BR", "Helligkeit", 0);
-    Ikea.fetchLampe("BT", "Helligkeit", 0);
+    Ikea.fetchLampe("BL", "Helligkeit", "0");
+    Ikea.fetchLampe("BR", "Helligkeit", "0");
+    Ikea.fetchLampe("BT", "Helligkeit", "0");
     homematic.heizungOff();
     res.sendStatus(200);
 });
@@ -111,9 +111,9 @@ main.app.get('/fensterZu', function (request, response) {
         }
     }
     syncDelay(3000);
-    Ikea.fetchLampe("BL", "Helligkeit", 0);
-    Ikea.fetchLampe("BR", "Helligkeit", 0);
-    Ikea.fetchLampe("BT", "Helligkeit", 0);
+    Ikea.fetchLampe("BL", "Helligkeit", "0");
+    Ikea.fetchLampe("BR", "Helligkeit", "0");
+    Ikea.fetchLampe("BT", "Helligkeit", "0");
     homematic.heizungOff();
     response.sendStatus(200);
 });
