@@ -79,7 +79,7 @@ main.app.get("/tschuess", function (req, res) {
 main.app.get("/druckerButton", function (req, res) {
     //Get current state
     let adresse = "http://192.168.0.138:8080/rest/items/StD_Betrieb/state";
-    main.axios.get(adresse).then(response => response.text())
+    main.axios.get(adresse).then(response => response.data)
         .then((response) => {
             antwort = response;
             if (antwort == "OFF") {
