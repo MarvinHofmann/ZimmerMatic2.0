@@ -10,11 +10,7 @@
 
           <div class="container">
             <div class="row">
-
-              <Slider
-                @changeValue="send_fetch"
-                :slidername="'Helligkeit'"
-              />
+              <Slider @changeValue="send_fetch" :slidername="'Helligkeit'" />
               <div class="col-lg-2 text-black text-center" id="mid">
                 <input
                   id="checkboxBL"
@@ -55,7 +51,6 @@
                 @changeValue="send_fetch"
                 :slidername="'Farbtemperatur'"
               />
-
             </div>
           </div>
         </div>
@@ -95,8 +90,8 @@ export default {
     },
   },
   beforeMount() {
-    this.checkedSpots.push("BL")
-    this.checkedSpots.push("BR")
+    this.checkedSpots.push("BL");
+    this.checkedSpots.push("BR");
   },
 };
 </script>

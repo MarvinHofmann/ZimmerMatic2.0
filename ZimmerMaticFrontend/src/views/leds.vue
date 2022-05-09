@@ -8,7 +8,7 @@
             <h1 class="display-3">LEDs</h1>
           </div>
           <div class="col-lg-4 mx-auto mb-3 text-black text-center">
-            <input 
+            <input
               id="checkboxAll"
               class="btn-check"
               type="checkbox"
@@ -16,7 +16,10 @@
               v-model="checkedSpots"
               @click="check_All()"
             />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxAll" :style="{ 'border-color': color}" 
+            <label
+              class="btn btn-outline-primary btn-lg"
+              for="checkboxAll"
+              :style="{ 'border-color': color }"
               >Alle</label
             >
             <input
@@ -27,7 +30,10 @@
               v-model="checkedSpots"
               @click="uncheck_All('Couch')"
             />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxCouch" :style="{ 'border-color': color}" 
+            <label
+              class="btn btn-outline-primary btn-lg"
+              for="checkboxCouch"
+              :style="{ 'border-color': color }"
               >Couch</label
             >
             <input
@@ -38,7 +44,10 @@
               v-model="checkedSpots"
               @click="uncheck_All('Dart')"
             />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxDart" :style="{ 'border-color': color}" 
+            <label
+              class="btn btn-outline-primary btn-lg"
+              for="checkboxDart"
+              :style="{ 'border-color': color }"
               >Dartscheibe</label
             >
 
@@ -50,7 +59,10 @@
               v-model="checkedSpots"
               @click="uncheck_All('Table')"
             />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxTable" :style="{ 'border-color': color}" 
+            <label
+              class="btn btn-outline-primary btn-lg"
+              for="checkboxTable"
+              :style="{ 'border-color': color }"
               >Tisch</label
             >
 
@@ -65,8 +77,10 @@
             <label
               class="btn btn-outline-primary btn-lg"
               for="checkboxTableE"
-              :style="{ 'border-color': color}" >
-             Tisch Emely </label>
+              :style="{ 'border-color': color }"
+            >
+              Tisch Emely
+            </label>
 
             <input
               id="checkboxWordC"
@@ -76,10 +90,13 @@
               v-model="checkedSpots"
               @click="uncheck_All('WordC')"
             />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxWordC" :style="{ 'border-color': color}"
+            <label
+              class="btn btn-outline-primary btn-lg"
+              for="checkboxWordC"
+              :style="{ 'border-color': color }"
               >Uhr</label
             >
-            <div id="colorPicker" class="center mt-4">
+            <div id="colorPicker" class="center mt-4 mb-4">
               <div class="child">
                 <ColorPicker
                   theme="dark"
@@ -89,8 +106,12 @@
                 />
               </div>
             </div>
-            <button @click="fetch_Off" class="btn btn-primary btn-lg mt-3">Alles Aus</button>
-            <button @click="fetch_Work" class="btn btn-primary btn-lg">Arbeiten</button>
+            <button @click="fetch_Off" class="btn btn-primary btn-lg mt-3">
+              Alles Aus
+            </button>
+            <button @click="fetch_Work" class="btn btn-primary btn-lg">
+              Arbeiten
+            </button>
           </div>
         </div>
       </div>
@@ -173,17 +194,17 @@ export default {
       this.color = `rgb(${r}, ${g}, ${b}, ${this.brightness})`;
     },
 
-    fetch_Off(){
+    fetch_Off() {
       axios.post(IP + "/api/LED/ALL", {
-          red: 0,
-          green: 0,
-          blue: 0,
-          value: 0,
-    });
+        red: 0,
+        green: 0,
+        blue: 0,
+        value: 0,
+      });
     },
-    fetch_Work(){
+    fetch_Work() {
       axios.get(IP + "/api/LED/Work");
-    }
+    },
   },
   mounted() {},
 };

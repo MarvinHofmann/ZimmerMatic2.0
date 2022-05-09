@@ -36,7 +36,7 @@
 </template>
 
 <script>
-const IP = import.meta.env.VITE_SERVER_IP
+const IP = import.meta.env.VITE_SERVER_IP;
 import axios from "axios";
 import Navbardark from "../components/navbardark.vue";
 export default {
@@ -46,7 +46,7 @@ export default {
   methods: {
     send_fetch(pDirection) {
       console.log("Fetch Rolladen: " + pDirection);
-      axios.post(IP + "/api/Rolladen", {direction: pDirection})
+      axios.post(IP + "/api/Rolladen", { direction: pDirection });
     },
   },
   mounted() {},

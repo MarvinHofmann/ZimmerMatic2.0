@@ -2,6 +2,7 @@ const main = require("../index")
 const Ikea = require("./Tradfri")
 const homematic = require("./Homematic")
 const shutter = require("./Rolladen")
+
 /**
  * Middleware for IoT Button signals that dinner is ready
  */

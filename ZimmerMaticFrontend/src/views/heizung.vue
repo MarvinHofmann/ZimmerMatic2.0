@@ -1,6 +1,6 @@
 <template>
   <div>
-<navbardark></navbardark>
+    <navbardark></navbardark>
     <main class="px-3">
       <div class="container mt-4">
         <div class="row">
@@ -17,21 +17,16 @@
 </template>
 
 <script>
-import Navbardark from '../components/navbardark.vue';
-import Heizung from '../components/HeizungKachel.vue';
+import Navbardark from "../components/navbardark.vue";
+import Heizung from "../components/HeizungKachel.vue";
 export default {
   components: {
     Navbardark,
-    Heizung
+    Heizung,
   },
-  methods: {
-    
-  },
-  mounted() {
-  },
+  methods: {},
+  mounted() {},
 };
 </script>
 
-<style>
-
-</style>
+<style></style>
