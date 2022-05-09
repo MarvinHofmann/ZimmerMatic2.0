@@ -1,5 +1,5 @@
-<template >
-  <div :style="{ background: color }" class="full">
+<template>
+  <div>
     <navbardark></navbardark>
     <main class="px-3">
       <div class="container-fluid mt-4">
@@ -8,7 +8,7 @@
             <h1 class="display-3">LEDs</h1>
           </div>
           <div class="col-lg-4 mx-auto mb-3 text-black text-center">
-            <input
+            <input 
               id="checkboxAll"
               class="btn-check"
               type="checkbox"
@@ -16,7 +16,7 @@
               v-model="checkedSpots"
               @click="check_All()"
             />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxAll"
+            <label class="btn btn-outline-primary btn-lg" for="checkboxAll" :style="{ 'border-color': color}" 
               >Alle</label
             >
             <input
@@ -27,7 +27,7 @@
               v-model="checkedSpots"
               @click="uncheck_All('Couch')"
             />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxCouch"
+            <label class="btn btn-outline-primary btn-lg" for="checkboxCouch" :style="{ 'border-color': color}" 
               >Couch</label
             >
             <input
@@ -38,7 +38,7 @@
               v-model="checkedSpots"
               @click="uncheck_All('Dart')"
             />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxDart"
+            <label class="btn btn-outline-primary btn-lg" for="checkboxDart" :style="{ 'border-color': color}" 
               >Dartscheibe</label
             >
 
@@ -50,7 +50,7 @@
               v-model="checkedSpots"
               @click="uncheck_All('Table')"
             />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxTable"
+            <label class="btn btn-outline-primary btn-lg" for="checkboxTable" :style="{ 'border-color': color}" 
               >Tisch</label
             >
 
@@ -62,9 +62,11 @@
               v-model="checkedSpots"
               @click="uncheck_All('TableE')"
             />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxTableE"
-              >Tisch Emely</label
-            >
+            <label
+              class="btn btn-outline-primary btn-lg"
+              for="checkboxTableE"
+              :style="{ 'border-color': color}" >
+             Tisch Emely </label>
 
             <input
               id="checkboxWordC"
@@ -74,7 +76,7 @@
               v-model="checkedSpots"
               @click="uncheck_All('WordC')"
             />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxWordC"
+            <label class="btn btn-outline-primary btn-lg" for="checkboxWordC" :style="{ 'border-color': color}"
               >Uhr</label
             >
             <div id="colorPicker" class="center mt-4">
@@ -85,16 +87,10 @@
                   @changeColor="changeColor"
                   @click="fetch_led()"
                 />
-                <input
-                  type="range"
-                  class="form-range mt-3 mb-2"
-                  v-model="this.brightness"
-                  @change="fetch_led()"
-                />
               </div>
             </div>
-            <button class="btn btn-primary btn-lg mt-3 ">Alles Aus</button>
-            <button class="btn btn-primary btn-lg">Arbeiten</button>
+            <button @click="fetch_Off" class="btn btn-primary btn-lg mt-3">Alles Aus</button>
+            <button @click="fetch_Work" class="btn btn-primary btn-lg">Arbeiten</button>
           </div>
         </div>
       </div>
@@ -103,7 +99,7 @@
 </template>
 
 <script>
-const IP = import.meta.env.VITE_SERVER_IP
+const IP = import.meta.env.VITE_SERVER_IP;
 import { ColorPicker } from "vue-color-kit";
 import "vue-color-kit/dist/vue-color-kit.css";
 import Navbardark from "../components/navbardark.vue";
@@ -115,9 +111,9 @@ export default {
   },
   data() {
     return {
-      color: "#ffffff",
+      color: "#3167FF",
       checkedSpots: [],
-      brightness: 100,
+      brightness: 0,
       red: 0,
       green: 0,
       blue: 0,
@@ -140,7 +136,7 @@ export default {
             green: this.green,
             blue: this.blue,
             value: this.brightness,
-            spot: this.checkedSpots[i]
+            spot: this.checkedSpots[i],
           });
         }
       }
@@ -150,14 +146,7 @@ export default {
       if (this.checkedSpots.includes("All")) {
         this.checkedSpots = [];
       } else {
-        this.checkedSpots = [
-          "1",
-          "2",
-          "3",
-          "4",
-          "5",
-          "All",
-        ];
+        this.checkedSpots = ["1", "2", "3", "4", "5", "All"];
       }
     },
 
@@ -180,16 +169,28 @@ export default {
       this.red = r;
       this.green = g;
       this.blue = b;
-      this.color = `rgba(${r}, ${g}, ${b}, ${a})`;
-      console.log(color.rgba);
+      this.brightness = a * 100;
+      this.color = `rgb(${r}, ${g}, ${b}, ${this.brightness})`;
     },
+
+    fetch_Off(){
+      axios.post(IP + "/api/LED/ALL", {
+          red: 0,
+          green: 0,
+          blue: 0,
+          value: 0,
+    });
+    },
+    fetch_Work(){
+      axios.get(IP + "/api/LED/Work");
+    }
   },
   mounted() {},
 };
 </script>
 
 <style scoped>
-.full{
+.full {
   padding-bottom: 100%;
 }
 .hu-color-picker {

@@ -1,6 +1,7 @@
 const main = require("../index")
 const Ikea = require("./Tradfri")
 const homematic = require("./Homematic")
+const shutter = require("./Rolladen")
 /**
  * Middleware for IoT Button signals that dinner is ready
  */
@@ -35,7 +36,7 @@ main.app.get("/hello", function (req, res) {
         Ikea.fetchLampe("BR", "Helligkeit", 30);
     } else {
         //open the shutter
-        rS.rolladenUP();
+        shutter.rolladenUP();
     }
     //If its winter start the heater
     if ((a.getHours() < 21 || a.getHours() > 8) && (a.getMonth() + 1 < 4 || a.getMonth() + 1 > 10)) {
@@ -49,14 +50,14 @@ main.app.get("/hello", function (req, res) {
  */
 main.app.get("/tschuess", function (req, res) {
     //close the shutter
-    rS.rolladenDown();
+    shutter.rolladenDown();
     main.loggerinfo.info("Leaving at: " + new Date().toLocaleString("de-DE", { timeZone: "Europe/Berlin" }));
     //Turn all LEDs off
     for (let i = 0; i < main.currentClientsws.length; i++) {
         try {
             main.currentClientsws[i].send("0,0,0,0");
         } catch (error) {
-            main.loggererror.error("Error turning off LEDs for bey :" + error);
+            main.loggererror.error("Error turning off LEDs for /tschuess :" + error);
         }
     }
     //Turnign off heater and lights
@@ -85,3 +86,37 @@ main.app.get("/druckerButton", function (req, res) {
         .catch(err => main.loggererror.error("Error fetching current state of Printer: " + err));
     res.sendStatus(200);
 });
+
+/**
+ * Middleware for IoT Button turning all Off 
+ */
+main.app.get('/fensterZu', function (request, response) {
+    shutter.rolladenDown();
+    syncDelay(1500);
+    for (let i = 1; i < main.currentClientsws.length; i++) {
+        try {
+            main.currentClientsws[i].send("0,0,0,0");
+        } catch (error) {
+            main.loggererror.error("Error at /fensterZu while turning LED " + i + " Off")
+            response.sendStatus(500)
+        }
+    }
+    syncDelay(3000);
+    Ikea.fetchLampe("BL", "Helligkeit", 0);
+    Ikea.fetchLampe("BR", "Helligkeit", 0);
+    Ikea.fetchLampe("BT", "Helligkeit", 0);
+    homematic.heizungOff();
+    response.sendStatus(200);
+});
+
+/**
+ * synchronous Delay
+ * @param {*} milliseconds Delay time in Millis.
+ */
+function syncDelay(milliseconds) {
+    let start = new Date().getTime();
+    let end = 0;
+    while ((end - start) < milliseconds) {
+        end = new Date().getTime();
+    }
+}

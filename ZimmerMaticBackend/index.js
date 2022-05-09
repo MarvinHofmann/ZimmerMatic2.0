@@ -56,6 +56,7 @@ MongoClient.connect(uri)
             const tempCollection = db.collection('TempCollection');
             app.locals.temperature = tempCollection;
             loggerinfo.info("Connection to DB established")
+            //printDB();
         } catch (error) {
             loggererror.fatal("Connection to DB not established")
         }
@@ -114,20 +115,8 @@ wssLED.on("connection", function connection(ws, req) {
 });
 
 
-function writeToDB(temp, hum, spot) {
-    let json = {
-      spot: spot,
-      temperature: temp,
-      humidity: hum,
-      time: time.getDBFormatTime(),
-      date: time.getDBFormatDate(),
-      timestamp: new Date().toLocaleString("de-DE", { timeZone: "Europe/Berlin" })
-    }
-    app.locals.temperature.insertOne(json, function (err, res){
-        if (err) {
-            main.loggererror.error("Error writing Temp Data to DB: " + err)
-        }else{
-            console.log("All jut");
-        };
-    });
+function printDB(){
+    app.locals.temperature.find({spot: "Schreibtisch", date: time.getDBFormatDate()}).toArray(function (err, response) {
+        console.log(response);
+    })
 }
