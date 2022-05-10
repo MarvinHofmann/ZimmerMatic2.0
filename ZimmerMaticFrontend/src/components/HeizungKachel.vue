@@ -8,11 +8,13 @@
               <h1 class="display-5 text-center mb-2">
                 <strong>{{ this.setTemp }}</strong>
               </h1>
-              <hr class="bg-dark border-2 border-top mb-1" />
-              <p class="text-center mt-0 mb-4">{{this.spot}}</p>
+              <hr class="bg-dark border-4 border-top mb-3" />
               <h4>Gemessen: {{ this.measured }}</h4>
               <h4>Ventil: {{ this.valve }}</h4>
               <h4>Gesetzt: {{ this.rangeSlider }} {{ this.string }}</h4>
+              <div class="col-lg-12 text-center mt-4">
+                <img id="img" :src="this.imgProp" />
+              </div>
             </div>
             <div class="col-lg-6 text-black text-center mt-2">
               <input
@@ -37,7 +39,7 @@
 import axios from "axios";
 export default {
   components: {},
-  props: ["spot"],
+  props: ["spot", "imgProp"],
   data() {
     return {
       rangeSlider: 2,
@@ -79,7 +81,7 @@ export default {
 <style scoped>
 h4 {
   font-size: 22px;
-  font-weight: 400;
+  font-weight: 300;
 }
 .center {
   position: absolute;

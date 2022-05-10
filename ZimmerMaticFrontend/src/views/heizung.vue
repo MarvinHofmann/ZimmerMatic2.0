@@ -7,8 +7,8 @@
           <div class="col-lg-12 mb-3 text-black text-center">
             <h1 class="display-3">Heizungssteuerung</h1>
           </div>
-          <Heizung :spot="'HZF'"></Heizung>
-          <Heizung :spot="'HZFen'"></Heizung>
+          <Heizung :spot="'HZF'" :imgProp="'/Fernsehr.png'"></Heizung>
+          <Heizung :spot="'HZFen'" :imgProp="'/Fenster.png'"></Heizung>
         </div>
       </div>
     </main>

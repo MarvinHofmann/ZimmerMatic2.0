@@ -13,17 +13,17 @@
           >
             <div class="row">
               <button class="btnIcon" @click="send_fetch(99)">
-                <i class="fas fa-chevron-up fa-6x"></i>
+                <i class="fas fa-chevron-up fa-5x"></i>
               </button>
             </div>
             <div class="row">
               <button class="btnIcon" @click="send_fetch(100)">
-                <i class="fas fa-minus fa-5x"></i>
+                <i class="fas fa-minus fa-4x"></i>
               </button>
             </div>
             <div class="row">
               <button class="btnIcon" @click="send_fetch(101)">
-                <i class="fas fa-chevron-down fa-6x"></i>
+                <i class="fas fa-chevron-down fa-5x"></i>
               </button>
             </div>
           </div>
@@ -61,14 +61,18 @@ export default {
   align-content: center;
 }
 .btnIcon {
-  width: 150px;
-  height: 150px;
+  width: 125px;
+  height: 125px;
   background-color: white;
-  border-width: 1px;
+  border-width: 2px;
   border-radius: 10px;
+  border-color: #1266F1;
   margin: 10px 10px 10px 10px;
 }
 .btnIcon:hover {
   background-color: aliceblue;
+} 
+.fas{
+  color: #1266F1;
 }
 </style>
