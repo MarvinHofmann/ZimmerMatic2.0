@@ -53,7 +53,11 @@ let counterDBwrites = 0;
  * @param {*} spot sensor spot
  */
 function writeToDB(temp, hum, spot) {
-  counterDBwrites == 100 ? main.loggerinfo.debug("100 Database Writes") : counterDBwrites++;
+  counterDBwrites++;
+  if(counterDBwrites == 100) {
+    main.loggerinfo.debug("100 Database Writes")
+    counterDBwrites = 0;
+  }
   let json = {
     spot: spot,
     temperature: temp,
