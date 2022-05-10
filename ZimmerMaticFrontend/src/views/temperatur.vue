@@ -10,6 +10,9 @@
           <Temp-kachel :spot="'Bett'" :imgProp="'/Bett.png'"></Temp-kachel>
           <Temp-kachel :spot="'Couch'" :imgProp="'/Couch.png'"></Temp-kachel>
           <Temp-kachel :spot="'Schreibtisch'" :imgProp="'/Schreibtisch.png'"></Temp-kachel>
+          <div class="col-lg-2"> <!-- Placeholder --> </div>
+          <Temp-kachel-H :spot="'Fernsehr'" :imgProp="'/Fernsehr.png'"></Temp-kachel-H>
+          <Temp-kachel-H :spot="'Fenster'" :imgProp="'/Fenster.png'"></Temp-kachel-H>
         </div>
       </div>
     </main>
@@ -20,10 +23,12 @@
 <script>
 import Navbardark from "../components/navbardark.vue";
 import TempKachel from "../components/temperaturKachel.vue";
+import TempKachelH from "../components/temperaturHeizungKachel.vue";
 export default {
   components: {
     Navbardark,
     TempKachel,
+    TempKachelH
   },
   methods: {},
   mounted() {},

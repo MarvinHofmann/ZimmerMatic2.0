@@ -43,13 +43,23 @@
                   >Basteltisch</label
                 >
               </div>
-               <div class="row">
-              <Slider @changeValue="send_fetch" :slidername="'Helligkeit'" />
-              <Slider
-                id="slider2"
-                @changeValue="send_fetch"
-                :slidername="'Farbtemperatur'"
-              />
+            </div>
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-3 mx-auto mb-2 text-black text-center"></div>
+                <div class="col-lg-2 mx-auto mb-2 text-black text-center">
+                  <Slider
+                    @changeValue="send_fetch"
+                    :slidername="'Helligkeit'"
+                  />
+                </div>
+                <div class="col-lg-2 mx-auto mb-2 text-black text-center">
+                  <Slider
+                    @changeValue="send_fetch"
+                    :slidername="'Farbtemperatur'"
+                  />
+                </div>
+                <div class="col-lg-3 mx-auto mb-2 text-black text-center"></div>
               </div>
             </div>
           </div>

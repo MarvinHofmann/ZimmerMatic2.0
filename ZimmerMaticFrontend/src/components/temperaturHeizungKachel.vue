@@ -9,19 +9,12 @@
 
         <div class="d-flex flex-column text-center mt-5 mb-4">
           <h6 class="display-4 mb-0 " style="color: #1c2331; font-weight: 400">
-            {{ responsedata.temperature }} °C
+            {{ responsedata.temperature }}
           </h6>
         </div>
         <hr class="bg-dark border-3 border-dark border-top" />
         <div class="row">
-          <div class="col-lg-6 text-center mt-4">
-            <div>
-              <h5>Last: {{ responsedata.lastTemperature }} °C</h5>
-              <h5>Humidity: {{ responsedata.humidity }}%</h5>
-            </div>
-          </div>
-
-          <div class="col-lg-6 text-center">
+          <div class="col-lg-12 text-center">
           <img id="img" :src="this.imgProp" />
           </div>
         </div>
@@ -43,7 +36,7 @@ export default {
   },
   async mounted(){
     this.responsedata = await axios
-      .post(IP + "/api/TempData", {
+      .post(IP + "/api/TempData/Heater", {
         spot: this.spot,
       })
       .then((response) => response.data);

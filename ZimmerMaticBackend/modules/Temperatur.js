@@ -1,9 +1,10 @@
 const main = require("../index.js")
 const time = require("./timeLibrary")
 const shutter = require("./Rolladen")
+
 /**
  * Middleware for fetching Temperature Data from frontend 
- * to Display curren measured Temperature and Humidity
+ * to Display current measured Temperature and Humidity
  */
 main.app.post("/api/TempData", function (req, res) {
   let _spot = req.body.spot;
@@ -13,6 +14,17 @@ main.app.post("/api/TempData", function (req, res) {
     return_json.lastTemperature = response[1].temperature
     res.status(200).json(return_json);
   })
+});
+
+/**
+ * Middleware for fetching Temperature Data from frontend 
+ * to Display current measured Temperature of the Heater
+ */
+ main.app.post("/api/TempData/Heater", function (req, res) {
+  let _spot = req.body.spot;
+  _spot === "Fenster" ? _spot = "HZFen" : _spot = "HZF"
+  main.axios.get("http://192.168.0.138:8080/rest/items/" + _spot + "_AT/state")
+  .then((response) => res.status(200).json({"temperature": response.data, time: time.getDBFormatTime()}));
 });
 
 /**
