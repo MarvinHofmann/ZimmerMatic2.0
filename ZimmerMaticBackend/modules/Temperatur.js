@@ -9,10 +9,16 @@ const shutter = require("./Rolladen")
 main.app.post("/api/TempData", function (req, res) {
   let _spot = req.body.spot;
   //Get values from DB and send response
-  main.app.locals.temperature.find({spot: _spot, date: time.getDBFormatDate()}).sort({_id: -1}).toArray(function (err, response) {
-    let return_json = response[0];
-    return_json.lastTemperature = response[1].temperature
-    res.status(200).json(return_json);
+  main.app.locals.temperature.find({ spot: _spot, date: time.getDBFormatDate() }).sort({ _id: -1 }).toArray(function (err, response) {
+    try {
+      let return_json = response[0];
+      return_json.lastTemperature = response[1].temperature
+      res.status(200).json(return_json);
+    } catch (error) {
+      main.loggererror.error("Failed get DB entrys from /api/TempData")
+      res.sendStatus(500);
+    }
+
   })
 });
 
@@ -20,11 +26,11 @@ main.app.post("/api/TempData", function (req, res) {
  * Middleware for fetching Temperature Data from frontend 
  * to Display current measured Temperature of the Heater
  */
- main.app.post("/api/TempData/Heater", function (req, res) {
+main.app.post("/api/TempData/Heater", function (req, res) {
   let _spot = req.body.spot;
   _spot === "Fenster" ? _spot = "HZFen" : _spot = "HZF"
   main.axios.get("http://192.168.0.138:8080/rest/items/" + _spot + "_AT/state")
-  .then((response) => res.status(200).json({"temperature": response.data, time: time.getDBFormatTime()}));
+    .then((response) => res.status(200).json({ "temperature": response.data, time: time.getDBFormatTime() }));
 });
 
 /**
@@ -66,7 +72,7 @@ let counterDBwrites = 0;
  */
 function writeToDB(temp, hum, spot) {
   counterDBwrites++;
-  if(counterDBwrites == 100) {
+  if (counterDBwrites == 100) {
     main.loggerinfo.debug("100 Database Writes")
     counterDBwrites = 0;
   }
