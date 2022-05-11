@@ -33,7 +33,7 @@ main.app.post("/api/TempData", function (req, res) {
 main.app.post("/", function (req, res) {
   //main.loggerinfo.debug("Incoming Request from temp sensor one")
   writeToDB(req.body.temperatur, req.body.feuchtigkeit, "Bett")
-  getTempAverage();
+  //getTempAverage();
   res.sendStatus(200);
 });
 
@@ -43,7 +43,7 @@ main.app.post("/", function (req, res) {
 main.app.post("/senderZwei", function (req, res) {
   //main.loggerinfo.debug("Incoming Request from temp sensor two")
   writeToDB(req.body.temperatur, req.body.feuchtigkeit, "Couch")
-  getTempAverage();
+  //getTempAverage();
   res.sendStatus(200);
 });
 
@@ -53,7 +53,7 @@ main.app.post("/senderZwei", function (req, res) {
 main.app.post("/senderDrei", function (req, res) {
   //main.loggerinfo.debug("Incoming Request from temp sensor three")
   writeToDB(req.body.temperatur, req.body.feuchtigkeit, "Schreibtisch")
-  getTempAverage();
+  //getTempAverage();
   res.sendStatus(200);
 });
 
@@ -89,9 +89,9 @@ function writeToDB(temp, hum, spot) {
  * Calculates average temperature and closes the shutter
  * if its above 24°
  */
-function getTempAverage() {
+/* function getTempAverage() {
   average = ((temp + temp2 + temp3) / 3).toFixed(2);
   if (average > 24) {
     shutter.rolladenDown();
   }
-}
+} */
