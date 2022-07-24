@@ -66,7 +66,7 @@ main.app.post("/api/LED/state", function (req, res) {
     if (!isNaN(parseInt(subPath))) {
         subPath = getSpot(req.body.subPath)
     }
-    res.send(jsonClients[subPath].value);    
+    res.send(main.jsonClients[subPath].value);    
 });
 
 
