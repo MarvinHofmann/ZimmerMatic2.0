@@ -47,7 +47,7 @@
             <label
               class="btn btn-outline-primary btn-lg"
               for="checkboxDart"
-              :style="{ 'border-color': color }"
+              :style="{ 'border-color': color}"
               >Dartscheibe</label
             >
 
@@ -62,7 +62,7 @@
             <label
               class="btn btn-outline-primary btn-lg"
               for="checkboxTable"
-              :style="{ 'border-color': color }"
+              :style="{ 'border-color': color}"
               >Tisch</label
             >
 
@@ -93,7 +93,7 @@
             <label
               class="btn btn-outline-primary btn-lg"
               for="checkboxWordC"
-              :style="{ 'border-color': color }"
+              :style="{ 'border-color': color}"
               >Uhr</label
             >
             <div id="colorPicker" class="center mt-4 mb-4">
@@ -207,11 +207,31 @@ export default {
     },
   },
   async mounted() {
-      let color = xios.post(IP + "/api/LED/state", {
-        supPath: 1
-      });
-
-      this.color = `rgb(${color.r}, ${color.g}, ${color.b}, ${color.v})`
+    //1 Dart, 2 Couch, 3 WordC, 4 Marvin, 5 Emely
+    /* for (let i = 1; i < 6; i++) {
+      let color = await axios
+        .post(IP + "/api/LED/state", {
+          subPath: i,
+        })
+        .then((response) => response.data);
+      switch (i) {
+        case 1:
+          this.colorDart = `rgb(${color.r}, ${color.g}, ${color.b}, ${color.v})`;
+          break;
+        case 2:
+          this.colorCouch = `rgb(${color.r}, ${color.g}, ${color.b}, ${color.v})`;
+          break;
+        case 3:
+          this.colorWordClock = `rgb(${color.r}, ${color.g}, ${color.b}, ${color.v})`;
+          break;
+        case 4:
+          this.colorMarvin = `rgb(${color.r}, ${color.g}, ${color.b}, ${color.v})`;
+          break;
+        case 5:
+          this.colorEmely = `rgb(${color.r}, ${color.g}, ${color.b}, ${color.v})`;
+          break;
+      }
+    } */
   },
 };
 </script>

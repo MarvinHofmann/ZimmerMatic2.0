@@ -71,11 +71,13 @@ exports.workLight = workLight;
 main.app.post("/api/LED/state", function (req, res) {
     console.log("State Acces");
     subPath = req.body.subPath;
+    
     if (!isNaN(parseInt(subPath))) {
         subPath = getSpot(req.body.subPath)
         //Slice String at "/" and delete the front part
         subPath = subPath.split("/").pop();
     }
+    
     res.send(main.jsonClients[subPath].value);    
 });
 
