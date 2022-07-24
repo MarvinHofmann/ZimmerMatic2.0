@@ -64,7 +64,7 @@ main.app.get("/api/LED/Work", function (req, res) {
  */
 function getSpot(nr) {
     console.log("NR" + nr);
-    switch (nr) {
+    switch (parseInt(nr)) {
         case 1:
             return "LED_COLOR/colorKamin";
         case 2:
