@@ -206,7 +206,13 @@ export default {
       axios.get(IP + "/api/LED/Work");
     },
   },
-  mounted() {},
+  async mounted() {
+      let color = xios.post(IP + "/api/LED/state", {
+        supPath: 1
+      });
+
+      this.color = `rgb(${color.r}, ${color.g}, ${color.b}, ${color.v})`
+  },
 };
 </script>
 
