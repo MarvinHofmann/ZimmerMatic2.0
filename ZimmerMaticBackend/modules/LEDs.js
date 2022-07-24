@@ -46,16 +46,24 @@ main.app.post("/api/LED/Single", function (req, res) {
  */
 main.app.get("/api/LED/Work", function (req, res) {
     try {
-        main.client.publish("LED_COLOR/colorCouch", JSON.stringify({ r: 67, g: 97, b: 180, v: 255 }));
-        main.client.publish("LED_COLOR/colorKamin", JSON.stringify({ r: 255, g: 255, b: 255, v: 255 }));
-        main.client.publish("LED_COLOR/colorUhr", JSON.stringify({ r: 67, g: 12, b: 200, v: 255 }));
-        main.client.publish("LED_COLOR/colorMarvin", JSON.stringify({ r: 255, g: 255, b: 255, v: 255 }));
-        main.client.publish("LED_COLOR/colorEmely", JSON.stringify({ r: 255, g: 255, b: 255, v: 255 }));
+        workLight();
     } catch (error) {
         main.loggererror.error("LED Send /Work nicht Verfügbar");
     }
     res.sendStatus(200);
 });
+
+/**
+ * Preset for Light the room for working presetet from frontend Button
+ */
+function workLight() {
+    main.client.publish("LED_COLOR/colorCouch", JSON.stringify({ r: 67, g: 97, b: 180, v: 255 }));
+    main.client.publish("LED_COLOR/colorKamin", JSON.stringify({ r: 255, g: 255, b: 255, v: 255 }));
+    main.client.publish("LED_COLOR/colorUhr", JSON.stringify({ r: 67, g: 12, b: 200, v: 255 }));
+    main.client.publish("LED_COLOR/colorMarvin", JSON.stringify({ r: 255, g: 255, b: 255, v: 255 }));
+    main.client.publish("LED_COLOR/colorEmely", JSON.stringify({ r: 255, g: 255, b: 255, v: 255 }));
+}
+exports.workLight = workLight;
 
 /**
  * Middleware to get State of an LED Strip
@@ -92,4 +100,3 @@ function getSpot(nr) {
             return "LED_COLOR/colorEmely";
     }
 }
-

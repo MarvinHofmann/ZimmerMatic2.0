@@ -56,6 +56,7 @@ MongoClient.connect(uri)
             const tempCollection = db.collection('TempCollection');
             app.locals.temperature = tempCollection;
             loggerinfo.info("Connection to DB established")
+            leds.workLight();
             //printDB();
         } catch (error) {
             loggererror.fatal("Connection to DB not established")
@@ -73,14 +74,7 @@ const IoTbtn = require("./modules/IoTButtonEndpoints")
 //WS Whitelist
 //Allowed Clients for our Websocket connection 
 const d1 = "::ffff:192.168.0.129";
-//const ledD1 = "::ffff:192.168.0.73";
-//const ledD1Sofa = "::ffff:192.168.0.64";
-//const ledD1UHR = "::ffff:192.168.0.76";
 const ESP32UHR = "::ffff:192.168.0.128";
-//const ledD1Schreibtisch = "::ffff:192.168.0.78";
-//const ledD1EmelySchr = "::ffff:192.168.0.80";
-
-const MQTTSubs = ["colorCouch", "colorKamin", "colorMarvin", "colorEmely", "colorUhr"];
 
 //App Listen
 app.listen(port, () => {
@@ -96,22 +90,7 @@ wssLED.on("connection", function connection(ws, req) {
     if (ip === d1) {
         loggerinfo.info("Client Rolladen (0) Connected with IP: " + ip);
         currentClientsws[0] = ws;
-    }/* else if (ip === ledD1) {
-        loggerinfo.info("Client Dart (1) Connected with IP: " + ip);
-        currentClientsws[1] = ws;
-    } else if (ip === ledD1Sofa) {
-        loggerinfo.info("Client Couch (2) Connected with IP: " + ip);
-        currentClientsws[2] = ws;
-    } else if (ip === ledD1UHR) {
-        loggerinfo.info("Client WordClock (3) Connected with IP: " + ip);
-        currentClientsws[3] = ws;
-    } else if (ip === ledD1Schreibtisch) {
-        loggerinfo.info("Client Table (4) Connected with IP: " + ip);
-        currentClientsws[4] = ws;
-    } else if (ip === ledD1EmelySchr) {
-        loggerinfo.info("Client TableEmely (5) Connected with IP: " + ip);
-        currentClientsws[5] = ws;
-    }*/ else if (ip == ESP32UHR) {
+    }else if (ip == ESP32UHR) {
         loggerinfo.info("Client Back  To Future (6) Connected with IP: " + ip);
         currentClientsws[6] = ws;
     }
@@ -121,8 +100,8 @@ const mqtt = require('mqtt');  // require mqtt
 const client = mqtt.connect({
     host: '192.168.0.138',
     port: 8883,
-    username: 'marvin',
-    password: '1010'
+    username: process.env.MQTT_NAME,
+    password: process.env.MQTT_PASS
 });
 exports.client = client;
 
