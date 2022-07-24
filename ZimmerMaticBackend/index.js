@@ -73,12 +73,14 @@ const IoTbtn = require("./modules/IoTButtonEndpoints")
 //WS Whitelist
 //Allowed Clients for our Websocket connection 
 const d1 = "::ffff:192.168.0.129";
-const ledD1 = "::ffff:192.168.0.73";
-const ledD1Sofa = "::ffff:192.168.0.64";
-const ledD1UHR = "::ffff:192.168.0.76";
+//const ledD1 = "::ffff:192.168.0.73";
+//const ledD1Sofa = "::ffff:192.168.0.64";
+//const ledD1UHR = "::ffff:192.168.0.76";
 const ESP32UHR = "::ffff:192.168.0.128";
-const ledD1Schreibtisch = "::ffff:192.168.0.78";
-const ledD1EmelySchr = "::ffff:192.168.0.80";
+//const ledD1Schreibtisch = "::ffff:192.168.0.78";
+//const ledD1EmelySchr = "::ffff:192.168.0.80";
+
+const MQTTSubs = ["colorCouch", "colorKamin", "colorMarvin", "colorEmely", "colorUhr"];
 
 //App Listen
 app.listen(port, () => {
@@ -94,7 +96,7 @@ wssLED.on("connection", function connection(ws, req) {
     if (ip === d1) {
         loggerinfo.info("Client Rolladen (0) Connected with IP: " + ip);
         currentClientsws[0] = ws;
-    } else if (ip === ledD1) {
+    }/* else if (ip === ledD1) {
         loggerinfo.info("Client Dart (1) Connected with IP: " + ip);
         currentClientsws[1] = ws;
     } else if (ip === ledD1Sofa) {
@@ -109,11 +111,46 @@ wssLED.on("connection", function connection(ws, req) {
     } else if (ip === ledD1EmelySchr) {
         loggerinfo.info("Client TableEmely (5) Connected with IP: " + ip);
         currentClientsws[5] = ws;
-    } else if (ip == ESP32UHR) {
+    }*/ else if (ip == ESP32UHR) {
         loggerinfo.info("Client Back  To Future (6) Connected with IP: " + ip);
         currentClientsws[6] = ws;
     }
 });
+
+const mqtt = require('mqtt');  // require mqtt
+client = mqtt.connect({
+    host: '192.168.0.138',
+    port: 8883,
+    username: 'marvin',
+    password: '1010'
+});
+
+client.on('connect', function () {
+    client.subscribe('LED_COLOR/colorCouch');
+    client.subscribe('LED_COLOR/colorKamin');
+    client.subscribe('LED_COLOR/colorMarvin');
+    client.subscribe('LED_COLOR/colorEmely');
+    client.subscribe('LED_COLOR/colorUhr');
+})
+
+let jsonClients = {
+    colorCouch: {
+        value: "",
+    },
+    colorMarvin: {
+        value: "",
+    },
+    colorEmely: {
+        value: "",
+    },
+    colorUhr: {
+        value: "",
+    },
+    colorKamin: {
+        value: "",
+    },
+}
+exports.jsonClients = jsonClients;
 
 function printDB(){
     app.locals.temperature.find({spot: "Schreibtisch", date: time.getDBFormatDate()}).sort({_id: -1}).toArray(function (err, response) {

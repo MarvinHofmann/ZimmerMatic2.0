@@ -5,18 +5,15 @@ const main = require("../index")
  */
 main.app.post("/api/LED/ALL", function (req, res) {
     //incoming:
-    //{r: string, g: string, b: string, v: string}
+    //{r: string, g: string, b: string, v: string, spot: string}
     let r = req.body.red;
     let g = req.body.green;
     let b = req.body.blue;
     let v = Number(req.body.value) * 2.5;
-    console.log(`r: ${r}, g: ${g}, b: ${b}, v: ${v}`);
-    for (let i = 0; i < main.currentClientsws.length; i++) {
-        try {
-            main.currentClientsws[i].send(`${r},${g},${b},${v}`);
-        } catch (error) {
-            main.loggererror.error("LED Send /ALL: Client " + i + " nicht Verfügbar");
-        }
+    try {
+        main.client.publish("LED_COLOR/all", JSON.stringify({ r: r, g: g, b: b, v: v }))
+    } catch (error) {
+        main.loggererror.error("LED Send /ALL nicht Verfügbar");
     }
     res.sendStatus(200);
 });
@@ -31,11 +28,11 @@ main.app.post("/api/LED/Single", function (req, res) {
     let g = req.body.green;
     let b = req.body.blue;
     let v = Number(req.body.value) * 2.5;
-    let spot = req.body.spot
+    let spot = getSpot(req.body.spot);
     try {
-        main.currentClientsws[spot].send(`${r},${g},${b},${v}`);
+        main.client.publish(spot, JSON.stringify({ r: r, g: g, b: b, v: v }))
     } catch (error) {
-        main.loggererror.error("LED Send /Single: Client" + spot +  " nicht Verfügbar");
+        main.loggererror.error("LED Send /Single: Client" + spot + " nicht Verfügbar");
     }
     res.sendStatus(200);
 });
@@ -43,15 +40,61 @@ main.app.post("/api/LED/Single", function (req, res) {
 /**
  * Middleware for preset work LED settings fetched by Frontend
  */
-main.app.get("/api/LED/Work", function (req, res){
+main.app.get("/api/LED/Work", function (req, res) {
     try {
-        main.currentClientsws[1].send(`${255},${255},${255},${255}`);
-        main.currentClientsws[4].send(`${255},${255},${255},${255}`);
-        main.currentClientsws[5].send(`${255},${255},${255},${255}`);
-        main.currentClientsws[3].send(`${67},${97},${180},${255}`);
-        main.currentClientsws[2].send(`${255},${95},${0},${255}`);
+        main.client.publish("LED_COLOR/colorCouch", JSON.stringify({ r: 67, g: 97, b: 180, v: 255 }));
+        main.client.publish("LED_COLOR/colorKamin", JSON.stringify({ r: 255, g: 255, b: 255, v: 255 }));
+        main.client.publish("LED_COLOR/colorUhr", JSON.stringify({ r: 67, g: 12, b: 200, v: 255 }));
+        main.client.publish("LED_COLOR/colorMarvin", JSON.stringify({ r: 255, g: 255, b: 255, v: 255 }));
+        main.client.publish("LED_COLOR/colorEmely", JSON.stringify({ r: 255, g: 255, b: 255, v: 255 }));
     } catch (error) {
-        main.loggererror.error("LED Send /Single: Client" + spot +  " nicht Verfügbar");
+        main.loggererror.error("LED Send /Work nicht Verfügbar");
     }
     res.sendStatus(200);
 });
+
+/**
+ * Gets the MQTT Topic from the Frontend Spot Number
+ * @param {int} nr number send by frontend
+ * @returns real Topic name
+ */
+function getSpot(nr) {
+    switch (nr) {
+        case 1:
+            return "LED_COLOR/colorKamin";
+        case 2:
+            return "LED_COLOR/colorCouch";
+        case 3:
+            return "LED_COLOR/colorUhr";
+        case 4:
+            return "LED_COLOR/colorMarvin";
+        case 5:
+            return "LED_COLOR/colorEmely";
+    }
+}
+
+/**
+ * Loading the json values with arriving messages at the mqtt broker
+ */
+client.on('message', function (topic, message) {
+    console.log(message.toString())
+    switch (topic) {
+        case "LED_COLOR/colorCouch":
+            main.jsonClients.colorCouch.value = message.toString();
+            break;
+        case "LED_COLOR/colorKamin":
+            main.jsonClients.colorKamin.value = message.toString();
+            break;
+        case "LED_COLOR/colorEmely":
+            main.jsonClients.colorEmely.value = message.toString();
+            break;
+        case "LED_COLOR/colorMarvin":
+            main.jsonClients.colorMarvin.value = message.toString();
+            break;
+        case "LED_COLOR/colorUhr":
+            main.jsonClients.colorUhr.value = message.toString();
+            break;
+        default:
+            break;
+    }
+})
