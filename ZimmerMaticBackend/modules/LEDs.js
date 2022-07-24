@@ -10,6 +10,7 @@ main.app.post("/api/LED/ALL", function (req, res) {
     let g = req.body.green;
     let b = req.body.blue;
     let v = Number(req.body.value) * 2.5;
+    
     try {
         main.client.publish("LED_COLOR/all", JSON.stringify({ r: r, g: g, b: b, v: v }))
     } catch (error) {
@@ -29,6 +30,7 @@ main.app.post("/api/LED/Single", function (req, res) {
     let b = req.body.blue;
     let v = Number(req.body.value) * 2.5;
     let spot = getSpot(req.body.spot);
+    console.log("Incoming Single " + req.body);
     try {
         main.client.publish(spot, JSON.stringify({ r: r, g: g, b: b, v: v }))
     } catch (error) {
