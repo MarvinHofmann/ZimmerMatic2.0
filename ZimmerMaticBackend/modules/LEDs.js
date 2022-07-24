@@ -30,6 +30,8 @@ main.app.post("/api/LED/Single", function (req, res) {
     let b = req.body.blue;
     let v = Number(req.body.value) * 2.5;
     let spot = getSpot(req.body.spot);
+    console.log(req.body.spot);
+    console.log(spot);
     console.log("Incoming Single " + r,g,b,v,spot);
     try {
         main.client.publish(spot, JSON.stringify({ r: r, g: g, b: b, v: v }))
@@ -61,7 +63,7 @@ main.app.get("/api/LED/Work", function (req, res) {
  * @returns real Topic name
  */
 function getSpot(nr) {
-    console.log(nr);
+    console.log("NR" + nr);
     switch (nr) {
         case 1:
             return "LED_COLOR/colorKamin";
