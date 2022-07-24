@@ -61,6 +61,7 @@ main.app.get("/api/LED/Work", function (req, res) {
  * @returns real Topic name
  */
 function getSpot(nr) {
+    console.log(nr);
     switch (nr) {
         case 1:
             return "LED_COLOR/colorKamin";
