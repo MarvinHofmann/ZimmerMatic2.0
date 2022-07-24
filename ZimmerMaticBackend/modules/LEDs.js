@@ -58,6 +58,19 @@ main.app.get("/api/LED/Work", function (req, res) {
 });
 
 /**
+ * Middleware to get State of an LED Strip
+ */
+main.app.post("/api/LED/state", function (req, res) {
+    console.log("State Acces");
+    subPath = req.body.subPath;
+    if (!isNaN(parseInt(subPath))) {
+        subPath = getSpot(req.body.subPath)
+    }
+    res.send(jsonClients[subPath].value);    
+});
+
+
+/**
  * Gets the MQTT Topic from the Frontend Spot Number
  * @param {int} nr number send by frontend
  * @returns real Topic name
