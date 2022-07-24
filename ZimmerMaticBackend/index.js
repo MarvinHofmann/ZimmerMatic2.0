@@ -134,6 +134,32 @@ client.on('connect', function () {
     client.subscribe('LED_COLOR/colorUhr');
 })
 
+/**
+ * Loading the json values with arriving messages at the mqtt broker
+ */
+ client.on('message', function (topic, message) {
+    console.log(message.toString())
+    switch (topic) {
+        case "LED_COLOR/colorCouch":
+            jsonClients.colorCouch.value = message.toString();
+            break;
+        case "LED_COLOR/colorKamin":
+            jsonClients.colorKamin.value = message.toString();
+            break;
+        case "LED_COLOR/colorEmely":
+            jsonClients.colorEmely.value = message.toString();
+            break;
+        case "LED_COLOR/colorMarvin":
+            jsonClients.colorMarvin.value = message.toString();
+            break;
+        case "LED_COLOR/colorUhr":
+            jsonClients.colorUhr.value = message.toString();
+            break;
+        default:
+            break;
+    }
+})
+
 let jsonClients = {
     colorCouch: {
         value: "",

@@ -73,28 +73,3 @@ function getSpot(nr) {
     }
 }
 
-/**
- * Loading the json values with arriving messages at the mqtt broker
- */
-main.client.on('message', function (topic, message) {
-    console.log(message.toString())
-    switch (topic) {
-        case "LED_COLOR/colorCouch":
-            main.jsonClients.colorCouch.value = message.toString();
-            break;
-        case "LED_COLOR/colorKamin":
-            main.jsonClients.colorKamin.value = message.toString();
-            break;
-        case "LED_COLOR/colorEmely":
-            main.jsonClients.colorEmely.value = message.toString();
-            break;
-        case "LED_COLOR/colorMarvin":
-            main.jsonClients.colorMarvin.value = message.toString();
-            break;
-        case "LED_COLOR/colorUhr":
-            main.jsonClients.colorUhr.value = message.toString();
-            break;
-        default:
-            break;
-    }
-})
