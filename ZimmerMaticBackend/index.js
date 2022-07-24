@@ -118,7 +118,7 @@ wssLED.on("connection", function connection(ws, req) {
 });
 
 const mqtt = require('mqtt');  // require mqtt
-client = mqtt.connect({
+const client = mqtt.connect({
     host: '192.168.0.138',
     port: 8883,
     username: 'marvin',
