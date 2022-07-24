@@ -76,7 +76,7 @@ function getSpot(nr) {
 /**
  * Loading the json values with arriving messages at the mqtt broker
  */
-client.on('message', function (topic, message) {
+main.client.on('message', function (topic, message) {
     console.log(message.toString())
     switch (topic) {
         case "LED_COLOR/colorCouch":
