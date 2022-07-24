@@ -124,6 +124,7 @@ client = mqtt.connect({
     username: 'marvin',
     password: '1010'
 });
+exports.client = client;
 
 client.on('connect', function () {
     client.subscribe('LED_COLOR/colorCouch');
