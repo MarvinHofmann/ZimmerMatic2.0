@@ -30,7 +30,7 @@ main.app.post("/api/LED/Single", function (req, res) {
     let b = req.body.blue;
     let v = Number(req.body.value) * 2.5;
     let spot = getSpot(req.body.spot);
-    console.log("Incoming Single " + req.body);
+    console.log("Incoming Single " + r,g,b,v,spot);
     try {
         main.client.publish(spot, JSON.stringify({ r: r, g: g, b: b, v: v }))
     } catch (error) {
