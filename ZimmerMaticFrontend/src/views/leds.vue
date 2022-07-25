@@ -207,31 +207,7 @@ export default {
     },
   },
   async mounted() {
-    //1 Dart, 2 Couch, 3 WordC, 4 Marvin, 5 Emely
-    /* for (let i = 1; i < 6; i++) {
-      let color = await axios
-        .post(IP + "/api/LED/state", {
-          subPath: i,
-        })
-        .then((response) => response.data);
-      switch (i) {
-        case 1:
-          this.colorDart = `rgb(${color.r}, ${color.g}, ${color.b}, ${color.v})`;
-          break;
-        case 2:
-          this.colorCouch = `rgb(${color.r}, ${color.g}, ${color.b}, ${color.v})`;
-          break;
-        case 3:
-          this.colorWordClock = `rgb(${color.r}, ${color.g}, ${color.b}, ${color.v})`;
-          break;
-        case 4:
-          this.colorMarvin = `rgb(${color.r}, ${color.g}, ${color.b}, ${color.v})`;
-          break;
-        case 5:
-          this.colorEmely = `rgb(${color.r}, ${color.g}, ${color.b}, ${color.v})`;
-          break;
-      }
-    } */
+
   },
 };
 </script>
