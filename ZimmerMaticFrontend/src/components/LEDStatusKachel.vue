@@ -37,7 +37,7 @@ const IP = import.meta.env.VITE_SERVER_IP;
 import axios from "axios";
 export default {
   components: {},
-   //1 Dart, 2 Couch, 3 WordC, 4 Marvin, 5 Emely
+  //1 Dart, 2 Couch, 3 WordC, 4 Marvin, 5 Emely
   props: ["spot", "mqtt_topic", "spotNum"],
   data() {
     return {
@@ -49,17 +49,18 @@ export default {
     };
   },
   methods: {
-    switchState() {
-      
+    
+    async switchState() {
       if (!this.out) {
         this.fetch_led(0, 0, 0, 0);
         this.setStateOff();
         this.out = true;
       } else {
-        this.fetch_led(255, 255, 255, 100);
+        await this.fetch_led(255, 255, 255, 100);
+        setTimeout(() => {   }, 2000);
         this.getState();
         this.cardbg = "white";
-        this.out = false
+        this.out = false;
       }
     },
     async getState() {
@@ -68,6 +69,7 @@ export default {
           subPath: this.mqtt_topic,
         })
         .then((response) => response.data);
+      console.log(color);
       this.json = JSON.stringify(color, undefined, 2);
       this.color = `rgb(${color.r}, ${color.g}, ${color.b}, ${color.v})`;
       this.brightness = (color.v / 2.55).toFixed(0);
@@ -76,8 +78,8 @@ export default {
         this.setStateOff();
       }
     },
-    fetch_led(r, g, b, v) {
-      axios.post(IP + "/api/LED/Single", {
+    async fetch_led(r, g, b, v) {
+      await axios.post(IP + "/api/LED/Single", {
         red: r,
         green: g,
         blue: b,

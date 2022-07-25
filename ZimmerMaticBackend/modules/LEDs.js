@@ -77,7 +77,7 @@ main.app.post("/api/LED/state", function (req, res) {
         //Slice String at "/" and delete the front part
         subPath = subPath.split("/").pop();
     }
-    
+    console.log(main.jsonClients[subPath].value);
     res.send(main.jsonClients[subPath].value);    
 });
 
