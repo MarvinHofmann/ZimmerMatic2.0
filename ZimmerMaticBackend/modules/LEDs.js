@@ -9,8 +9,8 @@ main.app.post("/api/LED/ALL", function (req, res) {
     let r = req.body.red;
     let g = req.body.green;
     let b = req.body.blue;
-    let v = Number(req.body.value) * 2.5;
-    
+    let v = Number(req.body.value) * 2.55;
+
     try {
         main.client.publish("LED_COLOR/all", JSON.stringify({ r: r, g: g, b: b, v: v }))
     } catch (error) {
@@ -28,11 +28,11 @@ main.app.post("/api/LED/Single", function (req, res) {
     let r = req.body.red;
     let g = req.body.green;
     let b = req.body.blue;
-    let v = Number(req.body.value) * 2.5;
+    let v = Number(req.body.value) * 2.55;
     let spot = getSpot(req.body.spot);
     console.log(req.body.spot);
     console.log(spot);
-    console.log("Incoming Single " + r,g,b,v,spot);
+    console.log("Incoming Single " + r, g, b, v, spot);
     try {
         main.client.publish(spot, JSON.stringify({ r: r, g: g, b: b, v: v }))
     } catch (error) {
@@ -71,14 +71,14 @@ exports.workLight = workLight;
 main.app.post("/api/LED/state", function (req, res) {
     console.log("State Acces");
     subPath = req.body.subPath;
-    
+
     if (!isNaN(parseInt(subPath))) {
         subPath = getSpot(req.body.subPath)
         //Slice String at "/" and delete the front part
         subPath = subPath.split("/").pop();
     }
     console.log(main.jsonClients[subPath].value);
-    res.send(main.jsonClients[subPath].value);    
+    res.send(main.jsonClients[subPath].value);
 });
 
 

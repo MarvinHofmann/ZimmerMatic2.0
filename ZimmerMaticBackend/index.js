@@ -111,6 +111,7 @@ client.on('connect', function () {
     client.subscribe('LED_COLOR/colorMarvin');
     client.subscribe('LED_COLOR/colorEmely');
     client.subscribe('LED_COLOR/colorUhr');
+    client.subscribe('LED_COLOR/all');
 })
 
 /**
@@ -132,6 +133,13 @@ client.on('connect', function () {
             jsonClients.colorMarvin.value = message.toString();
             break;
         case "LED_COLOR/colorUhr":
+            jsonClients.colorUhr.value = message.toString();
+            break;
+        case "LED_COLOR/all":
+            jsonClients.colorCouch.value = message.toString();
+            jsonClients.colorKamin.value = message.toString();
+            jsonClients.colorMarvin.value = message.toString();
+            jsonClients.colorEmely.value = message.toString();
             jsonClients.colorUhr.value = message.toString();
             break;
         default:
