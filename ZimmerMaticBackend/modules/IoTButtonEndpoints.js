@@ -2,19 +2,19 @@ const main = require("../index")
 const Ikea = require("./Tradfri")
 const homematic = require("./Homematic")
 const shutter = require("./Rolladen")
+const led = require("./LEDs")
 
 /**
  * Middleware for IoT Button signals that dinner is ready
  */
 main.app.get("/essenFertig", function (req, res) {
     for (let i = 0; i < 3; i++) {
-        main.currentClientsws[4].send("0,0,0,0");
-        main.currentClientsws[5].send("0,0,0,0");
-        main.currentClientsws[4].send("255,0,0,255");
-        main.currentClientsws[5].send("255,0,0,255");
+        led.allLEDChange(0,0,0,0);
+        led.allLEDChange(255,0,0,0);
+        led.allLEDChange(0,0,0,0);
+        led.allLEDChange(255,0,0,0);
     }
-    main.currentClientsws[4].send("255,255,255,255");
-    main.currentClientsws[5].send("255,255,255,255");
+    led.allLEDChange(255,255,255,100);
     res.sendStatus(200);
 });
 
@@ -24,9 +24,9 @@ main.app.get("/essenFertig", function (req, res) {
 main.app.get("/hello", function (req, res) {
     main.loggerinfo.info("Comming Home at: " + new Date().toLocaleString("de-DE", { timeZone: "Europe/Berlin" }));
     try { //Turn ambient leds on
-        main.currentClientsws[1].send("256,161,20,100"); //DART
-        main.currentClientsws[2].send("256,161,20,100"); //Sofa
-        main.currentClientsws[3].send("40,191,255,255"); //Uhr
+        led.singleLEDChange("LED_COLOR/colorKamin", 256,161,20,255);
+        led.singleLEDChange("LED_COLOR/colorcouch", 256,161,20,255);
+        led.singleLEDChange("LED_COLOR/colorUhr", 40,191,255,255);
     } catch (error) {
         main.loggererror.error("Client LEDs [1,2,3] not available")
         res.sendStatus(500);
@@ -56,9 +56,9 @@ main.app.get("/tschuess", function (req, res) {
     shutter.rolladenDown();
     main.loggerinfo.info("Leaving at: " + new Date().toLocaleString("de-DE", { timeZone: "Europe/Berlin" }));
     //Turn all LEDs off
-    for (let i = 0; i < main.currentClientsws.length; i++) {
+    for (let i = 0; i < 5; i++) {
         try {
-            main.currentClientsws[i].send("0,0,0,0");
+            led.allLEDChange(0,0,0,0);
         } catch (error) {
             main.loggererror.error("Error turning off LEDs for /tschuess :" + error);
             res.sendStatus(500);
@@ -102,9 +102,9 @@ main.app.get("/druckerButton", function (req, res) {
 main.app.get('/fensterZu', function (request, response) {
     shutter.rolladenDown();
     syncDelay(1500);
-    for (let i = 1; i < main.currentClientsws.length; i++) {
+    for (let i = 1; i < 5; i++) {
         try {
-            main.currentClientsws[i].send("0,0,0,0");
+            led.allLEDChange(0,0,0,0);
         } catch (error) {
             main.loggererror.error("Error at /fensterZu while turning LED " + i + " Off")
             response.sendStatus(500)

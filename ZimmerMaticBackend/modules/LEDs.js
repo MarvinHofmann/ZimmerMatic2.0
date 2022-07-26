@@ -10,14 +10,25 @@ main.app.post("/api/LED/ALL", function (req, res) {
     let g = req.body.green;
     let b = req.body.blue;
     let v = Number(req.body.value) * 2.55;
+    allLEDChange(r,g,b,v);
+    res.sendStatus(200);
+});
 
+/**
+ * Public Function for changing all LED Strips
+ * @param {number} r Red
+ * @param {number} g Green
+ * @param {number} b Blue
+ * @param {number} v Brightness 
+ */
+function allLEDChange(r,g,b,v) {
     try {
         main.client.publish("LED_COLOR/all", JSON.stringify({ r: r, g: g, b: b, v: v }))
     } catch (error) {
         main.loggererror.error("LED Send /ALL nicht Verfügbar");
     }
-    res.sendStatus(200);
-});
+}
+exports.allLEDChange = allLEDChange;
 
 /**
  * Middleware to Single fetch 1 LED strip with r,g,b and brightness
@@ -30,16 +41,27 @@ main.app.post("/api/LED/Single", function (req, res) {
     let b = req.body.blue;
     let v = Number(req.body.value) * 2.55;
     let spot = getSpot(req.body.spot);
-    console.log(req.body.spot);
-    console.log(spot);
-    console.log("Incoming Single " + r, g, b, v, spot);
+    singleLEDChange(spot,r,g,b,v);    
+    res.sendStatus(200);
+});
+
+/**
+ * Public Function for changing one LED
+ * @param {string} spot Which Strip
+ * @param {number} r Red
+ * @param {number} g Green
+ * @param {number} b Blue
+ * @param {number} v Brightness 
+ */
+function singleLEDChange(spot, r,g,b,v) {
     try {
         main.client.publish(spot, JSON.stringify({ r: r, g: g, b: b, v: v }))
     } catch (error) {
         main.loggererror.error("LED Send /Single: Client" + spot + " nicht Verfügbar");
     }
-    res.sendStatus(200);
-});
+}
+exports.singleLEDChange = singleLEDChange;
+
 
 /**
  * Middleware for preset work LED settings fetched by Frontend
@@ -102,3 +124,4 @@ function getSpot(nr) {
             return "LED_COLOR/colorEmely";
     }
 }
+exports.getSpot = getSpot;
