@@ -12,13 +12,6 @@ app.use(bodyParser.json());
 const dotenv = require("dotenv");
 dotenv.config();
 
-//Init IoT Ws
-const WebSocket = require("ws");
-const wssLED = new WebSocket.Server({ port: 8000 }); // abgespilteter WS Server auf anderem Port
-exports.wssLED = wssLED;
-let currentClientsws = [];
-exports.currentClientsws = currentClientsws;
-
 //Init Axios
 const axios = require('axios').default;
 exports.axios = axios;
@@ -56,7 +49,9 @@ MongoClient.connect(uri)
             const tempCollection = db.collection('TempCollection');
             app.locals.temperature = tempCollection;
             loggerinfo.info("Connection to DB established")
+            //Initialise everything
             leds.workLight();
+            Rolladen.rolladenUP();
             //printDB();
         } catch (error) {
             loggererror.fatal("Connection to DB not established")
@@ -71,29 +66,9 @@ const leds = require("./modules/LEDs")
 const Ikea = require("./modules/Tradfri")
 const IoTbtn = require("./modules/IoTButtonEndpoints")
 
-//WS Whitelist
-//Allowed Clients for our Websocket connection 
-const d1 = "::ffff:192.168.0.129";
-const ESP32UHR = "::ffff:192.168.0.128";
-
 //App Listen
 app.listen(port, () => {
     loggerinfo.info(`App listening at http://ZimmerMatic:${port}`);
-});
-
-//Init Websocket Clients
-/***************************************** */
-//Handle Whitelist WS Clients
-wssLED.on("connection", function connection(ws, req) {
-    const ip = req.socket.remoteAddress;
-    loggerinfo.info("Incoming Request from IP: " + ip)
-    if (ip === d1) {
-        loggerinfo.info("Client Rolladen (0) Connected with IP: " + ip);
-        currentClientsws[0] = ws;
-    }else if (ip == ESP32UHR) {
-        loggerinfo.info("Client Back  To Future (6) Connected with IP: " + ip);
-        currentClientsws[6] = ws;
-    }
 });
 
 const mqtt = require('mqtt');  // require mqtt
@@ -112,6 +87,7 @@ client.on('connect', function () {
     client.subscribe('LED_COLOR/colorEmely');
     client.subscribe('LED_COLOR/colorUhr');
     client.subscribe('LED_COLOR/all');
+    client.subscribe('ROLLADEN/stateBett')
 })
 
 /**
@@ -142,6 +118,8 @@ client.on('connect', function () {
             jsonClients.colorEmely.value = message.toString();
             jsonClients.colorUhr.value = message.toString();
             break;
+        case "ROLLADEN/stateBett":
+            jsonClients.stateBett.state = message.toString();
         default:
             break;
     }
@@ -163,6 +141,9 @@ let jsonClients = {
     colorKamin: {
         value: "",
     },
+    stateBett:{
+        state: ""
+    }
 }
 exports.jsonClients = jsonClients;
 

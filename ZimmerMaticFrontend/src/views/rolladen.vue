@@ -12,17 +12,17 @@
             id="container"
           >
             <div class="row">
-              <button class="btnIcon" @click="send_fetch(99)">
+              <button class="btnIcon" @click="send_fetch('UP')">
                 <i class="fas fa-chevron-up fa-5x"></i>
               </button>
             </div>
             <div class="row">
-              <button class="btnIcon" @click="send_fetch(100)">
+              <button class="btnIcon" @click="send_fetch('STOP')">
                 <i class="fas fa-minus fa-4x"></i>
               </button>
             </div>
             <div class="row">
-              <button class="btnIcon" @click="send_fetch(101)">
+              <button class="btnIcon" @click="send_fetch('DOWN')">
                 <i class="fas fa-chevron-down fa-5x"></i>
               </button>
             </div>
