@@ -14,6 +14,11 @@
           <LED :spot="'Marvin'" :mqtt_topic="'colorMarvin'" :spotNum="'4'"></LED>
           <LED :spot="'Emely'" :mqtt_topic="'colorEmely'" :spotNum="'5'"></LED>
           </div>
+          <div class="row" id="rowout">
+          <LIGHT :spot="'Bett Links'" :name="'BL'"></LIGHT>
+          <LIGHT :spot="'Bett Links'" :name="'BR'"></LIGHT>
+          <LIGHT :spot="'Basteltisch'" :name="'BT'"></LIGHT>
+          </div>
         </div>
       </div>
     </main>
@@ -24,16 +29,19 @@
 <script>
 import Navbardark from '../components/navbardark.vue';
 import LED from '../components/LEDStatusKachel.vue';
+import LIGHT from '../components/LampeStatusKachel.vue'
 export default {
 
   components: {
     Navbardark,
-    LED
+    LED,
+    LIGHT
   },
   methods: {
     
   },
   mounted() {
+     this.timer = setInterval(this.fetchEventsList, 30000);
   },
 };
 </script>

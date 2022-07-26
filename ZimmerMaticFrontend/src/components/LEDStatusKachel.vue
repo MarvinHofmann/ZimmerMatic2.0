@@ -10,12 +10,12 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-lg-12 text-black mt-2 text-center">
-              <h5>{{ this.spot }}</h5>
+              <h5 :style="{'color': fontcolor}" >{{ this.spot }}</h5>
             </div>
           </div>
           <div class="row">
             <div class="col-lg-12 text-black mt-2" id="rowout">
-              <h1 v-if="out">OFF</h1>
+             <h1 v-if="out" :style="{'color': fontcolor}">OFF</h1>
               <div
                 v-else
                 :style="{ 'background-color': color }"
@@ -46,6 +46,7 @@ export default {
       json: "",
       cardbg: "white",
       out: false,
+      fontcolor: "black"
     };
   },
   methods: {
@@ -60,6 +61,7 @@ export default {
         setTimeout(() => {   }, 2000);
         this.getState();
         this.cardbg = "white";
+        this.fontcolor = "black"
         this.out = false;
       }
     },
@@ -92,6 +94,7 @@ export default {
       this.color = `rgb(${0}, ${0}, ${0}, ${0})`;
       this.cardbg = `rgb(${211}, ${211}, ${211}, ${200})`;
       this.out = true;
+      this.fontcolor = "gray";
     },
   },
   async mounted() {
@@ -108,5 +111,8 @@ export default {
   border-style: solid;
   border-color: rgb(2, 2, 2);
   background-color: rgb(121, 121, 121);
+}
+h1{
+  font-size: 26pt;
 }
 </style>
