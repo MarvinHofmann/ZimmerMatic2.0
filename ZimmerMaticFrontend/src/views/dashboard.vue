@@ -16,7 +16,7 @@
           </div>
           <div class="row" id="rowout">
           <LIGHT :spot="'Bett Links'" :name="'BL'"></LIGHT>
-          <LIGHT :spot="'Bett Links'" :name="'BR'"></LIGHT>
+          <LIGHT :spot="'Bett Rechts'" :name="'BR'"></LIGHT>
           <LIGHT :spot="'Basteltisch'" :name="'BT'"></LIGHT>
           </div>
         </div>
