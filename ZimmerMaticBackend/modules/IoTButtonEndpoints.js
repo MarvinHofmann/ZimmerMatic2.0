@@ -10,11 +10,11 @@ const led = require("./LEDs")
 main.app.get("/essenFertig", function (req, res) {
     for (let i = 0; i < 3; i++) {
         led.allLEDChange(0,0,0,0);
-        led.allLEDChange(255,0,0,0);
+        led.allLEDChange(255,0,0,255);
         led.allLEDChange(0,0,0,0);
-        led.allLEDChange(255,0,0,0);
+        led.allLEDChange(255,0,0,255);
     }
-    led.allLEDChange(255,255,255,100);
+    led.allLEDChange(255,255,255,255);
     res.sendStatus(200);
 });
 
