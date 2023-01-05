@@ -2,24 +2,38 @@ const main = require("../index.js")
 const time = require("./timeLibrary")
 const shutter = require("./Rolladen")
 
+let spots = [
+  Couch = {
+    lastTemperature: -1,
+    temperature: -1,
+    humidity: -1,
+    time: ""
+  },
+  Schreibtisch = {
+    lastTemperature: -1,
+    temperature: -1,
+    humidity: -1,
+    time: ""
+  },
+  Bett = {
+    lastTemperature: -1,
+    temperature: -1,
+    humidity: -1,
+    time: ""
+  }
+]
+
 /**
  * Middleware for fetching Temperature Data from frontend 
  * to Display current measured Temperature and Humidity
  */
 main.app.post("/api/TempData", function (req, res) {
   let _spot = req.body.spot;
-  //Get values from DB and send response
-  main.app.locals.temperature.find({ spot: _spot, date: time.getDBFormatDate() }).sort({ _id: -1 }).toArray(function (err, response) {
-    try {
-      let return_json = response[0];
-      return_json.lastTemperature = response[1].temperature
-      res.status(200).json(return_json);
-    } catch (error) {
-      main.loggererror.error("Failed get DB entrys from /api/TempData")
-      res.sendStatus(500);
+  for (let i = 0; i < spots.length; i++) {
+    if (_spot == spots[i]) {
+        return spots[i]
     }
-
-  })
+  }
 });
 
 /**
@@ -37,8 +51,12 @@ main.app.post("/api/TempData/Heater", function (req, res) {
  * Middleware acces point for temp sensor one
  */
 main.app.post("/", function (req, res) {
-  //main.loggerinfo.debug("Incoming Request from temp sensor one")
-  writeToDB(req.body.temperatur, req.body.feuchtigkeit, "Bett")
+  spots[2] = {
+    lastTemperature: spots[2].temperature,
+    temperature: req.body.temperatur,
+    humidity: req.body.feuchtigkeit,
+    time: time.getDBFormatTime()    
+  }
   //getTempAverage();
   res.sendStatus(200);
 });
@@ -47,8 +65,12 @@ main.app.post("/", function (req, res) {
  * Middleware acces point for temp sensor two
  */
 main.app.post("/senderZwei", function (req, res) {
-  //main.loggerinfo.debug("Incoming Request from temp sensor two")
-  writeToDB(req.body.temperatur, req.body.feuchtigkeit, "Couch")
+  spots[0] = {
+    lastTemperature: spots[0].temperature,
+    temperature: req.body.temperatur,
+    humidity: req.body.feuchtigkeit,
+    time: time.getDBFormatTime()    
+  }
   //getTempAverage();
   res.sendStatus(200);
 });
@@ -57,8 +79,12 @@ main.app.post("/senderZwei", function (req, res) {
  * Middleware acces point for temp sensor three
  */
 main.app.post("/senderDrei", function (req, res) {
-  //main.loggerinfo.debug("Incoming Request from temp sensor three")
-  writeToDB(req.body.temperatur, req.body.feuchtigkeit, "Schreibtisch")
+  spots[1] = {
+    lastTemperature: spots[1].temperature,
+    temperature: req.body.temperatur,
+    humidity: req.body.feuchtigkeit,
+    time: time.getDBFormatTime()    
+  }
   //getTempAverage();
   res.sendStatus(200);
 });

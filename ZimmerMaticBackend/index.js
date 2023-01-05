@@ -38,7 +38,7 @@ const loggererror = log4js.getLogger('error');
 exports.loggererror = loggererror;
 exports.loggerinfo = loggerinfo;
 
-//Init MongoDB
+/* //Init MongoDB
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 const uri = process.env.DB_URL;
@@ -56,7 +56,7 @@ MongoClient.connect(uri)
         } catch (error) {
             loggererror.fatal("Connection to DB not established")
         }
-    });
+    }); */
 
 //Bekanntmachen und Laden aller Module
 const temp = require("./modules/Temperatur.js");
@@ -74,7 +74,7 @@ app.listen(port, () => {
 const mqtt = require('mqtt');  // require mqtt
 const client = mqtt.connect({
     host: '192.168.0.138',
-    port: 8883,
+    port: 1883,
     username: process.env.MQTT_NAME,
     password: process.env.MQTT_PASS
 });
@@ -88,6 +88,7 @@ client.on('connect', function () {
     client.subscribe('LED_COLOR/colorUhr');
     client.subscribe('LED_COLOR/all');
     client.subscribe('ROLLADEN/stateBett')
+    client.subscribe('ROLLADEN/stateSchreibtisch')
 })
 
 /**
@@ -120,6 +121,10 @@ client.on('connect', function () {
             break;
         case "ROLLADEN/stateBett":
             jsonClients.stateBett.state = message.toString();
+            break;
+        case "ROLLADEN/stateBett":
+            jsonClients.stateBett.state = message.toString();
+            break;
         default:
             break;
     }
@@ -143,13 +148,9 @@ let jsonClients = {
     },
     stateBett:{
         state: ""
+    },
+    stateSchreibtisch: {
+        state: ""
     }
 }
 exports.jsonClients = jsonClients;
-
-function printDB(){
-    app.locals.temperature.find({spot: "Schreibtisch", date: time.getDBFormatDate()}).sort({_id: -1}).toArray(function (err, response) {
-        console.log(response[0]);
-        console.log(response[1]);
-    })
-}
