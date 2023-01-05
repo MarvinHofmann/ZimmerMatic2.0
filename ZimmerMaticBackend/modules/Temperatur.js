@@ -3,19 +3,22 @@ const time = require("./timeLibrary")
 const shutter = require("./Rolladen")
 
 let spots = [
-  Couch = {
+  {
+    spot: "Couch",
     lastTemperature: -1,
     temperature: -1,
     humidity: -1,
     time: ""
   },
-  Schreibtisch = {
+  {
+    spot: "Schreibtisch",
     lastTemperature: -1,
     temperature: -1,
     humidity: -1,
     time: ""
   },
-  Bett = {
+  {
+    spot: "Bett",
     lastTemperature: -1,
     temperature: -1,
     humidity: -1,
@@ -29,10 +32,8 @@ let spots = [
  */
 main.app.post("/api/TempData", function (req, res) {
   let _spot = req.body.spot;
-  console.log(spots);
   for (let i = 0; i < spots.length; i++) {
-    console.log(spots[i]);
-    if (_spot == spots[i]) {
+    if (_spot == spots[i].spot) {
         res.status(200).json(spots[i])
     }
   }
