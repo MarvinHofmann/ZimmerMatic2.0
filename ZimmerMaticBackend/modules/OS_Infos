@@ -7,9 +7,9 @@ const os = require('os');
  * cpu usage, total memory and free memory
  */
 main.app.get("/api/os_info", function (req, res) {
-    return {
+    res.status(200).json({
         cpu: os.cpus(),
         totalmem: os.totalmem(),
         freemem: os.freemem()
-    }
+    })
   });
