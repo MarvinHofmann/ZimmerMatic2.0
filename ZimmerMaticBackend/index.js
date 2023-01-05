@@ -58,6 +58,7 @@ MongoClient.connect(uri)
         }
     }); */
 
+
 //Bekanntmachen und Laden aller Module
 const temp = require("./modules/Temperatur.js");
 const time = require("./modules/timeLibrary")
@@ -65,6 +66,7 @@ const Rolladen = require("./modules/Rolladen")
 const leds = require("./modules/LEDs")
 const Ikea = require("./modules/Tradfri")
 const IoTbtn = require("./modules/IoTButtonEndpoints")
+const os_info = require("./modules/OS_Infos")
 
 //App Listen
 app.listen(port, () => {

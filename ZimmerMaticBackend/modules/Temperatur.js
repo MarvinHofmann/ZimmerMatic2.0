@@ -30,10 +30,12 @@ let spots = [
 main.app.post("/api/TempData", function (req, res) {
   let _spot = req.body.spot;
   for (let i = 0; i < spots.length; i++) {
+    console.log(spots);
     if (_spot == spots[i]) {
-        return spots[i]
+        res.status(200).json(spots[i])
     }
   }
+  res.sendStatus(500)
 });
 
 /**

@@ -1,0 +1,15 @@
+const main = require("../index.js")
+const os = require('os');
+
+
+/**
+ * Returns Information about the pi 
+ * cpu usage, total memory and free memory
+ */
+main.app.get("/api/os_info", function (req, res) {
+    return {
+        cpu: os.cpus(),
+        totalmem: os.totalmem(),
+        freemem: os.freemem()
+    }
+  });
