@@ -1,30 +1,10 @@
 <template>
-  <div class="col-lg-3 mx-atuo mb-3" id="outside">
-    <div
-      class="card"
-      :style="{ 'background-color': cardbg }"
-      style="border-radius: 35px"
-      @click="switchState()"
-    >
-      <div class="card-body p-4">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-12 text-black mt-2 text-center">
-              <h5  :style="{ 'color': fontcolor }" > {{ this.spot }}</h5>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-12 text-black mt-2" id="rowout">
-              <h1 v-if="out" :style="{'color': fontcolor}">OFF</h1>
-              <div v-else class="col-lg-12 text-black mt-2 text-center">
-                {{ this.brightness }} %
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <tr>
+    <th scope="row">{{ this.spot }}</th>
+    <td>{{ this.color }}</td>
+    <td>{{ this.brightness }}</td>
+    <td><button class="btn btn-outline-dark action bi bi-power"></button></td>
+  </tr>
 </template>
 
 <script>
@@ -39,6 +19,7 @@ export default {
       brightness: 0,
       out: false,
       cardbg: "white",
+      color: 0,
       fontcolor: "black"
     };
   },
@@ -62,6 +43,14 @@ export default {
           "http://192.168.0.138:8080/rest/items/" +
             this.name +
             "_Helligkeit/state"
+        )
+        .then((response) => response.data);
+
+      this.color = await axios
+        .get(
+          "http://192.168.0.138:8080/rest/items/" +
+            this.name +
+            "_Farbtemperatur/state"
         )
         .then((response) => response.data);
       if (this.brightness == 0) {

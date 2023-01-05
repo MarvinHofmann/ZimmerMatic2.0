@@ -1,35 +1,10 @@
 <template>
-  <div class="col-lg-2 mx-atuo mb-3" id="outside">
-    <div
-      class="card"
-      :style="{ 'background-color': cardbg }"
-      style="border-radius: 35px"
-      @click="switchState()"
-    >
-      <div class="card-body p-4">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-12 text-black mt-2 text-center">
-              <h5 :style="{'color': fontcolor}" >{{ this.spot }}</h5>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-12 text-black mt-2" id="rowout">
-             <h1 v-if="out" :style="{'color': fontcolor}">OFF</h1>
-              <div
-                v-else
-                :style="{ 'background-color': color }"
-                class="square"
-              ></div>
-            </div>
-            <div class="col-lg-12 text-black mt-2 text-center">
-              {{ this.brightness }} %
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <tr>
+    <th scope="row">{{ this.spot }}</th>
+    <td><div :style="{ 'background-color': color }" class="square"></div></td>
+    <td>{{ this.brightness }}</td>
+    <td><button class="btn btn-outline-dark action bi bi-power"></button></td>
+  </tr>
 </template>
 
 <script>
@@ -46,11 +21,10 @@ export default {
       json: "",
       cardbg: "white",
       out: false,
-      fontcolor: "black"
+      fontcolor: "black",
     };
   },
   methods: {
-    
     async switchState() {
       if (!this.out) {
         this.fetch_led(0, 0, 0, 0);
@@ -58,10 +32,10 @@ export default {
         this.out = true;
       } else {
         await this.fetch_led(255, 255, 255, 100);
-        setTimeout(() => {   }, 2000);
+        setTimeout(() => {}, 2000);
         this.getState();
         this.cardbg = "white";
-        this.fontcolor = "black"
+        this.fontcolor = "black";
         this.out = false;
       }
     },
@@ -104,15 +78,18 @@ export default {
 </script>
 <style scoped>
 .square {
-  height: 50px;
-  width: 50px;
-  border-width: 2px;
-  border-radius: 12px;
+  height: 30px;
+  width: 120px;
+  border-width: 1px;
+  border-radius: 2px;
   border-style: solid;
   border-color: rgb(2, 2, 2);
   background-color: rgb(121, 121, 121);
 }
-h1{
+.action {
+  width: 50px;
+}
+h1 {
   font-size: 26pt;
 }
 </style>

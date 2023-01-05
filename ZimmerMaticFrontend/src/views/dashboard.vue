@@ -1,23 +1,110 @@
 <template>
   <div>
-      <navbardark></navbardark>
+    <navbardark></navbardark>
     <main class="px-3">
       <div class="container-fluid mt-4">
         <div class="row">
           <div class="col-lg-12 mx-auto mb-3 text-black text-center">
             <h1 class="display-3">Dashboard</h1>
           </div>
-          <div class="row" id="rowout">
-          <LED :spot="'Couch'" :mqtt_topic="'colorCouch'" :spotNum="'2'"></LED>
-          <LED :spot="'Dart'" :mqtt_topic="'colorKamin'" :spotNum="'1'"></LED>
-          <LED :spot="'Uhr'" :mqtt_topic="'colorUhr'" :spotNum="'3'"></LED>
-          <LED :spot="'Marvin'" :mqtt_topic="'colorMarvin'" :spotNum="'4'"></LED>
-          <LED :spot="'Emely'" :mqtt_topic="'colorEmely'" :spotNum="'5'"></LED>
+          <div class="col-lg-8">
+            <div class="card card-body">
+              <div class="table-responsive">
+                <table class="table align-middle">
+                  <thead>
+                    <tr>
+                      <th style="width: 25%" scope="col">Standort</th>
+                      <th style="width: 25%" scope="col">Color</th>
+                      <th style="width: 25%" scope="col">Helligkeit</th>
+                      <th style="width: 25%" scope="col">Aktionen</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <LED
+                      :spot="'Couch'"
+                      :mqtt_topic="'colorCouch'"
+                      :spotNum="'2'"
+                    ></LED>
+                    <LED
+                      :spot="'Dart'"
+                      :mqtt_topic="'colorKamin'"
+                      :spotNum="'1'"
+                    ></LED>
+                    <LED
+                      :spot="'Uhr'"
+                      :mqtt_topic="'colorUhr'"
+                      :spotNum="'3'"
+                    ></LED>
+                    <LED
+                      :spot="'Marvin'"
+                      :mqtt_topic="'colorMarvin'"
+                      :spotNum="'4'"
+                    ></LED>
+                    <LED
+                      :spot="'Emely'"
+                      :mqtt_topic="'colorEmely'"
+                      :spotNum="'5'"
+                    ></LED>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-          <div class="row" id="rowout">
-          <LIGHT :spot="'Bett Links'" :name="'BL'"></LIGHT>
-          <LIGHT :spot="'Bett Rechts'" :name="'BR'"></LIGHT>
-          <LIGHT :spot="'Basteltisch'" :name="'BT'"></LIGHT>
+          <div class="col-lg-4">
+            <div class="card h-100">
+              <div class="card-header">Serverstatus</div>
+              <div class="card-body">
+                <p>Systemload 0.29</p>
+                <p>Speicherbelegung: 30% </p>
+                <p>CPU 10%</p>
+                <p>Temperature: 49,7°</p>
+                <p>RAM 10%</p>
+                <p>Users logged in 0</p>
+                <p>Backend Online</p>
+                <p>MQTT Connections: 8</p>
+                <p>MQTT Topics: 8</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-lg-6">
+            <div class="card card-body">
+              <div class="table-responsive">
+                <table class="table align-middle">
+                  <thead>
+                    <tr>
+                      <th style="width: 25%" scope="col">Standort</th>
+                      <th style="width: 25%" scope="col">Farbtemperatur</th>
+                      <th style="width: 25%" scope="col">Helligkeit</th>
+                      <th style="width: 25%" scope="col">Aktionen</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <LIGHT :spot="'Bett Links'" :name="'BL'"></LIGHT>
+                    <LIGHT :spot="'Bett Rechts'" :name="'BR'"></LIGHT>
+                    <LIGHT :spot="'Basteltisch'" :name="'BT'"></LIGHT>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <div class="card h-100">
+              <div class="card-header">Services</div>
+              <div class="card-body">
+                <p>Openhab Online</p>
+                <p>Portainer Online</p>
+                <p>EMQX Online</p>
+                <p>Pocketbase Online</p>
+                <p>MongoDB Offline</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card h-100">
+              
+            </div>
           </div>
         </div>
       </div>
@@ -27,27 +114,24 @@
 </template>
 
 <script>
-import Navbardark from '../components/navbardark.vue';
-import LED from '../components/LEDStatusKachel.vue';
-import LIGHT from '../components/LampeStatusKachel.vue'
+import Navbardark from "../components/navbardark.vue";
+import LED from "../components/LEDStatusKachel.vue";
+import LIGHT from "../components/LampeStatusKachel.vue";
 export default {
-
   components: {
     Navbardark,
     LED,
-    LIGHT
+    LIGHT,
   },
-  methods: {
-    
-  },
+  methods: {},
   mounted() {
-     this.timer = setInterval(this.fetchEventsList, 30000);
+    this.timer = setInterval(this.fetchEventsList, 30000);
   },
 };
 </script>
 
 <style>
-#rowout{
+#rowout {
   display: flex;
   justify-content: center;
 }

@@ -1,8 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-//import "bootstrap/dist/css/bootstrap.min.css"
-//import "bootstrap"
-import 'mdb-vue-ui-kit/css/mdb.min.css'
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap"
+import 'bootstrap-icons/font/bootstrap-icons.css'
+//import 'mdb-vue-ui-kit/css/mdb.min.css'
 
 import axios from 'axios'
 import { createRouter, createWebHistory } from 'vue-router'
