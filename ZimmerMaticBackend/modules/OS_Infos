@@ -1,24 +1,28 @@
 const main = require("../index.js")
 const os = require('os');
-const fs =  require("fs");
-const { spawn } = require("child_process");
-const ls = spawn("w", ["| wc -l"]);
+const fs = require("fs");
+const si = require('systeminformation');
+
 /**
  * Returns Information about the pi 
  * cpu usage, total memory and free memory
  */
 main.app.get("/api/os_info", function (req, res) {
     let temp = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp");
-    let temp_c = temp/1000;
-    let users = ls.stdout.on("data", data => {
-        return data
-    })
+    let temp_c = temp / 1000;
+    cpu = si.cpu()
+        .then(data => data)
+        .catch(error => console.error(error));
+    cpu_temp = si.cpuTemperature()
+        .then(data => data)
+        .catch(error => console.error(error));
     res.status(200).json({
         cpu: os.cpus(),
+        cpu_si: cpu,
         totalmem: os.totalmem(),
         freemem: os.freemem(),
         temp: temp,
         temp_c: temp_c,
-        users: users
+        cpu_temp: cpu_temp,
     })
 });
