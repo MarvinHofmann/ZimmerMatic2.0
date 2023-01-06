@@ -20,12 +20,37 @@ main.app.get("/api/os_info", async function (req, res) {
             return data
         })
         .catch(error => console.error(error));
+
+    let memory_info = await si.mem().then((data) => {
+        return data
+    })
+    .catch(error => console.error(error));
+
+    let load = await si.currentLoad().then((data) => {
+        return data
+    })
+    .catch(error => console.error(error));
+
+    let fs = await si.diskLayout().then((data) => {
+        return data
+    })
+
+    let all = await si.getStaticData().then((data) => {
+        return data
+    })
+
+    let docker = await si.dockerInfo().then((data) => {
+        return data
+    })
+    .catch(error => console.error(error));
     res.status(200).json({
-        cpu: os.cpus(),
         cpu_si: cpu,
-        totalmem: os.totalmem(),
-        freemem: os.freemem(),
+        memory: memory_info,
         temp_c: temp_c,
         cpu_temp: cpu_temp,
+        load: load,
+        disk: fs,
+        all: all,
+        docker: docker
     })
 });
