@@ -7,15 +7,15 @@ const si = require('systeminformation');
  * Returns Information about the pi 
  * cpu usage, total memory and free memory
  */
-main.app.get("/api/os_info", function (req, res) {
+main.app.get("/api/os_info", async function (req, res) {
     let temp = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp");
     let temp_c = temp / 1000;
-    let cpu = si.cpu()
+    let cpu = await si.cpu()
         .then((data) => {
             return data
         })
         .catch(error => console.error(error));
-    let cpu_temp = si.cpuTemperature()
+    let cpu_temp = await si.cpuTemperature()
         .then((data) => {
             return data
         })
