@@ -80,6 +80,7 @@ main.app.post("/api/TempData/Heater", function (req, res) {
  */
 main.app.post("/", function (req, res) {
   spots[2] = {
+    spot: "Bett",
     lastTemperature: spots[2].temperature,
     temperature: req.body.temperatur,
     humidity: req.body.feuchtigkeit,
@@ -94,6 +95,7 @@ main.app.post("/", function (req, res) {
  */
 main.app.post("/senderZwei", function (req, res) {
   spots[0] = {
+    spot: "Couch",
     lastTemperature: spots[0].temperature,
     temperature: req.body.temperatur,
     humidity: req.body.feuchtigkeit,
@@ -108,6 +110,7 @@ main.app.post("/senderZwei", function (req, res) {
  */
 main.app.post("/senderDrei", function (req, res) {
   spots[1] = {
+    spot: "Schreibtisch",
     lastTemperature: spots[1].temperature,
     temperature: req.body.temperatur,
     humidity: req.body.feuchtigkeit,
