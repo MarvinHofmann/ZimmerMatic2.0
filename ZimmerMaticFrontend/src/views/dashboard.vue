@@ -113,7 +113,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-2">
+          <div class="col-lg-3">
             <div class="card h-100">
               <div class="card-header">Services</div>
               <div class="card-body">
@@ -217,28 +217,30 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-3">
             <div class="card h-100">
               <div class="row justify-content-center">
-                <div class="col-lg-4">
-                  <div class="row">
+                <div class="col-lg-4 text-center">
+                  <h3 class="p-0 m-0 mt-3">Bett</h3>
+                  <div class="row pt-0">
                     <button class="btnIcon" @click="send_fetch('UP', 'Bett')">
-                      <i class="fas fa-chevron-up fa-5x"></i>
+                      <i class="fas fa-chevron-up fa-2x"></i>
                     </button>
                   </div>
                   <div class="row">
                     <button class="btnIcon" @click="send_fetch('DOWN', 'Bett')">
-                      <i class="fas fa-chevron-down fa-5x"></i>
+                      <i class="fas fa-chevron-down fa-2x"></i>
                     </button>
                   </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4 text-center">
+                  <h3 class="p-0 m-0 mt-3">Büro</h3>
                   <div class="row">
                     <button
                       class="btnIcon"
                       @click="send_fetch('UP', 'Schreibtisch')"
                     >
-                      <i class="fas fa-chevron-up fa-5x"></i>
+                      <i class="fas fa-chevron-up fa-2x"></i>
                     </button>
                   </div>
                   <div class="row">
@@ -246,7 +248,7 @@
                       class="btnIcon"
                       @click="send_fetch('DOWN', 'Schreibtisch')"
                     >
-                      <i class="fas fa-chevron-down fa-5x"></i>
+                      <i class="fas fa-chevron-down fa-2x"></i>
                     </button>
                   </div>
                 </div>
@@ -383,5 +385,21 @@ export default {
 
 .bi-box-arrow-up-right {
   font-size: 12px;
+}
+
+.btnIcon {
+  width: 75px;
+  height: 75px;
+  background-color: white;
+  border-width: 2px;
+  border-radius: 10px;
+  border-color: #1266F1;
+  margin: 10px 10px 10px 10px;
+}
+.btnIcon:hover {
+  background-color: aliceblue;
+} 
+.fas{
+  color: #1266F1;
 }
 </style>
