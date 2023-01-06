@@ -11,10 +11,11 @@
                 <table class="table align-middle">
                   <thead>
                     <tr>
-                      <th style="width: 25%" scope="col">Standort</th>
-                      <th style="width: 25%" scope="col">Color</th>
-                      <th style="width: 25%" scope="col">Helligkeit</th>
-                      <th style="width: 25%" scope="col">Aktionen</th>
+                      <th style="width: 20%" scope="col">Standort</th>
+                      <th style="width: 20%" scope="col">Color</th>
+                      <th style="width: 20%" scope="col">Helligkeit</th>
+                      <th style="width: 20%" scope="col">Status</th>
+                      <th style="width: 20%" scope="col">Aktionen</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -48,7 +49,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-2">
             <div class="card h-100">
               <div class="card-header">Serverstatus</div>
               <div class="card-body">
@@ -76,6 +77,16 @@
               </div>
             </div>
           </div>
+          <div class="col-lg-2">
+            <div class="card h-100">
+              <div class="card-header">Temperatur</div>
+              <div class="card-body text-center mt-3">
+                <h1 class="display3"><i class="bi bi-thermometer"></i> {{this.avg_temp_info.avg_temperature}}°C </h1>
+                <hr class="border">
+                <h1 class="display3"><i class="bi bi-droplet"></i> {{this.avg_temp_info.avg_humidity}}% </h1>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="row mt-3">
           <div class="col-lg-6">
@@ -84,10 +95,11 @@
                 <table class="table align-middle">
                   <thead>
                     <tr>
-                      <th style="width: 25%" scope="col">Standort</th>
-                      <th style="width: 25%" scope="col">Farbtemperatur</th>
-                      <th style="width: 25%" scope="col">Helligkeit</th>
-                      <th style="width: 25%" scope="col">Aktionen</th>
+                      <th style="width: 20%" scope="col">Standort</th>
+                      <th style="width: 20%" scope="col">Farbtemperatur</th>
+                      <th style="width: 20%" scope="col">Helligkeit</th>
+                      <th style="width: 20%" scope="col">Staus</th>
+                      <th style="width: 20%" scope="col">Aktionen</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -113,6 +125,12 @@
                   <span v-else class="badge rounded-pill bg-danger"
                     >Offline</span
                   >
+                  <a
+                    type="button"
+                    href="http://zimmermatic:8080"
+                    target="_blank"
+                    class="bi bi-box-arrow-up-right mx-2"
+                  ></a>
                 </p>
                 <p>
                   Portainer Online
@@ -124,6 +142,12 @@
                   <span v-else class="badge rounded-pill bg-danger"
                     >Offline</span
                   >
+                  <a
+                    type="button"
+                    href="http://zimmermatic:9000"
+                    target="_blank"
+                    class="bi bi-box-arrow-up-right mx-2"
+                  ></a>
                 </p>
                 <p>
                   EMQX Online
@@ -135,10 +159,30 @@
                   <span v-else class="badge rounded-pill bg-danger"
                     >Offline</span
                   >
+                  <a
+                    type="button"
+                    href="http://zimmermatic:18083"
+                    target="_blank"
+                    class="bi bi-box-arrow-up-right mx-2"
+                  ></a>
                 </p>
+
                 <p>
                   Pocketbase
-                  <span class="badge rounded-pill bg-danger">Offline</span>
+                  <span
+                    v-if="this.pocketbase == 200"
+                    class="badge rounded-pill bg-success"
+                    >Online</span
+                  >
+                  <span v-else class="badge rounded-pill bg-danger"
+                    >Offline</span
+                  >
+                  <a
+                    type="button"
+                    href="http://zimmermatic"
+                    target="_blank"
+                    class="bi bi-box-arrow-up-right mx-2"
+                  ></a>
                 </p>
                 <p>
                   MongoDB
@@ -151,6 +195,23 @@
                     >Offline</span
                   >
                 </p>
+                <p>
+                  nginx
+                  <span
+                    v-if="this.nginx == 200"
+                    class="badge rounded-pill bg-success"
+                    >Online</span
+                  >
+                  <span v-else class="badge rounded-pill bg-danger"
+                    >Offline</span
+                  >
+                  <a
+                    type="button"
+                    href="http://zimmermatic:81"
+                    target="_blank"
+                    class="bi bi-box-arrow-up-right mx-2"
+                  ></a>
+                </p>
               </div>
             </div>
           </div>
@@ -159,24 +220,30 @@
               <div class="row justify-content-center">
                 <div class="col-lg-4">
                   <div class="row">
-                    <button class="btnIcon" @click="send_fetch('UP')">
+                    <button class="btnIcon" @click="send_fetch('UP', 'Bett')">
                       <i class="fas fa-chevron-up fa-5x"></i>
                     </button>
                   </div>
                   <div class="row">
-                    <button class="btnIcon" @click="send_fetch('DOWN')">
+                    <button class="btnIcon" @click="send_fetch('DOWN', 'Bett')">
                       <i class="fas fa-chevron-down fa-5x"></i>
                     </button>
                   </div>
                 </div>
                 <div class="col-lg-3">
                   <div class="row">
-                    <button class="btnIcon" @click="send_fetch('UP')">
+                    <button
+                      class="btnIcon"
+                      @click="send_fetch('UP', 'Schreibtisch')"
+                    >
                       <i class="fas fa-chevron-up fa-5x"></i>
                     </button>
                   </div>
                   <div class="row">
-                    <button class="btnIcon" @click="send_fetch('DOWN')">
+                    <button
+                      class="btnIcon"
+                      @click="send_fetch('DOWN', 'Schreibtisch')"
+                    >
                       <i class="fas fa-chevron-down fa-5x"></i>
                     </button>
                   </div>
@@ -205,6 +272,8 @@ export default {
       emqx: 0,
       mongo: 0,
       backend: 0,
+      nginx: 0,
+      pocketbase: 0,
       pi_info: {
         cpu_si: {},
         memory: {},
@@ -212,8 +281,13 @@ export default {
         load: {},
         disk: [{}],
         docker: {},
+        container: [{}],
       },
       mem_use: 0,
+      avg_temp_info:{
+        avg_temperature: 0,
+        avg_humidity: 0
+      }
     };
   },
   components: {
@@ -236,6 +310,43 @@ export default {
         (this.pi_info.memory.free / this.pi_info.memory.used) *
         100
       ).toFixed(2);
+
+      for (let i = 0; i < this.pi_info.container.length; i++) {
+        console.log(this.pi_info.container[i].state);
+        switch (this.pi_info.container[i].name) {
+          case "emqx":
+            if (this.pi_info.container[i].state == "running") {
+              this.emqx = 200;
+            }
+            break;
+          case "portainer":
+            if (this.pi_info.container[i].state == "running") {
+              this.portainer = 200;
+            }
+            break;
+          case "zima_mongo":
+            if (this.pi_info.container[i].state == "running") {
+              this.mongo = 200;
+            }
+            break;
+          case "pocketase":
+            if (this.pi_info.container[i].state == "running") {
+              this.pocketbase = 200;
+            }
+            break;
+          case "nginx_app_1":
+            if (this.pi_info.container[i].state == "running") {
+              this.nginx = 200;
+            }
+            break;
+          default:
+            break;
+        }
+      }
+    },
+    send_fetch(pDirection, shutter_spot) {
+      console.log("Fetch Rolladen: " + pDirection);
+      axios.post(IP + "/api/Rolladen", { direction: pDirection });
     },
   },
   async mounted() {
@@ -246,17 +357,17 @@ export default {
     }
     this.timer = setInterval(this.fetchEventsList, 30000);
     this.openhab = await this.get_state("http://192.168.0.138:8080/rest/items");
-    console.log(this.openhab);
-    this.mongo = await this.get_state("http://192.168.0.138:42069/");
-    this.emqx = await this.get_state("http://192.168.0.138:18083/status");
-    this.portainer = await this.get_state("http://192.168.0.138:9000/");
   },
 };
 </script>
 
-<style>
+<style scoped>
 #rowout {
   display: flex;
   justify-content: center;
+}
+
+.bi-box-arrow-up-right {
+  font-size: 12px;
 }
 </style>

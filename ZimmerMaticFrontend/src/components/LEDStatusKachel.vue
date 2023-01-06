@@ -1,9 +1,12 @@
 <template>
-  <tr>
+  <tr :style="{ 'background-color': row_bg }">
     <th scope="row">{{ this.spot }}</th>
     <td><div :style="{ 'background-color': color }" class="square"></div></td>
     <td>{{ this.brightness }}</td>
-    <td><button class="btn btn-outline-dark action bi bi-power"></button></td>
+    <td ><span v-if="this.is_off" class="badge rounded-pill bg-danger">Offline</span>
+      <span v-else class="badge rounded-pill bg-success">An</span>
+    </td>
+    <td><button @click="switchState()" class="btn btn-outline-dark action bi bi-power"></button></td>
   </tr>
 </template>
 
@@ -19,9 +22,10 @@ export default {
       color: "#3167FF",
       brightness: 0,
       json: "",
-      cardbg: "white",
+      row_bg: "white",
       out: false,
       fontcolor: "black",
+      is_off: false
     };
   },
   methods: {
@@ -34,7 +38,7 @@ export default {
         await this.fetch_led(255, 255, 255, 100);
         setTimeout(() => {}, 2000);
         this.getState();
-        this.cardbg = "white";
+        this.row_bg = "white";
         this.fontcolor = "black";
         this.out = false;
       }
@@ -66,9 +70,10 @@ export default {
     setStateOff() {
       this.brightness = 0;
       this.color = `rgb(${0}, ${0}, ${0}, ${0})`;
-      this.cardbg = `rgb(${211}, ${211}, ${211}, ${200})`;
+      this.row_bg = `rgb(${211}, ${211}, ${211}, ${200})`;
       this.out = true;
       this.fontcolor = "gray";
+      this.is_off = true
     },
   },
   async mounted() {

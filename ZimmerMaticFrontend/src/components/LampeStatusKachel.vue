@@ -3,6 +3,7 @@
     <th scope="row">{{ this.spot }}</th>
     <td>{{ this.color }}</td>
     <td>{{ this.brightness }}</td>
+    <td><span class="badge rounded-pill bg-danger">Offline</span></td>
     <td><button class="btn btn-outline-dark action bi bi-power"></button></td>
   </tr>
 </template>

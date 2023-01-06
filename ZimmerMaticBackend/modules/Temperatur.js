@@ -34,12 +34,32 @@ main.app.post("/api/TempData", function (req, res) {
   let _spot = req.body.spot;
   for (let i = 0; i < spots.length; i++) {
     if (_spot == spots[i].spot) {
-        res.status(200).json(spots[i]);
-        return;
+      res.status(200).json(spots[i]);
+      return;
     }
   }
   res.sendStatus(500)
 });
+
+/**
+ * Middleware for fetching the average temperature and humidity of the 3 
+ * self mande sensors
+ * returns a json with average temp and humidity
+ */
+main.app.get("/api/averageTemp", function (req, res) {
+  let avg_t = 0
+  let avg_h = 0
+  for (let i = 0; i < spots.length; i++) {
+    avg_t = avg_t + spots[i].temperature
+    avg_h = avg_h + spots[i].humidity
+  }
+  avg_h = (avg_h / 3).toFixed(2)
+  avg_t = (avg_t / 3).toFixed(2)
+  res.status(200).json({
+    avg_temperature: avg_t,
+    avg_humidity: avg_h
+  })
+})
 
 /**
  * Middleware for fetching Temperature Data from frontend 
@@ -60,7 +80,7 @@ main.app.post("/", function (req, res) {
     lastTemperature: spots[2].temperature,
     temperature: req.body.temperatur,
     humidity: req.body.feuchtigkeit,
-    time: time.getDBFormatTime()    
+    time: time.getDBFormatTime()
   }
   //getTempAverage();
   res.sendStatus(200);
@@ -74,7 +94,7 @@ main.app.post("/senderZwei", function (req, res) {
     lastTemperature: spots[0].temperature,
     temperature: req.body.temperatur,
     humidity: req.body.feuchtigkeit,
-    time: time.getDBFormatTime()    
+    time: time.getDBFormatTime()
   }
   //getTempAverage();
   res.sendStatus(200);
@@ -88,7 +108,7 @@ main.app.post("/senderDrei", function (req, res) {
     lastTemperature: spots[1].temperature,
     temperature: req.body.temperatur,
     humidity: req.body.feuchtigkeit,
-    time: time.getDBFormatTime()    
+    time: time.getDBFormatTime()
   }
   //getTempAverage();
   res.sendStatus(200);
@@ -121,14 +141,3 @@ function writeToDB(temp, hum, spot) {
     };
   });
 }
-
-/**
- * Calculates average temperature and closes the shutter
- * if its above 24°
- */
-/* function getTempAverage() {
-  average = ((temp + temp2 + temp3) / 3).toFixed(2);
-  if (average > 24) {
-    shutter.rolladenDown();
-  }
-} */
