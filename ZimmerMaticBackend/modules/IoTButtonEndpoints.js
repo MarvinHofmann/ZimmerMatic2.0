@@ -22,7 +22,6 @@ main.app.get("/essenFertig", function (req, res) {
  * Middleware for IoT Button for comming home
  */
 main.app.get("/hello", function (req, res) {
-    main.loggerinfo.info("Comming Home at: " + new Date().toLocaleString("de-DE", { timeZone: "Europe/Berlin" }));
     try { //Turn ambient leds on
         led.singleLEDChange("LED_COLOR/colorKamin", 256,161,20,255);
         led.singleLEDChange("LED_COLOR/colorcouch", 256,161,20,255);
@@ -54,7 +53,6 @@ main.app.get("/hello", function (req, res) {
 main.app.get("/tschuess", function (req, res) {
     //close the shutter
     shutter.rolladenDown();
-    main.loggerinfo.info("Leaving at: " + new Date().toLocaleString("de-DE", { timeZone: "Europe/Berlin" }));
     //Turn all LEDs off
     for (let i = 0; i < 5; i++) {
         try {

@@ -33,11 +33,6 @@ log4js.configure({
         default: { appenders: ["info"], level: "trace" }
     }
 });
-const loggerinfo = log4js.getLogger('info');
-const loggererror = log4js.getLogger('error');
-exports.loggererror = loggererror;
-exports.loggerinfo = loggerinfo;
-
 /* //Init MongoDB
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
@@ -48,7 +43,6 @@ MongoClient.connect(uri)
             const db = client.db("TempDaB");
             const tempCollection = db.collection('TempCollection');
             app.locals.temperature = tempCollection;
-            loggerinfo.info("Connection to DB established")
             //Initialise everything
             leds.workLight();
             Rolladen.rolladenUP();
@@ -70,7 +64,9 @@ const os_info = require("./modules/OS_Infos")
 
 //App Listen
 app.listen(port, () => {
-    loggerinfo.info(`App listening at http://ZimmerMatic:${port}`);
+    leds.workLight();
+    Rolladen.rolladenUP();
+    console.log(`App listening at http://ZimmerMatic:${port}`);
 });
 
 const mqtt = require('mqtt');  // require mqtt
@@ -96,7 +92,7 @@ client.on('connect', function () {
 /**
  * Loading the json values with arriving messages at the mqtt broker
  */
- client.on('message', function (topic, message) {
+client.on('message', function (topic, message) {
     console.log("Incoming Message " + message.toString())
     switch (topic) {
         case "LED_COLOR/colorCouch":
@@ -148,7 +144,7 @@ let jsonClients = {
     colorKamin: {
         value: "",
     },
-    stateBett:{
+    stateBett: {
         state: ""
     },
     stateSchreibtisch: {

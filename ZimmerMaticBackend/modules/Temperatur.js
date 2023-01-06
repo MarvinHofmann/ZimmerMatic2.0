@@ -124,7 +124,6 @@ let counterDBwrites = 0;
 function writeToDB(temp, hum, spot) {
   counterDBwrites++;
   if (counterDBwrites == 100) {
-    main.loggerinfo.debug("100 Database Writes")
     counterDBwrites = 0;
   }
   let json = {
