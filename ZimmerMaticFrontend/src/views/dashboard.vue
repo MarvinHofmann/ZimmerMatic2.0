@@ -4,8 +4,7 @@
     <main class="px-3">
       <div class="container-fluid mt-4">
         <div class="row">
-          <div class="col-lg-12 mx-auto mb-3 text-black text-center"></div>
-          <div class="col-lg-8">
+          <div class="col-lg-8 mt-3">
             <div class="card card-body">
               <div class="table-responsive">
                 <table class="table align-middle">
@@ -49,7 +48,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-2">
+          <div class="col-lg-2 mt-3">
             <div class="card h-100">
               <div class="card-header">Serverstatus</div>
               <div class="card-body">
@@ -64,16 +63,18 @@
                     >Offline</span
                   >
                 </p>
-                <p>Systemload {{ this.pi_info.load.avgLoad }}</p>
-                <p>RAM: {{ this.mem_use }} %</p>
-                <p>Speicherbelegung {{ this.pi_info.disk[0].use }}%</p>
-                <p>Temperatur: {{ this.pi_info.cpu_temp.main }}°C</p>
-                <p>Laufende Container {{ this.running_container }}</p>
-                <p>Anzahl Container {{ this.container.length }}</p>
+                <p class="text-muted">Systemload: <b>{{ this.pi_info.load.avgLoad }}</b> </p> 
+                <p class="text-muted">RAM: <b>{{ this.mem_use }} % </b> </p>
+                <p class="text-muted">Speicherbelegung: <b>{{ this.pi_info.disk[0].use }}% </b> </p>
+                <p v-if="this.pi_info.cpu_temp.main >= 50" class="text-warning">Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b> </p>
+                <p v-else-if="this.pi_info.cpu_temp.main >55 " class="text-muted">Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b> </p>
+                <p v-else class="text-muted">Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b> </p>
+                <p class="text-muted">Laufende Container: <b>{{ this.running_container }} </b> </p>
+                <p class="text-muted">Anzahl Container: <b>{{ this.container.length }} </b></p>
               </div>
             </div>
           </div>
-          <div class="col-lg-2">
+          <div class="col-lg-2 mt-3">
             <div class="card h-100">
               <div class="card-header">Temperatur</div>
               <div class="card-body text-center mt-3">
@@ -90,8 +91,8 @@
             </div>
           </div>
         </div>
-        <div class="row mt-3">
-          <div class="col-lg-6">
+        <div class="row">
+          <div class="col-lg-6 mt-3">
             <div class="card card-body">
               <div class="table-responsive">
                 <table class="table align-middle">
@@ -113,7 +114,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3">
+          <div class="col-lg-3 mt-3">
             <div class="card h-100">
               <div class="card-header">Services</div>
               <div class="card-body">
@@ -217,33 +218,37 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3">
+          <div class="col-lg-3 mt-3">
             <div class="card h-100">
               <div class="row justify-content-center">
                 <div class="col-lg-4 text-center">
                   <h3 class="p-0 m-0 mt-3">Bett</h3>
                   <div class="row pt-0">
-                    <button class="btnIcon" @click="send_fetch('UP', 'Bett')">
-                      <i class="fas fa-chevron-up fa-2x"></i>
-                    </button>
+                    <div class="col-lg-12 text-center">
+                      <button class="btnIcon" @click="send_fetch('UP', 'Bett')">
+                        <i class="fas fa-chevron-up fa-2x"></i>
+                      </button>
+                    </div>
                   </div>
-                  <div class="row">
+                  <div class="col-lg-12 text-center">
                     <button class="btnIcon" @click="send_fetch('DOWN', 'Bett')">
                       <i class="fas fa-chevron-down fa-2x"></i>
                     </button>
                   </div>
                 </div>
                 <div class="col-lg-4 text-center">
-                  <h3 class="p-0 m-0 mt-3">Büro</h3>
                   <div class="row">
-                    <button
-                      class="btnIcon"
-                      @click="send_fetch('UP', 'Schreibtisch')"
-                    >
-                      <i class="fas fa-chevron-up fa-2x"></i>
-                    </button>
+                    <div class="col-lg-12 text-center">
+                      <h3 class="p-0 m-0 mt-3">Büro</h3>
+                      <button
+                        class="btnIcon"
+                        @click="send_fetch('UP', 'Schreibtisch')"
+                      >
+                        <i class="fas fa-chevron-up fa-2x"></i>
+                      </button>
+                    </div>
                   </div>
-                  <div class="row">
+                  <div class="col-lg-12 text-center">
                     <button
                       class="btnIcon"
                       @click="send_fetch('DOWN', 'Schreibtisch')"
@@ -358,7 +363,9 @@ export default {
       axios.post(IP + "/api/Rolladen", { direction: pDirection });
     },
     async get_avg_tmp() {
-      this.avg_temp_info = await axios.get(IP + "/api/averageTemp").then((response) => response.data);
+      this.avg_temp_info = await axios
+        .get(IP + "/api/averageTemp")
+        .then((response) => response.data);
     },
   },
   async mounted() {
@@ -393,13 +400,13 @@ export default {
   background-color: white;
   border-width: 2px;
   border-radius: 10px;
-  border-color: #1266F1;
+  border-color: #1266f1;
   margin: 10px 10px 10px 10px;
 }
 .btnIcon:hover {
   background-color: aliceblue;
-} 
-.fas{
-  color: #1266F1;
+}
+.fas {
+  color: #1266f1;
 }
 </style>

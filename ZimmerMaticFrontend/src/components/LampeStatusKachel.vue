@@ -6,7 +6,8 @@
     <td ><span v-if="this.out" class="badge rounded-pill bg-danger">Offline</span>
       <span v-else class="badge rounded-pill bg-success">An</span>
     </td>
-    <td><button @click="switchState()" class="btn btn-outline-dark action bi bi-power"></button></td>
+    <td v-if="this.out"><button @click="switchState()" class="btn btn-outline-success action bi bi-power"></button></td>
+    <td v-else><button @click="switchState()" class="btn btn-outline-danger action bi bi-power"></button></td>
   </tr>
 </template>
 

@@ -6,7 +6,8 @@
     <td ><span v-if="this.is_off" class="badge rounded-pill bg-danger">Offline</span>
       <span v-else class="badge rounded-pill bg-success">An</span>
     </td>
-    <td><button @click="switchState()" class="btn btn-outline-dark action bi bi-power"></button></td>
+    <td v-if="this.is_off"><button @click="switchState()" class="btn btn-outline-success action bi bi-power"></button></td>
+    <td v-else><button @click="switchState()" class="btn btn-outline-danger action bi bi-power"></button></td>
   </tr>
 </template>
 
@@ -83,11 +84,7 @@ export default {
 .square {
   height: 30px;
   width: 120px;
-  border-width: 1px;
-  border-radius: 2px;
-  border-style: solid;
-  border-color: rgb(2, 2, 2);
-  background-color: rgb(121, 121, 121);
+  border-radius: 5px;
 }
 .action {
   width: 50px;
