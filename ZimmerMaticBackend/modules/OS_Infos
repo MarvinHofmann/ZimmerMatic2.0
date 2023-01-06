@@ -39,6 +39,7 @@ main.app.get("/api/os_info", async function (req, res) {
     let container = await main.axios
         .get("http://zimmermatic:9000/api/endpoints/2/docker/containers/json", config)
         .then((response) => response.data);
+    console.log(container);
 
     res.status(200).json({
         cpu_si: cpu,
