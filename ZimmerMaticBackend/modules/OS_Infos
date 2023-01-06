@@ -36,7 +36,7 @@ main.app.get("/api/os_info", async function (req, res) {
         headers: { Authorization: `Bearer ${token}` },
     };
 
-    let container = await axios
+    let container = await main.axios
         .get("http://zimmermatic:9000/api/endpoints/2/docker/containers/json", config)
         .then((response) => response);
 
