@@ -52,7 +52,7 @@
             <div class="card h-100">
               <div class="card-header">Serverstatus</div>
               <div class="card-body">
-                <p>
+                <p class="text-muted">
                   Backend
                   <span
                     v-if="this.backend == 200"
@@ -71,6 +71,28 @@
                 <p v-else class="text-muted">Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b> </p>
                 <p class="text-muted">Laufende Container: <b>{{ this.running_container }} </b> </p>
                 <p class="text-muted">Anzahl Container: <b>{{ this.container.length }} </b></p>
+                <p class="text-muted">
+                  Homematic Bridge
+                  <span
+                    v-if="this.homematic"
+                    class="badge rounded-pill bg-success"
+                    >Online</span
+                  >
+                  <span v-else class="badge rounded-pill bg-danger"
+                    >Offline</span
+                  >
+                </p>
+                <p class="text-muted">
+                  Tradfri Gateway
+                  <span
+                    v-if="this.tradfri"
+                    class="badge rounded-pill bg-success"
+                    >Online</span
+                  >
+                  <span v-else class="badge rounded-pill bg-danger"
+                    >Offline</span
+                  >
+                </p>
               </div>
             </div>
           </div>
@@ -106,9 +128,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <LIGHT :spot="'Bett Links'" :name="'BL'"></LIGHT>
-                    <LIGHT :spot="'Bett Rechts'" :name="'BR'"></LIGHT>
-                    <LIGHT :spot="'Basteltisch'" :name="'BT'"></LIGHT>
+                    <LIGHT :spot="'Bett Links'" :name="'BL'" :uid="'tradfri:0220:gw4491603198ed:65537'"></LIGHT>
+                    <LIGHT :spot="'Bett Rechts'" :name="'BR'" :uid="'tradfri:0220:gw4491603198ed:65538'"></LIGHT>
+                    <LIGHT :spot="'Basteltisch'" :name="'BT'" :uid="'tradfri:0220:gw4491603198ed:65543'"></LIGHT>
                   </tbody>
                 </table>
               </div>
@@ -298,6 +320,8 @@ export default {
       container: [{}],
       running_container: 0,
       timer: null,
+      homematic: false,
+      tradfri: false,
     };
   },
   components: {
@@ -367,9 +391,38 @@ export default {
         .get(IP + "/api/averageTemp")
         .then((response) => response.data);
     },
+    async get_homematic_bridge() {
+      const token =
+        "eyJraWQiOm51bGwsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJvcGVuaGFiIiwiYXVkIjoib3BlbmhhYiIsImV4cCI6MTY3MzAzNDc0NiwianRpIjoiZXBtb0NyNDNoZlRPTnE3U2xwM2NJQSIsImlhdCI6MTY3MzAzMTE0NiwibmJmIjoxNjczMDMxMDI2LCJzdWIiOiJNSCIsImNsaWVudF9pZCI6Imh0dHA6Ly96aW1tZXJtYXRpYzo4MDgwIiwic2NvcGUiOiJhZG1pbiIsInJvbGUiOlsiYWRtaW5pc3RyYXRvciJdfQ.igi5dU8XOug_3P_7C3n82EwYyJsXVpmYZanH8P2oiKC45LZltgUtIqzTXOedNDo9zLiWwyRuL2zhEg1bBVmKKjzvNd44qplfHVHQhNV2A0vs5fd9NCsHJbo2Iu69FaLI9om_4QdUpQ7M29_Mxfc-5M9Wmf6hfJyA4qMRyL3cmfUvES9Jn8ijrVAqaQ_pvAPfcbQG1B2Li7RazA5HeAodUeJGSffxXP9qEg2gCs0qAf7vEzzX4vwfAHpPOJDxYOcusCuSY-v7nGU08ebx3JVM75kdd0ErPzhSLphbMcFG62UhX4M924Qkq81Ym1pn9oZfQ-MkOuvrBG2KgL43Lbk3sA";
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+      let res = await axios.get(
+          "http://192.168.0.138:8080/rest/things/homematic:bridge:3014F711A0001F58A9A70A7A/status",
+          config
+        )
+        .then((response) => response.data);
+        res.status == "OFFLINE" ? this.homematic = false : this.homematic = true;
+    },
+    async get_tradfri_gateway() {
+      const token =
+        "eyJraWQiOm51bGwsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJvcGVuaGFiIiwiYXVkIjoib3BlbmhhYiIsImV4cCI6MTY3MzAzNDc0NiwianRpIjoiZXBtb0NyNDNoZlRPTnE3U2xwM2NJQSIsImlhdCI6MTY3MzAzMTE0NiwibmJmIjoxNjczMDMxMDI2LCJzdWIiOiJNSCIsImNsaWVudF9pZCI6Imh0dHA6Ly96aW1tZXJtYXRpYzo4MDgwIiwic2NvcGUiOiJhZG1pbiIsInJvbGUiOlsiYWRtaW5pc3RyYXRvciJdfQ.igi5dU8XOug_3P_7C3n82EwYyJsXVpmYZanH8P2oiKC45LZltgUtIqzTXOedNDo9zLiWwyRuL2zhEg1bBVmKKjzvNd44qplfHVHQhNV2A0vs5fd9NCsHJbo2Iu69FaLI9om_4QdUpQ7M29_Mxfc-5M9Wmf6hfJyA4qMRyL3cmfUvES9Jn8ijrVAqaQ_pvAPfcbQG1B2Li7RazA5HeAodUeJGSffxXP9qEg2gCs0qAf7vEzzX4vwfAHpPOJDxYOcusCuSY-v7nGU08ebx3JVM75kdd0ErPzhSLphbMcFG62UhX4M924Qkq81Ym1pn9oZfQ-MkOuvrBG2KgL43Lbk3sA";
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+      let res = await axios.get(
+          "http://192.168.0.138:8080/rest/things/tradfri:gateway:gw4491603198ed/status",
+          config
+        )
+        .then((response) => response.data);
+      console.log(res.status);
+      res.status == "OFFLINE" ? this.tradfri = false : this.tradfri = true;
+    },
   },
   async mounted() {
     this.get_avg_tmp();
+    this.get_homematic_bridge();
+    this.get_tradfri_gateway();
     try {
       await this.get_system_info();
     } catch (error) {
@@ -379,6 +432,8 @@ export default {
     this.timer = setInterval(() => {
       this.get_avg_tmp();
       this.get_system_info();
+      this.get_homematic_bridge();
+      this.get_tradfri_gateway();
     }, 10000);
   },
 };

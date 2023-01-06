@@ -3,7 +3,7 @@
     <th scope="row">{{ this.spot }}</th>
     <td><div :style="{ 'background-color': color }" class="square"></div></td>
     <td>{{ this.brightness }}</td>
-    <td ><span v-if="this.is_off" class="badge rounded-pill bg-danger">Offline</span>
+    <td ><span v-if="this.is_off" class="badge rounded-pill bg-danger">Aus</span>
       <span v-else class="badge rounded-pill bg-success">An</span>
     </td>
     <td v-if="this.is_off"><button @click="switchState()" class="btn btn-outline-success action bi bi-power"></button></td>
@@ -85,6 +85,8 @@ export default {
   height: 30px;
   width: 120px;
   border-radius: 5px;
+  border-width: 0.5px;
+  border-color: azure;
 }
 .action {
   width: 50px;
