@@ -354,6 +354,9 @@ export default {
       console.log("Fetch Rolladen: " + pDirection);
       axios.post(IP + "/api/Rolladen", { direction: pDirection });
     },
+    async get_avg_tmp(){
+      this.avg_temp_info = await axios.get(IP + "/api/averageTemp")
+    }
   },
   async mounted() {
     try {
