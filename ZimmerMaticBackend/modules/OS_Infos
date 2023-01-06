@@ -11,7 +11,7 @@ main.app.get("/api/os_info", async function (req, res) {
         return data
     })
         .catch(error => console.error(error));
-        
+
     let cpu_temp = await si.cpuTemperature().then((data) => {
         return data
     })
@@ -39,7 +39,6 @@ main.app.get("/api/os_info", async function (req, res) {
     res.status(200).json({
         cpu_si: cpu,
         memory: memory_info,
-        temp_c: temp_c,
         cpu_temp: cpu_temp,
         load: load,
         disk: fsys,
