@@ -1,6 +1,4 @@
 const main = require("../index.js")
-const os = require('os');
-const fs = require("fs");
 const si = require('systeminformation');
 
 /**
@@ -8,41 +6,36 @@ const si = require('systeminformation');
  * cpu usage, total memory and free memory
  */
 main.app.get("/api/os_info", async function (req, res) {
-    let temp = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp");
-    let temp_c = temp / 1000;
-    let cpu = await si.cpu()
-        .then((data) => {
-            return data
-        })
+
+    let cpu = await si.cpu().then((data) => {
+        return data
+    })
         .catch(error => console.error(error));
-    let cpu_temp = await si.cpuTemperature()
-        .then((data) => {
-            return data
-        })
+        
+    let cpu_temp = await si.cpuTemperature().then((data) => {
+        return data
+    })
         .catch(error => console.error(error));
 
     let memory_info = await si.mem().then((data) => {
         return data
     })
-    .catch(error => console.error(error));
+        .catch(error => console.error(error));
 
     let load = await si.currentLoad().then((data) => {
         return data
     })
-    .catch(error => console.error(error));
+        .catch(error => console.error(error));
 
-    let fsys = await si.diskLayout().then((data) => {
-        return data
-    })
-
-    let all = await si.getStaticData().then((data) => {
+    let fsys = await si.fsSize().then((data) => {
         return data
     })
 
     let docker = await si.dockerInfo().then((data) => {
         return data
     })
-    .catch(error => console.error(error));
+        .catch(error => console.error(error));
+
     res.status(200).json({
         cpu_si: cpu,
         memory: memory_info,
@@ -50,7 +43,6 @@ main.app.get("/api/os_info", async function (req, res) {
         cpu_temp: cpu_temp,
         load: load,
         disk: fsys,
-        all: all,
         docker: docker
     })
 });
