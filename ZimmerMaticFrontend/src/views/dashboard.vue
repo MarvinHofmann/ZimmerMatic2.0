@@ -68,8 +68,8 @@
                 <p>RAM: {{ this.mem_use }} %</p>
                 <p>Speicherbelegung {{ this.pi_info.disk[0].use }}%</p>
                 <p>Temperatur: {{ this.pi_info.cpu_temp.main }}°C</p>
-                <p>Running Container {{}}</p>
-                <p>Stopped Container {{}}</p>
+                <p>Laufende Container {{ this.running_container }}</p>
+                <p>Anzahl Container {{ this.container.length }}</p>
               </div>
             </div>
           </div>
@@ -289,6 +289,7 @@ export default {
         avg_humidity: 0,
       },
       container: [{}],
+      running_container: 0
     };
   },
   components: {
@@ -315,6 +316,9 @@ export default {
 
       for (let i = 0; i < this.container.length; i++) {
         console.log(this.container[i].State);
+        if (this.container[i].State == "running") {
+          this.running_container += 1
+        }
         switch (this.container[i].Names[0]) {
           case "/emqx":
             if (this.container[i].State == "running") {

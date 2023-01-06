@@ -3,8 +3,10 @@
     <th scope="row">{{ this.spot }}</th>
     <td>{{ this.color }}</td>
     <td>{{ this.brightness }}</td>
-    <td><span class="badge rounded-pill bg-danger">Offline</span></td>
-    <td><button class="btn btn-outline-dark action bi bi-power"></button></td>
+    <td ><span v-if="this.out" class="badge rounded-pill bg-danger">Offline</span>
+      <span v-else class="badge rounded-pill bg-success">An</span>
+    </td>
+    <td><button @click="switchState()" class="btn btn-outline-dark action bi bi-power"></button></td>
   </tr>
 </template>
 
@@ -19,22 +21,19 @@ export default {
     return {
       brightness: 0,
       out: false,
-      cardbg: "white",
       color: 0,
-      fontcolor: "black"
     };
   },
   methods: {
     async switchState(){
       if (!this.out) {
         this.setLampBrightness("0");
-        this.setStateOff();
+        this.brightness = 0
+        this.out = true;
       } else {
         await this.setLampBrightness(30);
         setTimeout(() => {   }, 2000);
         this.getState();
-        this.cardbg = "white";
-        this.fontcolor = "black"
         this.out = false;
       }
     },
@@ -55,13 +54,8 @@ export default {
         )
         .then((response) => response.data);
       if (this.brightness == 0) {
-          this.setStateOff();
+          this.out = true;
       }
-    },
-    setStateOff(){
-        this.out = true;
-        this.fontcolor = "gray"
-        this.cardbg = `rgb(${211}, ${211}, ${211}, ${200})`;
     },
     async setLampBrightness(value){
       await axios.post(

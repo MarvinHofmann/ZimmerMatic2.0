@@ -1,5 +1,5 @@
 <template>
-  <tr :style="{ 'background-color': row_bg }">
+  <tr>
     <th scope="row">{{ this.spot }}</th>
     <td><div :style="{ 'background-color': color }" class="square"></div></td>
     <td>{{ this.brightness }}</td>
@@ -22,7 +22,6 @@ export default {
       color: "#3167FF",
       brightness: 0,
       json: "",
-      row_bg: "white",
       out: false,
       fontcolor: "black",
       is_off: false
@@ -38,9 +37,9 @@ export default {
         await this.fetch_led(255, 255, 255, 100);
         setTimeout(() => {}, 2000);
         this.getState();
-        this.row_bg = "white";
         this.fontcolor = "black";
         this.out = false;
+        this.is_off = false;
       }
     },
     async getState() {
@@ -69,8 +68,7 @@ export default {
     },
     setStateOff() {
       this.brightness = 0;
-      this.color = `rgb(${0}, ${0}, ${0}, ${0})`;
-      this.row_bg = `rgb(${211}, ${211}, ${211}, ${200})`;
+      this.color = "black";
       this.out = true;
       this.fontcolor = "gray";
       this.is_off = true
