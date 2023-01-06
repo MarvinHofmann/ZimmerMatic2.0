@@ -42,7 +42,6 @@ main.app.get("/api/os_info", async function (req, res) {
         .catch((error) => {
             console.error(error);
         });
-    console.log(container);
 
     res.status(200).json({
         cpu_si: cpu,
