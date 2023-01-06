@@ -359,12 +359,14 @@ export default {
     }
   },
   async mounted() {
+    this.timer = setInterval(this.get_avg_tmp(), 2000);
+    this.timer = setInterval(this.get_system_info(), 2000);
+    this.get_avg_tmp()
     try {
       await this.get_system_info();
     } catch (error) {
       console.log("backend unavailable", error);
     }
-    this.timer = setInterval(this.fetchEventsList, 30000);
     this.openhab = await this.get_state("http://192.168.0.138:8080/rest/items");
   },
 };
