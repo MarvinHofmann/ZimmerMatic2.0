@@ -304,6 +304,7 @@ export default {
       return res;
     },
     async get_system_info() {
+      this.running_container = 0;
       let res = await axios
         .get("http://zimmermatic:3443/api/os_info")
         .then((response) => response);
