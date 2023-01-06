@@ -5,7 +5,6 @@
       <div class="container-fluid mt-4">
         <div class="row">
           <div class="col-lg-12 mx-auto mb-3 text-black text-center">
-            <h1 class="display-3">Dashboard</h1>
           </div>
           <div class="col-lg-8">
             <div class="card card-body">
@@ -54,14 +53,20 @@
             <div class="card h-100">
               <div class="card-header">Serverstatus</div>
               <div class="card-body">
-                <p>Systemload 0.29</p>
-                <p>Speicherbelegung: 30%</p>
-                <p>CPU 10%</p>
-                <p>Temperature: 49,7°</p>
-                <p>RAM 10%</p>
-                <p>Backend Online</p>
-                <p>MQTT Connections: 8</p>
-                <p>MQTT Topics: 8</p>
+                <p>Backend <span
+                    v-if="this.backend == 200"
+                    class="badge rounded-pill bg-success"
+                    >Online</span
+                  >
+                  <span v-else class="badge rounded-pill bg-danger"
+                    >Offline</span
+                  ></p>
+                <p>Systemload {{ this.pi_info.load.avgLoad }}</p>
+                <p>RAM: {{ this.mem_use }} %</p>
+                <p>Speicherbelegung {{ this.pi_info.disk[0].use }}%</p>
+                <p>Temperatur: {{ this.pi_info.cpu_temp.main }}°C</p>
+                <p>Running Container {{ this.pi_info.docker.containersRunning }}</p>
+                <p>Stopped Container {{ this.pi_info.docker.containersStopped }}</p>
               </div>
             </div>
           </div>
@@ -154,6 +159,7 @@
 </template>
 
 <script>
+const IP = import.meta.env.VITE_SERVER_IP;
 import Navbardark from "../components/navbardark.vue";
 import LED from "../components/LEDStatusKachel.vue";
 import LIGHT from "../components/LampeStatusKachel.vue";
@@ -165,6 +171,16 @@ export default {
       portainer: 0,
       emqx: 0,
       mongo: 0,
+      backend: 0,
+      pi_info: {
+        cpu_si: {},
+        memory: {},
+        cpu_temp: {},
+        load: {},
+        disk: [{}],
+        docker: {}
+      },
+      mem_use: 0
     };
   },
   components: {
@@ -179,14 +195,26 @@ export default {
       .then((response) => response.status);
       return res
     },
+    async get_system_info(){
+      let res = await axios.get("http://zimmermatic:3443/api/os_info").then((response) => response)
+      this.pi_info = res.data
+      this.backend = res.status
+      this.mem_use =  ((this.pi_info.memory.free / this.pi_info.memory.used) * 100).toFixed(2)
+    },
   },
   async mounted() {
+    try {
+      await this.get_system_info()  
+    } catch (error) {
+      console.log("backend unavailable", error);
+    }
     this.timer = setInterval(this.fetchEventsList, 30000);
     this.openhab = await this.get_state("http://192.168.0.138:8080/rest/items")
     console.log(this.openhab);
     this.mongo = await this.get_state("http://192.168.0.138:42069/")
     this.emqx = await this.get_state("http://192.168.0.138:18083/status")
     this.portainer = await this.get_state("http://192.168.0.138:9000/")
+    
   },
 };
 </script>

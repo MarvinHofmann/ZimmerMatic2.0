@@ -79,7 +79,7 @@ export default {
 };
 </script>
 <style scoped>
-.card{
-  height: 140px;
+.action {
+  width: 50px;
 }
 </style>
