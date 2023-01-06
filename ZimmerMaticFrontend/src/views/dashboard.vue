@@ -356,7 +356,7 @@ export default {
       axios.post(IP + "/api/Rolladen", { direction: pDirection });
     },
     async get_avg_tmp() {
-      this.avg_temp_info = await axios.get(IP + "/api/averageTemp");
+      this.avg_temp_info = await axios.get(IP + "/api/averageTemp").then((response) => response.data);
     },
   },
   async mounted() {
