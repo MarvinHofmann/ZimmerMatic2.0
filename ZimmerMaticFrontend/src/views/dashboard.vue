@@ -316,7 +316,6 @@ export default {
       ).toFixed(2);
 
       for (let i = 0; i < this.container.length; i++) {
-        console.log(this.container[i].State);
         if (this.container[i].State == "running") {
           this.running_container += 1;
         }

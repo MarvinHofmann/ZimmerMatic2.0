@@ -142,7 +142,7 @@ function writeToDB(temp, hum, spot) {
   }
   main.app.locals.temperature.insertOne(json, function (err, res) {
     if (err) {
-      main.loggererror.error("Error writing Temp Data to DB: " + err)
+      console.log("Error writing Temp Data to DB: " + err)
     };
   });
 }

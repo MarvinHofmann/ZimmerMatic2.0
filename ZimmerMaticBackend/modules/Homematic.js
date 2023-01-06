@@ -14,7 +14,7 @@ function fetchHeizung(Heizung, wert) {
     })
         .catch(function (error) {
             // handle error
-            main.loggererror.error("Erroro fetching heater: " + Heizung, wert, adresse + " with Error: " + error);
+            console.log("Erroro fetching heater: " + Heizung, wert, adresse + " with Error: " + error);
         });
 }
 

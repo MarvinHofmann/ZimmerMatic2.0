@@ -25,7 +25,7 @@ function allLEDChange(r,g,b,v) {
     try {
         main.client.publish("LED_COLOR/all", JSON.stringify({ r: r, g: g, b: b, v: v }))
     } catch (error) {
-        main.loggererror.error("LED Send /ALL nicht Verfügbar");
+        console.log("LED Send /ALL nicht Verfügbar");
     }
 }
 exports.allLEDChange = allLEDChange;
@@ -57,7 +57,7 @@ function singleLEDChange(spot, r,g,b,v) {
     try {
         main.client.publish(spot, JSON.stringify({ r: r, g: g, b: b, v: v }))
     } catch (error) {
-        main.loggererror.error("LED Send /Single: Client" + spot + " nicht Verfügbar");
+        console.log("LED Send /Single: Client" + spot + " nicht Verfügbar");
     }
 }
 exports.singleLEDChange = singleLEDChange;
@@ -70,7 +70,7 @@ main.app.get("/api/LED/Work", function (req, res) {
     try {
         workLight();
     } catch (error) {
-        main.loggererror.error("LED Send /Work nicht Verfügbar");
+        console.log("LED Send /Work nicht Verfügbar");
     }
     res.sendStatus(200);
 });

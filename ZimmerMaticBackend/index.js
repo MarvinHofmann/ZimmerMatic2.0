@@ -21,18 +21,6 @@ let cors = require('cors');
 app.options('*', cors())
 app.use(cors())
 
-//Init Log4js
-const log4js = require("log4js");
-log4js.configure({
-    appenders: {
-        error: { type: "file", filename: "log4zi/error.log" },
-        info: { type: "file", filename: "log4zi/info.log" }
-    },
-    categories: {
-        file: { appenders: ["error"], level: "error" },
-        default: { appenders: ["info"], level: "trace" }
-    }
-});
 /* //Init MongoDB
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
@@ -48,7 +36,6 @@ MongoClient.connect(uri)
             Rolladen.rolladenUP();
             //printDB();
         } catch (error) {
-            loggererror.fatal("Connection to DB not established")
         }
     }); */
 
@@ -120,8 +107,8 @@ client.on('message', function (topic, message) {
         case "ROLLADEN/stateBett":
             jsonClients.stateBett.state = message.toString();
             break;
-        case "ROLLADEN/stateBett":
-            jsonClients.stateBett.state = message.toString();
+        case "ROLLADEN/stateSchreibtisch":
+            jsonClients.stateSchreibtisch.state = message.toString();
             break;
         default:
             break;

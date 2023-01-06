@@ -10,7 +10,7 @@ main.app.post("/api/Rolladen", function (req, res) {
         main.client.publish("ROLLADEN/stateBett", dir);
         res.sendStatus(200)
     } catch (error) {
-        main.loggererror.error("Shutter Not available!");
+        console.log("Shutter Not available!");
         res.sendStatus(500)
     }
 });
@@ -29,7 +29,7 @@ function rolladenUP() {
     try {
         main.client.publish("ROLLADEN/stateBett", "UP");
     } catch (error) {
-        main.loggererror.error("Shutter Not available!");
+        console.log("Shutter Not available!");
     }
 }
 exports.rolladenUP = rolladenUP;
@@ -41,7 +41,7 @@ function rolladenStop() {
     try {
         main.client.publish("ROLLADEN/stateBett", "STOP");
     } catch (error) {
-        main.loggererror.error("Shutter Not available!");
+        console.log("Shutter Not available!");
     }
 }
 exports.rolladenStop = rolladenStop;
@@ -53,7 +53,7 @@ function rolladenDown() {
     try {
         main.client.publish("ROLLADEN/stateBett", "DOWN");
     } catch (error) {
-        main.loggererror.error("Shutter Not available!");
+        console.log("Shutter Not available!");
     }
 }
 exports.rolladenDown = rolladenDown;

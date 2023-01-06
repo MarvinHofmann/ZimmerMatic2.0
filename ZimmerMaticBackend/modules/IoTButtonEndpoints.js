@@ -27,7 +27,7 @@ main.app.get("/hello", function (req, res) {
         led.singleLEDChange("LED_COLOR/colorcouch", 256,161,20,255);
         led.singleLEDChange("LED_COLOR/colorUhr", 40,191,255,255);
     } catch (error) {
-        main.loggererror.error("Client LEDs [1,2,3] not available")
+        console.log("Client LEDs [1,2,3] not available")
         res.sendStatus(500);
         return;
     }
@@ -58,7 +58,7 @@ main.app.get("/tschuess", function (req, res) {
         try {
             led.allLEDChange(0,0,0,0);
         } catch (error) {
-            main.loggererror.error("Error turning off LEDs for /tschuess :" + error);
+            console.log("Error turning off LEDs for /tschuess :" + error);
             res.sendStatus(500);
             return;
         }
@@ -87,7 +87,7 @@ main.app.get("/druckerButton", function (req, res) {
             }
         })
         .catch(function(err){
-            main.loggererror.error("Error fetching current state of Printer: " + err)
+            console.log("Error fetching current state of Printer: " + err)
             res.sendStaus(500);
             return;
         });
@@ -104,7 +104,7 @@ main.app.get('/fensterZu', function (request, response) {
         try {
             led.allLEDChange(0,0,0,0);
         } catch (error) {
-            main.loggererror.error("Error at /fensterZu while turning LED " + i + " Off")
+            console.log("Error at /fensterZu while turning LED " + i + " Off")
             response.sendStatus(500)
         }
     }
