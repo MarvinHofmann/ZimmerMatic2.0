@@ -4,8 +4,7 @@
     <main class="px-3">
       <div class="container-fluid mt-4">
         <div class="row">
-          <div class="col-lg-12 mx-auto mb-3 text-black text-center">
-          </div>
+          <div class="col-lg-12 mx-auto mb-3 text-black text-center"></div>
           <div class="col-lg-8">
             <div class="card card-body">
               <div class="table-responsive">
@@ -53,20 +52,27 @@
             <div class="card h-100">
               <div class="card-header">Serverstatus</div>
               <div class="card-body">
-                <p>Backend <span
+                <p>
+                  Backend
+                  <span
                     v-if="this.backend == 200"
                     class="badge rounded-pill bg-success"
                     >Online</span
                   >
                   <span v-else class="badge rounded-pill bg-danger"
                     >Offline</span
-                  ></p>
+                  >
+                </p>
                 <p>Systemload {{ this.pi_info.load.avgLoad }}</p>
                 <p>RAM: {{ this.mem_use }} %</p>
                 <p>Speicherbelegung {{ this.pi_info.disk[0].use }}%</p>
                 <p>Temperatur: {{ this.pi_info.cpu_temp.main }}°C</p>
-                <p>Running Container {{ this.pi_info.docker.containersRunning }}</p>
-                <p>Stopped Container {{ this.pi_info.docker.containersStopped }}</p>
+                <p>
+                  Running Container {{ this.pi_info.docker.containersRunning }}
+                </p>
+                <p>
+                  Stopped Container {{ this.pi_info.docker.containersStopped }}
+                </p>
               </div>
             </div>
           </div>
@@ -149,7 +155,34 @@
             </div>
           </div>
           <div class="col-lg-4">
-            <div class="card h-100"></div>
+            <div class="card h-100">
+              <div class="row justify-content-center">
+                <div class="col-lg-4">
+                  <div class="row">
+                    <button class="btnIcon" @click="send_fetch('UP')">
+                      <i class="fas fa-chevron-up fa-5x"></i>
+                    </button>
+                  </div>
+                  <div class="row">
+                    <button class="btnIcon" @click="send_fetch('DOWN')">
+                      <i class="fas fa-chevron-down fa-5x"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="row">
+                    <button class="btnIcon" @click="send_fetch('UP')">
+                      <i class="fas fa-chevron-up fa-5x"></i>
+                    </button>
+                  </div>
+                  <div class="row">
+                    <button class="btnIcon" @click="send_fetch('DOWN')">
+                      <i class="fas fa-chevron-down fa-5x"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -178,9 +211,9 @@ export default {
         cpu_temp: {},
         load: {},
         disk: [{}],
-        docker: {}
+        docker: {},
       },
-      mem_use: 0
+      mem_use: 0,
     };
   },
   components: {
@@ -189,32 +222,34 @@ export default {
     LIGHT,
   },
   methods: {
-    async get_state(ip){
-      let res = await axios
-      .get(ip)
-      .then((response) => response.status);
-      return res
+    async get_state(ip) {
+      let res = await axios.get(ip).then((response) => response.status);
+      return res;
     },
-    async get_system_info(){
-      let res = await axios.get("http://zimmermatic:3443/api/os_info").then((response) => response)
-      this.pi_info = res.data
-      this.backend = res.status
-      this.mem_use =  ((this.pi_info.memory.free / this.pi_info.memory.used) * 100).toFixed(2)
+    async get_system_info() {
+      let res = await axios
+        .get("http://zimmermatic:3443/api/os_info")
+        .then((response) => response);
+      this.pi_info = res.data;
+      this.backend = res.status;
+      this.mem_use = (
+        (this.pi_info.memory.free / this.pi_info.memory.used) *
+        100
+      ).toFixed(2);
     },
   },
   async mounted() {
     try {
-      await this.get_system_info()  
+      await this.get_system_info();
     } catch (error) {
       console.log("backend unavailable", error);
     }
     this.timer = setInterval(this.fetchEventsList, 30000);
-    this.openhab = await this.get_state("http://192.168.0.138:8080/rest/items")
+    this.openhab = await this.get_state("http://192.168.0.138:8080/rest/items");
     console.log(this.openhab);
-    this.mongo = await this.get_state("http://192.168.0.138:42069/")
-    this.emqx = await this.get_state("http://192.168.0.138:18083/status")
-    this.portainer = await this.get_state("http://192.168.0.138:9000/")
-    
+    this.mongo = await this.get_state("http://192.168.0.138:42069/");
+    this.emqx = await this.get_state("http://192.168.0.138:18083/status");
+    this.portainer = await this.get_state("http://192.168.0.138:9000/");
   },
 };
 </script>
