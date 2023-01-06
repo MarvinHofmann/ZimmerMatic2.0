@@ -15,7 +15,7 @@ main.app.get("/api/os_info", function (req, res) {
         .then((data) => cpu = data)
         .catch(error => console.error(error));
     si.cpuTemperature()
-        .then((data) => cpu_temp = temp)
+        .then((data) => cpu_temp = data)
         .catch(error => console.error(error));
     res.status(200).json({
         cpu: os.cpus(),
