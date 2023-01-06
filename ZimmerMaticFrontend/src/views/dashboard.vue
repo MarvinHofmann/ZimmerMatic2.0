@@ -68,12 +68,8 @@
                 <p>RAM: {{ this.mem_use }} %</p>
                 <p>Speicherbelegung {{ this.pi_info.disk[0].use }}%</p>
                 <p>Temperatur: {{ this.pi_info.cpu_temp.main }}°C</p>
-                <p>
-                  Running Container {{ this.pi_info.docker.containersRunning }}
-                </p>
-                <p>
-                  Stopped Container {{ this.pi_info.docker.containersStopped }}
-                </p>
+                <p>Running Container {{}}</p>
+                <p>Stopped Container {{}}</p>
               </div>
             </div>
           </div>
@@ -81,9 +77,15 @@
             <div class="card h-100">
               <div class="card-header">Temperatur</div>
               <div class="card-body text-center mt-3">
-                <h1 class="display3"><i class="bi bi-thermometer"></i> {{this.avg_temp_info.avg_temperature}}°C </h1>
-                <hr class="border">
-                <h1 class="display3"><i class="bi bi-droplet"></i> {{this.avg_temp_info.avg_humidity}}% </h1>
+                <h1 class="display3">
+                  <i class="bi bi-thermometer"></i>
+                  {{ this.avg_temp_info.avg_temperature }}°C
+                </h1>
+                <hr class="border" />
+                <h1 class="display3">
+                  <i class="bi bi-droplet"></i>
+                  {{ this.avg_temp_info.avg_humidity }}%
+                </h1>
               </div>
             </div>
           </div>
@@ -133,7 +135,7 @@
                   ></a>
                 </p>
                 <p>
-                  Portainer Online
+                  Portainer
                   <span
                     v-if="this.portainer == 200"
                     class="badge rounded-pill bg-success"
@@ -150,7 +152,7 @@
                   ></a>
                 </p>
                 <p>
-                  EMQX Online
+                  EMQX
                   <span
                     v-if="this.emqx == 200"
                     class="badge rounded-pill bg-success"
@@ -280,14 +282,13 @@ export default {
         cpu_temp: {},
         load: {},
         disk: [{}],
-        docker: {},
-        container: [{}],
       },
       mem_use: 0,
-      avg_temp_info:{
+      avg_temp_info: {
         avg_temperature: 0,
-        avg_humidity: 0
-      }
+        avg_humidity: 0,
+      },
+      container: [{}],
     };
   },
   components: {
@@ -306,36 +307,37 @@ export default {
         .then((response) => response);
       this.pi_info = res.data;
       this.backend = res.status;
+      this.container = res.data.container
       this.mem_use = (
         (this.pi_info.memory.free / this.pi_info.memory.used) *
         100
       ).toFixed(2);
 
-      for (let i = 0; i < this.pi_info.container.length; i++) {
-        console.log(this.pi_info.container[i].state);
-        switch (this.pi_info.container[i].name) {
-          case "emqx":
-            if (this.pi_info.container[i].state == "running") {
+      for (let i = 0; i < this.container.length; i++) {
+        console.log(this.container[i].State);
+        switch (this.container[i].Names[0]) {
+          case "/emqx":
+            if (this.container[i].State == "running") {
               this.emqx = 200;
             }
             break;
-          case "portainer":
-            if (this.pi_info.container[i].state == "running") {
+          case "/portainer":
+            if (this.container[i].State == "running") {
               this.portainer = 200;
             }
             break;
-          case "zima_mongo":
-            if (this.pi_info.container[i].state == "running") {
+          case "/zima_mongo":
+            if (this.container[i].State == "running") {
               this.mongo = 200;
             }
             break;
-          case "pocketase":
-            if (this.pi_info.container[i].state == "running") {
+          case "/pocketase":
+            if (this.container[i].State == "running") {
               this.pocketbase = 200;
             }
             break;
-          case "nginx_app_1":
-            if (this.pi_info.container[i].state == "running") {
+          case "/nginx_app_1":
+            if (this.container[i].State == "running") {
               this.nginx = 200;
             }
             break;

@@ -31,15 +31,14 @@ main.app.get("/api/os_info", async function (req, res) {
         return data
     })
 
-    let docker = await si.dockerInfo().then((data) => {
-        return data
-    })
-        .catch(error => console.error(error));
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOjEsInNjb3BlIjoiZGVmYXVsdCIsImZvcmNlQ2hhbmdlUGFzc3dvcmQiOmZhbHNlLCJleHAiOjE3MDQxMDQ0MzcsImlhdCI6MTY3MzAwMDQzN30.wOHOSbcY6W7VrzEnGkOxePviNOWFRNu12OVqiq6E5Pg"
+    const config = {
+        headers: { Authorization: `Bearer ${token}` },
+    };
 
-        let container = await si.dockerContainers().then((data) => {
-            return data
-        })
-            .catch(error => console.error(error));
+    let container = await axios
+        .get("http://zimmermatic:9000/api/endpoints/2/docker/containers/json", config)
+        .then((response) => response);
 
     res.status(200).json({
         cpu_si: cpu,
@@ -47,7 +46,6 @@ main.app.get("/api/os_info", async function (req, res) {
         cpu_temp: cpu_temp,
         load: load,
         disk: fsys,
-        docker: docker,
         container: container
     })
 });
