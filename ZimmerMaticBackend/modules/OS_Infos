@@ -10,10 +10,10 @@ const si = require('systeminformation');
 main.app.get("/api/os_info", function (req, res) {
     let temp = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp");
     let temp_c = temp / 1000;
-    cpu = si.cpu()
-        .then(data => console.log(data))
+    let cpu = si.cpu()
+        .then(data => data)
         .catch(error => console.error(error));
-    cpu_temp = si.cpuTemperature()
+    let cpu_temp = si.cpuTemperature()
         .then(data => data)
         .catch(error => console.error(error));
     res.status(200).json({
