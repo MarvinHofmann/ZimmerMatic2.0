@@ -11,7 +11,7 @@ main.app.get("/api/os_info", function (req, res) {
     let temp = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp");
     let temp_c = temp / 1000;
     cpu = si.cpu()
-        .then(data => data)
+        .then(data => console.log(data))
         .catch(error => console.error(error));
     cpu_temp = si.cpuTemperature()
         .then(data => data)
@@ -21,7 +21,6 @@ main.app.get("/api/os_info", function (req, res) {
         cpu_si: cpu,
         totalmem: os.totalmem(),
         freemem: os.freemem(),
-        temp: temp,
         temp_c: temp_c,
         cpu_temp: cpu_temp,
     })
