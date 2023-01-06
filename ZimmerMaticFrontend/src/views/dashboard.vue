@@ -289,7 +289,8 @@ export default {
         avg_humidity: 0,
       },
       container: [{}],
-      running_container: 0
+      running_container: 0,
+      timer: null,
     };
   },
   components: {
@@ -308,7 +309,7 @@ export default {
         .then((response) => response);
       this.pi_info = res.data;
       this.backend = res.status;
-      this.container = res.data.container
+      this.container = res.data.container;
       this.mem_use = (
         (this.pi_info.memory.free / this.pi_info.memory.used) *
         100
@@ -317,7 +318,7 @@ export default {
       for (let i = 0; i < this.container.length; i++) {
         console.log(this.container[i].State);
         if (this.container[i].State == "running") {
-          this.running_container += 1
+          this.running_container += 1;
         }
         switch (this.container[i].Names[0]) {
           case "/emqx":
@@ -354,20 +355,22 @@ export default {
       console.log("Fetch Rolladen: " + pDirection);
       axios.post(IP + "/api/Rolladen", { direction: pDirection });
     },
-    async get_avg_tmp(){
-      this.avg_temp_info = await axios.get(IP + "/api/averageTemp")
-    }
+    async get_avg_tmp() {
+      this.avg_temp_info = await axios.get(IP + "/api/averageTemp");
+    },
   },
   async mounted() {
-    this.timer = setInterval(this.get_avg_tmp(), 2000);
-    this.timer = setInterval(this.get_system_info(), 2000);
-    this.get_avg_tmp()
+    this.get_avg_tmp();
     try {
       await this.get_system_info();
     } catch (error) {
       console.log("backend unavailable", error);
     }
     this.openhab = await this.get_state("http://192.168.0.138:8080/rest/items");
+    this.timer = setInterval(() => {
+      this.get_avg_tmp();
+      this.get_system_info();
+    }, 10000);
   },
 };
 </script>
