@@ -31,7 +31,7 @@ main.app.get("/api/os_info", async function (req, res) {
     })
     .catch(error => console.error(error));
 
-    let fs = await si.diskLayout().then((data) => {
+    let fsys = await si.diskLayout().then((data) => {
         return data
     })
 
@@ -49,7 +49,7 @@ main.app.get("/api/os_info", async function (req, res) {
         temp_c: temp_c,
         cpu_temp: cpu_temp,
         load: load,
-        disk: fs,
+        disk: fsys,
         all: all,
         docker: docker
     })
