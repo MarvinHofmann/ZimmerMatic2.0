@@ -36,12 +36,18 @@ main.app.get("/api/os_info", async function (req, res) {
     })
         .catch(error => console.error(error));
 
+        let container = await si.dockerContainers().then((data) => {
+            return data
+        })
+            .catch(error => console.error(error));
+
     res.status(200).json({
         cpu_si: cpu,
         memory: memory_info,
         cpu_temp: cpu_temp,
         load: load,
         disk: fsys,
-        docker: docker
+        docker: docker,
+        container: container
     })
 });
