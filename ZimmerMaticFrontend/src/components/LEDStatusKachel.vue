@@ -85,8 +85,8 @@ export default {
   height: 30px;
   width: 120px;
   border-radius: 5px;
-  border-width: 0.5px;
-  border-color: azure;
+  border-width: 1px;
+  border-color: grey;
 }
 .action {
   width: 50px;
