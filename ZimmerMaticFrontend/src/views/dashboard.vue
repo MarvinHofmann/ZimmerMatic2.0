@@ -328,6 +328,7 @@ export default {
     this.get_avg_tmp();
     this.get_homematic_bridge();
     this.get_tradfri_gateway();
+    this.get_shutter_state();
     try {
       await this.get_system_info();
     } catch (error) {
@@ -340,6 +341,7 @@ export default {
       this.get_system_info();
       this.get_homematic_bridge();
       this.get_tradfri_gateway();
+      this.get_shutter_state();
     }, 10000);
   },
 };
