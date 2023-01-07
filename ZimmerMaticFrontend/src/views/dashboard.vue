@@ -283,7 +283,11 @@ export default {
     send_fetch(pDirection, shutter_spot) {
       console.log("Fetch Rolladen: " + pDirection);
       axios.post(IP + "/api/Rolladen", { direction: pDirection });
-      this.get_shutter_state()
+      if (shutter_spot == "BETT") {
+          this.shutter_state_bett = "Fährt ..."
+      }else{
+        this.shutter_state_schreibtisch = "Fährt ..."
+      }
     },
     async get_avg_tmp() {
       this.avg_temp_info = await axios.get(IP + "/api/averageTemp").then((response) => response.data);
