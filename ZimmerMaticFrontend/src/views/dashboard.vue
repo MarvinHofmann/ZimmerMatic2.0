@@ -178,7 +178,7 @@
                   <button class="btn btn-outline-secondary btnIcon" @click="send_fetch('DOWN', 'Schreibtisch')">
                     <i class="fas fa-chevron-down fa-2x text-success"></i>
                   </button>
-                  <p class="text-muted">Aktuell: {{this.shutter_state_bett}}</p>
+                  <p class="text-muted">Aktuell: {{this.shutter_state_schreibtisch}}</p>
                 </div>
               </div>
             </div>
