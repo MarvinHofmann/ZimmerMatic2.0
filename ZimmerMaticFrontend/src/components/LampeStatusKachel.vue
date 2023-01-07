@@ -91,7 +91,6 @@ export default {
       let res = await axios
         .get(
           "http://192.168.0.138:8080/rest/things/" + this.uid + "/status",
-          {},
           {
             auth: {
               username: "MH",

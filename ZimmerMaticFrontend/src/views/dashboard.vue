@@ -426,7 +426,6 @@ export default {
       let res = await axios
         .get(
           "http://192.168.0.138:8080/rest/things/homematic:bridge:3014F711A0001F58A9A70A7A/status",
-          {},
           {
             auth: {
               username: "MH",
@@ -443,7 +442,6 @@ export default {
       let res = await axios
         .get(
           "http://192.168.0.138:8080/rest/things/tradfri:gateway:gw4491603198ed/status",
-          {},
           {
             auth: {
               username: "MH",
