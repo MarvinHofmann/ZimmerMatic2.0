@@ -141,7 +141,7 @@
                   Pocketbase
                   <span v-if="this.pocketbase == 200" class="badge rounded-pill bg-success">Online</span>
                   <span v-else class="badge rounded-pill bg-danger">Offline</span>
-                  <a type="button" href="http://zimmermatic" target="_blank" class="bi bi-box-arrow-up-right mx-2"></a>
+                  <a type="button" href="http://zimmermatic:8090/_/" target="_blank" class="bi bi-box-arrow-up-right mx-2"></a>
                 </p>
                 <p>
                   MongoDB
