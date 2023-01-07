@@ -93,7 +93,7 @@
         </div>
         <div class="row">
           <div class="col-lg-6 mt-3">
-            <div class="card card-body">
+            <div class="card card-body h-100">
               <div class="table-responsive">
                 <table class="table align-middle">
                   <thead>
@@ -283,6 +283,7 @@ export default {
     send_fetch(pDirection, shutter_spot) {
       console.log("Fetch Rolladen: " + pDirection);
       axios.post(IP + "/api/Rolladen", { direction: pDirection });
+      this.get_shutter_state()
     },
     async get_avg_tmp() {
       this.avg_temp_info = await axios.get(IP + "/api/averageTemp").then((response) => response.data);
