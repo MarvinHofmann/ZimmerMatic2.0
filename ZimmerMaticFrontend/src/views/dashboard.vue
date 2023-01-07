@@ -283,7 +283,7 @@ export default {
     send_fetch(pDirection, shutter_spot) {
       console.log("Fetch Rolladen: " + pDirection);
       axios.post(IP + "/api/Rolladen", { direction: pDirection });
-      if (shutter_spot == "BETT") {
+      if (shutter_spot == "Bett") {
           this.shutter_state_bett = "Fährt ..."
       }else{
         this.shutter_state_schreibtisch = "Fährt ..."
