@@ -88,15 +88,16 @@ export default {
       );
     },
     async get_openhab_devices_status() {
-      const token =
-        "eyJraWQiOm51bGwsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJvcGVuaGFiIiwiYXVkIjoib3BlbmhhYiIsImV4cCI6MTY3MzAzNDc0NiwianRpIjoiZXBtb0NyNDNoZlRPTnE3U2xwM2NJQSIsImlhdCI6MTY3MzAzMTE0NiwibmJmIjoxNjczMDMxMDI2LCJzdWIiOiJNSCIsImNsaWVudF9pZCI6Imh0dHA6Ly96aW1tZXJtYXRpYzo4MDgwIiwic2NvcGUiOiJhZG1pbiIsInJvbGUiOlsiYWRtaW5pc3RyYXRvciJdfQ.igi5dU8XOug_3P_7C3n82EwYyJsXVpmYZanH8P2oiKC45LZltgUtIqzTXOedNDo9zLiWwyRuL2zhEg1bBVmKKjzvNd44qplfHVHQhNV2A0vs5fd9NCsHJbo2Iu69FaLI9om_4QdUpQ7M29_Mxfc-5M9Wmf6hfJyA4qMRyL3cmfUvES9Jn8ijrVAqaQ_pvAPfcbQG1B2Li7RazA5HeAodUeJGSffxXP9qEg2gCs0qAf7vEzzX4vwfAHpPOJDxYOcusCuSY-v7nGU08ebx3JVM75kdd0ErPzhSLphbMcFG62UhX4M924Qkq81Ym1pn9oZfQ-MkOuvrBG2KgL43Lbk3sA";
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-      console.log(this.uid);
-      let res = await axios.get(
+      let res = await axios
+        .get(
           "http://192.168.0.138:8080/rest/things/" + this.uid + "/status",
-          config
+          {},
+          {
+            auth: {
+              username: "MH",
+              password: "1010",
+            },
+          }
         )
         .then((response) => response.data);
       console.log(res.status);

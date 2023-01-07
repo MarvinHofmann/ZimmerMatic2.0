@@ -63,14 +63,33 @@
                     >Offline</span
                   >
                 </p>
-                <p class="text-muted">Systemload: <b>{{ this.pi_info.load.avgLoad }}</b> </p> 
-                <p class="text-muted">RAM: <b>{{ this.mem_use }} % </b> </p>
-                <p class="text-muted">Speicherbelegung: <b>{{ this.pi_info.disk[0].use }}% </b> </p>
-                <p v-if="this.pi_info.cpu_temp.main >= 50" class="text-warning">Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b> </p>
-                <p v-else-if="this.pi_info.cpu_temp.main >55 " class="text-muted">Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b> </p>
-                <p v-else class="text-muted">Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b> </p>
-                <p class="text-muted">Laufende Container: <b>{{ this.running_container }} </b> </p>
-                <p class="text-muted">Anzahl Container: <b>{{ this.container.length }} </b></p>
+                <p class="text-muted">
+                  Systemload: <b>{{ this.pi_info.load.avgLoad }}</b>
+                </p>
+                <p class="text-muted">
+                  RAM: <b>{{ this.mem_use }} % </b>
+                </p>
+                <p class="text-muted">
+                  Speicherbelegung: <b>{{ this.pi_info.disk[0].use }}% </b>
+                </p>
+                <p v-if="this.pi_info.cpu_temp.main >= 50" class="text-warning">
+                  Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b>
+                </p>
+                <p
+                  v-else-if="this.pi_info.cpu_temp.main > 55"
+                  class="text-muted"
+                >
+                  Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b>
+                </p>
+                <p v-else class="text-muted">
+                  Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b>
+                </p>
+                <p class="text-muted">
+                  Laufende Container: <b>{{ this.running_container }} </b>
+                </p>
+                <p class="text-muted">
+                  Anzahl Container: <b>{{ this.container.length }} </b>
+                </p>
                 <p class="text-muted">
                   Homematic Bridge
                   <span
@@ -128,9 +147,21 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <LIGHT :spot="'Bett Links'" :name="'BL'" :uid="'tradfri:0220:gw4491603198ed:65537'"></LIGHT>
-                    <LIGHT :spot="'Bett Rechts'" :name="'BR'" :uid="'tradfri:0220:gw4491603198ed:65538'"></LIGHT>
-                    <LIGHT :spot="'Basteltisch'" :name="'BT'" :uid="'tradfri:0220:gw4491603198ed:65543'"></LIGHT>
+                    <LIGHT
+                      :spot="'Bett Links'"
+                      :name="'BL'"
+                      :uid="'tradfri:0220:gw4491603198ed:65537'"
+                    ></LIGHT>
+                    <LIGHT
+                      :spot="'Bett Rechts'"
+                      :name="'BR'"
+                      :uid="'tradfri:0220:gw4491603198ed:65538'"
+                    ></LIGHT>
+                    <LIGHT
+                      :spot="'Basteltisch'"
+                      :name="'BT'"
+                      :uid="'tradfri:0220:gw4491603198ed:65543'"
+                    ></LIGHT>
                   </tbody>
                 </table>
               </div>
@@ -392,31 +423,37 @@ export default {
         .then((response) => response.data);
     },
     async get_homematic_bridge() {
-      const token =
-        "eyJraWQiOm51bGwsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJvcGVuaGFiIiwiYXVkIjoib3BlbmhhYiIsImV4cCI6MTY3MzAzNDc0NiwianRpIjoiZXBtb0NyNDNoZlRPTnE3U2xwM2NJQSIsImlhdCI6MTY3MzAzMTE0NiwibmJmIjoxNjczMDMxMDI2LCJzdWIiOiJNSCIsImNsaWVudF9pZCI6Imh0dHA6Ly96aW1tZXJtYXRpYzo4MDgwIiwic2NvcGUiOiJhZG1pbiIsInJvbGUiOlsiYWRtaW5pc3RyYXRvciJdfQ.igi5dU8XOug_3P_7C3n82EwYyJsXVpmYZanH8P2oiKC45LZltgUtIqzTXOedNDo9zLiWwyRuL2zhEg1bBVmKKjzvNd44qplfHVHQhNV2A0vs5fd9NCsHJbo2Iu69FaLI9om_4QdUpQ7M29_Mxfc-5M9Wmf6hfJyA4qMRyL3cmfUvES9Jn8ijrVAqaQ_pvAPfcbQG1B2Li7RazA5HeAodUeJGSffxXP9qEg2gCs0qAf7vEzzX4vwfAHpPOJDxYOcusCuSY-v7nGU08ebx3JVM75kdd0ErPzhSLphbMcFG62UhX4M924Qkq81Ym1pn9oZfQ-MkOuvrBG2KgL43Lbk3sA";
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-      let res = await axios.get(
+      let res = await axios
+        .get(
           "http://192.168.0.138:8080/rest/things/homematic:bridge:3014F711A0001F58A9A70A7A/status",
-          config
+          {},
+          {
+            auth: {
+              username: "MH",
+              password: "1010",
+            },
+          }
         )
         .then((response) => response.data);
-        res.status == "OFFLINE" ? this.homematic = false : this.homematic = true;
+      res.status == "OFFLINE"
+        ? (this.homematic = false)
+        : (this.homematic = true);
     },
     async get_tradfri_gateway() {
-      const token =
-        "eyJraWQiOm51bGwsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJvcGVuaGFiIiwiYXVkIjoib3BlbmhhYiIsImV4cCI6MTY3MzAzNDc0NiwianRpIjoiZXBtb0NyNDNoZlRPTnE3U2xwM2NJQSIsImlhdCI6MTY3MzAzMTE0NiwibmJmIjoxNjczMDMxMDI2LCJzdWIiOiJNSCIsImNsaWVudF9pZCI6Imh0dHA6Ly96aW1tZXJtYXRpYzo4MDgwIiwic2NvcGUiOiJhZG1pbiIsInJvbGUiOlsiYWRtaW5pc3RyYXRvciJdfQ.igi5dU8XOug_3P_7C3n82EwYyJsXVpmYZanH8P2oiKC45LZltgUtIqzTXOedNDo9zLiWwyRuL2zhEg1bBVmKKjzvNd44qplfHVHQhNV2A0vs5fd9NCsHJbo2Iu69FaLI9om_4QdUpQ7M29_Mxfc-5M9Wmf6hfJyA4qMRyL3cmfUvES9Jn8ijrVAqaQ_pvAPfcbQG1B2Li7RazA5HeAodUeJGSffxXP9qEg2gCs0qAf7vEzzX4vwfAHpPOJDxYOcusCuSY-v7nGU08ebx3JVM75kdd0ErPzhSLphbMcFG62UhX4M924Qkq81Ym1pn9oZfQ-MkOuvrBG2KgL43Lbk3sA";
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-      let res = await axios.get(
+      let res = await axios
+        .get(
           "http://192.168.0.138:8080/rest/things/tradfri:gateway:gw4491603198ed/status",
-          config
+          {},
+          {
+            auth: {
+              username: "MH",
+              password: "1010",
+            },
+          }
         )
         .then((response) => response.data);
       console.log(res.status);
-      res.status == "OFFLINE" ? this.tradfri = false : this.tradfri = true;
+      res.status == "OFFLINE" ? (this.tradfri = false) : (this.tradfri = true);
     },
   },
   async mounted() {
