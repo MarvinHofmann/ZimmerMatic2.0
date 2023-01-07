@@ -18,7 +18,16 @@ main.app.post("/api/Rolladen", function (req, res) {
 
 main.app.post("/api/Rolladen/state", function (req, res){
     let spot = req.body.spot;
-    res.send(main.jsonClients[spot].state);
+    let trasnlated_value = ""
+    value = (main.jsonClients[spot].state);
+    if (value == "DOWN") {
+        trasnlated_value = "ZU"
+    }else if (value == "UP") {
+        trasnlated_value = "OFFEN"
+    }else{
+        trasnlated_value = "MITTIG"
+    }
+    res.send(trasnlated_value)
 })
 
 //Export Functions

@@ -8,7 +8,7 @@
             <h1 class="display-3">Heizungssteuerung</h1>
             <button class="btn btn-outline-danger" @click="send_off()"><i class="bi bi-thermometer-snow"></i> Ausschalten</button>
             <Transition>
-              <p v-if="this.off" class="text-muted">Heizung wird ausgeschalten</p>
+              <p v-if="this.off" class="text-muted mt-2">Heizung wird ausgeschalten</p>
             </Transition>
           </div>
 

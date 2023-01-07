@@ -79,7 +79,7 @@ export default {
   async mounted() {
     this.getState();
     this.timer = setInterval(() => {
-      this.get_tradfri_gateway();
+      this.getState()
     }, 10000);
   },
 };
@@ -91,6 +91,11 @@ export default {
   border-radius: 5px;
   border: 1px dashed black;
 }
+
+.btn{
+  margin: 10px 10px 10px 10px
+}
+
 .action {
   width: 50px;
 }

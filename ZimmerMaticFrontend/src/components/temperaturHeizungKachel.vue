@@ -47,7 +47,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 hr {
   margin-top: -2%;
   color: #2c3e50;

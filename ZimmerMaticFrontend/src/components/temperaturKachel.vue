@@ -1,6 +1,6 @@
 <template>
   <div class="col-lg-4 mb-3 px-3">
-    <div class="card" style="color: #4b515d; border-radius: 35px">
+    <div class="card">
       <div class="card-body p-4">
         <div class="d-flex">
           <h5 class="flex-grow-1">{{ this.spot }}</h5>
@@ -52,7 +52,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 hr {
   margin-top: -2%;
   color: #2c3e50;
@@ -62,5 +62,10 @@ hr {
 }
 #img {
   width: 100px;
+}
+
+.card{
+  color: #4b515d;
+  border-radius: 20px
 }
 </style>

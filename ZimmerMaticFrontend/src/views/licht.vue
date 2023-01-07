@@ -11,13 +11,13 @@
             <div class="row">
               <div class="col-lg-12 text-black text-center">
                 <input id="checkboxBL" class="btn-check" type="checkbox" value="BL" v-model="checkedSpots" />
-                <label class="btn btn-outline-primary btn-lg" for="checkboxBL">Bett Links</label>
+                <label class="btn btn-outline-primary m-2" for="checkboxBL">Bett Links</label>
 
                 <input id="checkboxBR" class="btn-check" type="checkbox" value="BR" v-model="checkedSpots" />
-                <label class="btn btn-outline-primary btn-lg" for="checkboxBR">Bett Rechts</label>
+                <label class="btn btn-outline-primary m-2" for="checkboxBR">Bett Rechts</label>
 
                 <input id="checkboxBT" class="btn-check" type="checkbox" value="BT" v-model="checkedSpots" />
-                <label class="btn btn-outline-primary btn-lg" for="checkboxBT">Basteltisch</label>
+                <label class="btn btn-outline-primary m-2" for="checkboxBT">Basteltisch</label>
               </div>
             </div>
             <div class="container">
@@ -70,9 +70,3 @@ export default {
   },
 };
 </script>
-<style>
-.btn {
-  width: 160px;
-  margin: 10px 10px 10px 10px;
-}
-</style>

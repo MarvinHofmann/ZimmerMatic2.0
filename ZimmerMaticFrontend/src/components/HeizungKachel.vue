@@ -66,7 +66,7 @@ export default {
 </script>
 <style scoped>
 h4 {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 300;
 }
 .center {
@@ -74,6 +74,10 @@ h4 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+#img {
+  width: 100px;
 }
 
 #rangeValue {
@@ -121,4 +125,13 @@ input[type="range"]::-moz-range-thumb {
   cursor: pointer;
   margin-right: -50px;
 }
+
+hr {
+  margin-top: -2%;
+  color: #2c3e50;
+  background-color: #2c3e50;
+  border: 0;
+  opacity: 0.75;
+}
+
 </style>

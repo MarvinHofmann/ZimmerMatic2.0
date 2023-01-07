@@ -162,27 +162,23 @@
               <div class="row justify-content-center">
                 <div class="col-lg-6 text-center">
                   <h3 class="p-0 m-0 mt-3">Bett</h3>
-                  <button class="btnIcon" @click="send_fetch('UP', 'Bett')">
-                    <i class="fas fa-chevron-up fa-2x"></i>
+                  <button class="btn btn-outline-secondary  btnIcon" @click="send_fetch('UP', 'Bett')">
+                    <i class="fas fa-chevron-up fa-2x text-success"></i>
                   </button>
+                  <button class="btn btn-outline-secondary btnIcon" @click="send_fetch('DOWN', 'Bett')">
+                    <i class="fas fa-chevron-down fa-2x text-success"></i>
+                  </button>
+                  <p class="text-muted">Aktuell: {{this.shutter_state_bett}}</p>
                 </div>
                 <div class="col-lg-6 text-center">
                   <h3 class="p-0 m-0 mt-3">Büro</h3>
-                  <button class="btnIcon" @click="send_fetch('UP', 'Schreibtisch')">
-                    <i class="fas fa-chevron-up fa-2x"></i>
+                  <button class="btn btn-outline-secondary btnIcon" @click="send_fetch('UP', 'Schreibtisch')">
+                    <i class="fas fa-chevron-up fa-2x text-success"></i>
                   </button>
-                </div>
-              </div>
-              <div class="row justify-content-center">
-                <div class="col-lg-6 text-center">
-                  <button class="btnIcon" @click="send_fetch('DOWN', 'Bett')">
-                    <i class="fas fa-chevron-down fa-2x"></i>
+                  <button class="btn btn-outline-secondary btnIcon" @click="send_fetch('DOWN', 'Schreibtisch')">
+                    <i class="fas fa-chevron-down fa-2x text-success"></i>
                   </button>
-                </div>
-                <div class="col-lg-6 text-center">
-                  <button class="btnIcon" @click="send_fetch('DOWN', 'Schreibtisch')">
-                    <i class="fas fa-chevron-down fa-2x"></i>
-                  </button>
+                  <p class="text-muted">Aktuell: {{this.shutter_state_bett}}</p>
                 </div>
               </div>
             </div>
@@ -227,6 +223,8 @@ export default {
       timer: null,
       homematic: false,
       tradfri: false,
+      shutter_state_bett: "ZU",
+      shutter_state_schreibtisch: "ZU",
     };
   },
   components: {
@@ -312,6 +310,14 @@ export default {
       console.log(res.status);
       res.status == "OFFLINE" ? (this.tradfri = false) : (this.tradfri = true);
     },
+    async get_shutter_state(){
+      this.shutter_state_bett = await axios.post(IP + "/api/Rolladen/state", {
+        "spot": "stateBett"  
+      }).then((response) => response.data);
+      this.shutter_state_schreibtisch = await axios.post(IP + "/api/Rolladen/state", {
+        "spot": "stateSchreibtisch"  
+      }).then((response) => response.data);
+    },
   },
   async mounted() {
     this.get_avg_tmp();
@@ -345,18 +351,15 @@ export default {
 }
 
 .btnIcon {
-  width: 75px;
   height: 75px;
-  background-color: white;
-  border-width: 2px;
-  border-radius: 10px;
-  border-color: #1266f1;
+  width: 75px;
   margin: 10px 10px 10px 10px;
 }
-.btnIcon:hover {
-  background-color: aliceblue;
-}
-.fas {
-  color: #1266f1;
+hr {
+  margin-top: -2%;
+  color: #2c3e50;
+  background-color: #2c3e50;
+  border: 0;
+  opacity: 0.75;
 }
 </style>

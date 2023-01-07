@@ -3,9 +3,7 @@ import App from './App.vue'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 import 'bootstrap-icons/font/bootstrap-icons.css'
-//import 'mdb-vue-ui-kit/css/mdb.min.css'
 
-import axios from 'axios'
 import { createRouter, createWebHistory } from 'vue-router'
 
 import dash from './views/dashboard.vue'

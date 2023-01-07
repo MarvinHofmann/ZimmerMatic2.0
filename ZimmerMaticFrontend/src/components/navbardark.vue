@@ -18,29 +18,25 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link :to="'/'" id="btn" class="nav-link" active-class="active"> <i class="bi bi-house"></i> Dashboard </router-link>
+            <router-link :to="'/'" id="btn" class="nav-link" active-class="active"> Dashboard </router-link>
           </li>
           <li class="nav-item">
-            <router-link :to="'/temperatur'" id="btn" class="nav-link" active-class="active">
-              <i class="bi bi-thermometer"></i>Temperatur
-            </router-link>
+            <router-link :to="'/temperatur'" id="btn" class="nav-link" active-class="active"> Temperatur </router-link>
           </li>
           <li class="nav-item">
-            <router-link :to="'/licht'" id="btn" class="nav-link" active-class="active"> <i class="bi bi-lamp"></i> Licht </router-link>
+            <router-link :to="'/licht'" id="btn" class="nav-link" active-class="active"> Licht </router-link>
           </li>
           <li class="nav-item">
-            <router-link :to="'/leds'" id="btn" class="nav-link" active-class="active"> <i class="bi bi-lightbulb"></i> LEDs </router-link>
+            <router-link :to="'/leds'" id="btn" class="nav-link" active-class="active"> LEDs </router-link>
           </li>
           <li class="nav-item">
-            <router-link :to="'/heizung'" id="btn" class="nav-link" active-class="active">
-              <i class="bi bi-thermometer-snow"></i> Heizung
-            </router-link>
+            <router-link :to="'/heizung'" id="btn" class="nav-link" active-class="active"> Heizung </router-link>
           </li>
           <li class="nav-item">
-            <router-link :to="'/rolladen'" id="btn" class="nav-link" active-class="active"> <i class="bi bi-shop-window"></i> Rolladen </router-link>
+            <router-link :to="'/rolladen'" id="btn" class="nav-link" active-class="active"> Rolladen </router-link>
           </li>
           <li class="nav-item">
-            <router-link :to="'/drucker'" id="btn" class="nav-link" active-class="active"><i class="bi bi-printer"></i> Drucker </router-link>
+            <router-link :to="'/drucker'" id="btn" class="nav-link" active-class="active"> Drucker </router-link>
           </li>
         </ul>
         <div class="d-flex flex-shrink-0 dropdown p-2">
@@ -50,7 +46,7 @@
               alt="mdo"
               width="38"
               height="38"
-              class="rounded-circle"
+              class="rounded-circle bg-light"
             />
           </a>
           <ul class="dropdown-menu text-small shadow">

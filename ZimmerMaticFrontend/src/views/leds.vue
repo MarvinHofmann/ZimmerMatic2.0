@@ -9,27 +9,27 @@
           </div>
           <div class="col-lg-4 mx-auto mb-3 text-black text-center">
             <input id="checkboxAll" class="btn-check" type="checkbox" value="All" v-model="checkedSpots" @click="check_All()" />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxAll" :style="{ 'border-color': color }">Alle</label>
+            <label class="btn btn-outline-primary" for="checkboxAll" :style="{ 'border-color': color }">Alle</label>
             <input id="checkboxCouch" class="btn-check" type="checkbox" value="2" v-model="checkedSpots" @click="uncheck_All('Couch')" />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxCouch" :style="{ 'border-color': color }">Couch</label>
+            <label class="btn btn-outline-primary" for="checkboxCouch" :style="{ 'border-color': color }">Couch</label>
             <input id="checkboxDart" class="btn-check" type="checkbox" value="1" v-model="checkedSpots" @click="uncheck_All('Dart')" />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxDart" :style="{ 'border-color': color }">Dartscheibe</label>
+            <label class="btn btn-outline-primary" for="checkboxDart" :style="{ 'border-color': color }">Dartscheibe</label>
 
             <input id="checkboxTable" class="btn-check" type="checkbox" value="4" v-model="checkedSpots" @click="uncheck_All('Table')" />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxTable" :style="{ 'border-color': color }">Tisch</label>
+            <label class="btn btn-outline-primary" for="checkboxTable" :style="{ 'border-color': color }">Tisch</label>
 
             <input id="checkboxTableE" class="btn-check" type="checkbox" value="5" v-model="checkedSpots" @click="uncheck_All('TableE')" />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxTableE" :style="{ 'border-color': color }"> Tisch Emely </label>
+            <label class="btn btn-outline-primary" for="checkboxTableE" :style="{ 'border-color': color }"> Tisch Emely </label>
 
             <input id="checkboxWordC" class="btn-check" type="checkbox" value="3" v-model="checkedSpots" @click="uncheck_All('WordC')" />
-            <label class="btn btn-outline-primary btn-lg" for="checkboxWordC" :style="{ 'border-color': color }">Uhr</label>
+            <label class="btn btn-outline-primary" for="checkboxWordC" :style="{ 'border-color': color }">Uhr</label>
             <div id="colorPicker" class="center mt-4 mb-4">
               <div class="child">
                 <ColorPicker theme="dark" :color="color" @changeColor="changeColor" @click="fetch_led()" />
               </div>
             </div>
-            <button @click="fetch_Off" class="btn btn-primary btn-lg mt-3">Alles Aus</button>
-            <button @click="fetch_Work" class="btn btn-primary btn-lg">Arbeiten</button>
+            <button @click="fetch_Off" class="btn btn-primary">Alles Aus</button>
+            <button @click="fetch_Work" class="btn btn-primary">Arbeiten</button>
           </div>
         </div>
       </div>
@@ -139,5 +139,9 @@ export default {
   display: grid;
   justify-content: center;
   align-items: center;
+}
+.btn{
+  width: 120px;
+  margin: 10px 10px 10px 10px
 }
 </style>
