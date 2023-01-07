@@ -17,15 +17,7 @@
               </div>
             </div>
             <div class="col-lg-6 text-black text-center mt-2">
-              <input
-                type="range"
-                orient="vertical"
-                min="5"
-                max="31"
-                v-model="rangeSlider"
-                @input="changeStyle()"
-                @change="send_fetch()"
-              />
+              <input type="range" orient="vertical" min="5" max="31" v-model="rangeSlider" @input="changeStyle()" @change="send_fetch()" />
               <p class="mb-0">Temperatur</p>
             </div>
           </div>
@@ -61,15 +53,9 @@ export default {
       this.string = "°C";
     },
     async getInformation() {
-      this.measured = await axios
-        .get("http://192.168.0.138:8080/rest/items/" + this.spot + "_AT/state")
-        .then((response) => response.data);
-      this.valve = await axios
-        .get("http://192.168.0.138:8080/rest/items/" + this.spot + "_V/state")
-        .then((response) => response.data);
-      this.setTemp = await axios
-        .get("http://192.168.0.138:8080/rest/items/" + this.spot + "_ST/state")
-        .then((response) => response.data);
+      this.measured = await axios.get("http://192.168.0.138:8080/rest/items/" + this.spot + "_AT/state").then((response) => response.data);
+      this.valve = await axios.get("http://192.168.0.138:8080/rest/items/" + this.spot + "_V/state").then((response) => response.data);
+      this.setTemp = await axios.get("http://192.168.0.138:8080/rest/items/" + this.spot + "_ST/state").then((response) => response.data);
       this.rangeSlider = this.setTemp;
     },
   },

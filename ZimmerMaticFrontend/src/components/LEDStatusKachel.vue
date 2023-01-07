@@ -2,8 +2,9 @@
   <tr>
     <th scope="row">{{ this.spot }}</th>
     <td><div :style="{ 'background-color': color }" class="square"></div></td>
-    <td>{{ this.brightness }}</td>
-    <td ><span v-if="this.is_off" class="badge rounded-pill bg-danger">Aus</span>
+    <td class="text-center">{{ this.brightness }}%</td>
+    <td>
+      <span v-if="this.is_off" class="badge rounded-pill bg-danger">Aus</span>
       <span v-else class="badge rounded-pill bg-success">An</span>
     </td>
     <td v-if="this.is_off"><button @click="switchState()" class="btn btn-outline-success action bi bi-power"></button></td>
@@ -20,12 +21,12 @@ export default {
   props: ["spot", "mqtt_topic", "spotNum"],
   data() {
     return {
-      color: "#3167FF",
+      color: "#00000",
       brightness: 0,
       json: "",
       out: false,
       fontcolor: "black",
-      is_off: false
+      is_off: false,
     };
   },
   methods: {
@@ -72,21 +73,23 @@ export default {
       this.color = "black";
       this.out = true;
       this.fontcolor = "gray";
-      this.is_off = true
+      this.is_off = true;
     },
   },
   async mounted() {
     this.getState();
+    this.timer = setInterval(() => {
+      this.get_tradfri_gateway();
+    }, 10000);
   },
 };
 </script>
 <style scoped>
 .square {
   height: 30px;
-  width: 120px;
+  width: 100px;
   border-radius: 5px;
-  border-width: 1px;
-  border-color: grey;
+  border: 1px dashed black;
 }
 .action {
   width: 50px;

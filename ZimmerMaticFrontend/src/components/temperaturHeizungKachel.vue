@@ -4,18 +4,18 @@
       <div class="card-body p-4">
         <div class="d-flex">
           <h5 class="flex-grow-1">{{ this.spot }}</h5>
-          <h5>{{responsedata.time}}</h5>
+          <h5>{{ responsedata.time }}</h5>
         </div>
 
         <div class="d-flex flex-column text-center mt-5 mb-4">
-          <h6 class="display-4 mb-0 " style="color: #1c2331; font-weight: 400">
+          <h6 class="display-4 mb-0" style="color: #1c2331; font-weight: 400">
             {{ responsedata.temperature }}
           </h6>
         </div>
         <hr class="bg-dark border-3 border-dark border-top" />
         <div class="row">
           <div class="col-lg-12 text-center">
-          <img id="img" :src="this.imgProp" />
+            <img id="img" :src="this.imgProp" />
           </div>
         </div>
       </div>
@@ -24,8 +24,8 @@
 </template>
 
 <script>
-const IP = import.meta.env.VITE_SERVER_IP
-import axios from "axios"
+const IP = import.meta.env.VITE_SERVER_IP;
+import axios from "axios";
 export default {
   props: ["spot", "imgProp"],
 
@@ -34,14 +34,14 @@ export default {
       responsedata: {},
     };
   },
-  async mounted(){
+  async mounted() {
     this.responsedata = await axios
       .post(IP + "/api/TempData/Heater", {
         spot: this.spot,
       })
       .then((response) => response.data);
-      console.log(this.responsedata);
-    },
+    console.log(this.responsedata);
+  },
 
   methods: {},
 };

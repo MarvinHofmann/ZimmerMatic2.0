@@ -6,9 +6,7 @@
         <div class="row">
           <div class="col-lg-12 mb-3 text-black text-center">
             <h1 class="display-3">Heizungssteuerung</h1>
-            <button class="btn btn-outline-danger" @click="send_off()">
-              <i class="bi bi-thermometer-snow"></i> Ausschalten
-            </button>
+            <button class="btn btn-outline-danger" @click="send_off()"><i class="bi bi-thermometer-snow"></i> Ausschalten</button>
             <Transition>
               <p v-if="this.off" class="text-muted">Heizung wird ausgeschalten</p>
             </Transition>

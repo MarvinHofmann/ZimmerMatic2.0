@@ -4,8 +4,8 @@
     <main class="px-3">
       <div class="container-fluid mt-4">
         <div class="row">
-          <div class="col-lg-8 mt-3">
-            <div class="card card-body">
+          <div class="col-lg-7 mt-3">
+            <div class="card card-body h-100">
               <div class="table-responsive">
                 <table class="table align-middle">
                   <thead>
@@ -18,50 +18,24 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <LED
-                      :spot="'Couch'"
-                      :mqtt_topic="'colorCouch'"
-                      :spotNum="'2'"
-                    ></LED>
-                    <LED
-                      :spot="'Dart'"
-                      :mqtt_topic="'colorKamin'"
-                      :spotNum="'1'"
-                    ></LED>
-                    <LED
-                      :spot="'Uhr'"
-                      :mqtt_topic="'colorUhr'"
-                      :spotNum="'3'"
-                    ></LED>
-                    <LED
-                      :spot="'Marvin'"
-                      :mqtt_topic="'colorMarvin'"
-                      :spotNum="'4'"
-                    ></LED>
-                    <LED
-                      :spot="'Emely'"
-                      :mqtt_topic="'colorEmely'"
-                      :spotNum="'5'"
-                    ></LED>
+                    <LED :spot="'Couch'" :mqtt_topic="'colorCouch'" :spotNum="'2'"></LED>
+                    <LED :spot="'Dart'" :mqtt_topic="'colorKamin'" :spotNum="'1'"></LED>
+                    <LED :spot="'Uhr'" :mqtt_topic="'colorUhr'" :spotNum="'3'"></LED>
+                    <LED :spot="'Marvin'" :mqtt_topic="'colorMarvin'" :spotNum="'4'"></LED>
+                    <LED :spot="'Emely'" :mqtt_topic="'colorEmely'" :spotNum="'5'"></LED>
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
-          <div class="col-lg-2 mt-3">
+          <div class="col-lg-3 mt-3">
             <div class="card h-100">
               <div class="card-header">Serverstatus</div>
               <div class="card-body">
                 <p class="text-muted">
                   Backend
-                  <span
-                    v-if="this.backend == 200"
-                    class="badge rounded-pill bg-success"
-                    >Online</span
-                  >
-                  <span v-else class="badge rounded-pill bg-danger"
-                    >Offline</span
-                  >
+                  <span v-if="this.backend == 200" class="badge rounded-pill bg-success">Online</span>
+                  <span v-else class="badge rounded-pill bg-danger">Offline</span>
                 </p>
                 <p class="text-muted">
                   Systemload: <b>{{ this.pi_info.load.avgLoad }}</b>
@@ -75,10 +49,7 @@
                 <p v-if="this.pi_info.cpu_temp.main >= 50" class="text-warning">
                   Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b>
                 </p>
-                <p
-                  v-else-if="this.pi_info.cpu_temp.main > 55"
-                  class="text-muted"
-                >
+                <p v-else-if="this.pi_info.cpu_temp.main > 55" class="text-muted">
                   Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b>
                 </p>
                 <p v-else class="text-muted">
@@ -92,25 +63,13 @@
                 </p>
                 <p class="text-muted">
                   Homematic Bridge
-                  <span
-                    v-if="this.homematic"
-                    class="badge rounded-pill bg-success"
-                    >Online</span
-                  >
-                  <span v-else class="badge rounded-pill bg-danger"
-                    >Offline</span
-                  >
+                  <span v-if="this.homematic" class="badge rounded-pill bg-success">Online</span>
+                  <span v-else class="badge rounded-pill bg-danger">Offline</span>
                 </p>
                 <p class="text-muted">
                   Tradfri Gateway
-                  <span
-                    v-if="this.tradfri"
-                    class="badge rounded-pill bg-success"
-                    >Online</span
-                  >
-                  <span v-else class="badge rounded-pill bg-danger"
-                    >Offline</span
-                  >
+                  <span v-if="this.tradfri" class="badge rounded-pill bg-success">Online</span>
+                  <span v-else class="badge rounded-pill bg-danger">Offline</span>
                 </p>
               </div>
             </div>
@@ -147,21 +106,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <LIGHT
-                      :spot="'Bett Links'"
-                      :name="'BL'"
-                      :uid="'tradfri:0220:gw4491603198ed:65537'"
-                    ></LIGHT>
-                    <LIGHT
-                      :spot="'Bett Rechts'"
-                      :name="'BR'"
-                      :uid="'tradfri:0220:gw4491603198ed:65538'"
-                    ></LIGHT>
-                    <LIGHT
-                      :spot="'Basteltisch'"
-                      :name="'BT'"
-                      :uid="'tradfri:0220:gw4491603198ed:65543'"
-                    ></LIGHT>
+                    <LIGHT :spot="'Bett Links'" :name="'BL'" :uid="'tradfri:0220:gw4491603198ed:65537'"></LIGHT>
+                    <LIGHT :spot="'Bett Rechts'" :name="'BR'" :uid="'tradfri:0220:gw4491603198ed:65538'"></LIGHT>
+                    <LIGHT :spot="'Basteltisch'" :name="'BT'" :uid="'tradfri:0220:gw4491603198ed:65543'"></LIGHT>
                   </tbody>
                 </table>
               </div>
@@ -173,142 +120,69 @@
               <div class="card-body">
                 <p>
                   Openhab
-                  <span
-                    v-if="this.openhab == 200"
-                    class="badge rounded-pill bg-success"
-                    >Online</span
-                  >
-                  <span v-else class="badge rounded-pill bg-danger"
-                    >Offline</span
-                  >
-                  <a
-                    type="button"
-                    href="http://zimmermatic:8080"
-                    target="_blank"
-                    class="bi bi-box-arrow-up-right mx-2"
-                  ></a>
+                  <span v-if="this.openhab == 200" class="badge rounded-pill bg-success">Online</span>
+                  <span v-else class="badge rounded-pill bg-danger">Offline</span>
+                  <a type="button" href="http://zimmermatic:8080" target="_blank" class="bi bi-box-arrow-up-right mx-2"></a>
                 </p>
                 <p>
                   Portainer
-                  <span
-                    v-if="this.portainer == 200"
-                    class="badge rounded-pill bg-success"
-                    >Online</span
-                  >
-                  <span v-else class="badge rounded-pill bg-danger"
-                    >Offline</span
-                  >
-                  <a
-                    type="button"
-                    href="http://zimmermatic:9000"
-                    target="_blank"
-                    class="bi bi-box-arrow-up-right mx-2"
-                  ></a>
+                  <span v-if="this.portainer == 200" class="badge rounded-pill bg-success">Online</span>
+                  <span v-else class="badge rounded-pill bg-danger">Offline</span>
+                  <a type="button" href="http://zimmermatic:9000" target="_blank" class="bi bi-box-arrow-up-right mx-2"></a>
                 </p>
                 <p>
                   EMQX
-                  <span
-                    v-if="this.emqx == 200"
-                    class="badge rounded-pill bg-success"
-                    >Online</span
-                  >
-                  <span v-else class="badge rounded-pill bg-danger"
-                    >Offline</span
-                  >
-                  <a
-                    type="button"
-                    href="http://zimmermatic:18083"
-                    target="_blank"
-                    class="bi bi-box-arrow-up-right mx-2"
-                  ></a>
+                  <span v-if="this.emqx == 200" class="badge rounded-pill bg-success">Online</span>
+                  <span v-else class="badge rounded-pill bg-danger">Offline</span>
+                  <a type="button" href="http://zimmermatic:18083" target="_blank" class="bi bi-box-arrow-up-right mx-2"></a>
                 </p>
 
                 <p>
                   Pocketbase
-                  <span
-                    v-if="this.pocketbase == 200"
-                    class="badge rounded-pill bg-success"
-                    >Online</span
-                  >
-                  <span v-else class="badge rounded-pill bg-danger"
-                    >Offline</span
-                  >
-                  <a
-                    type="button"
-                    href="http://zimmermatic"
-                    target="_blank"
-                    class="bi bi-box-arrow-up-right mx-2"
-                  ></a>
+                  <span v-if="this.pocketbase == 200" class="badge rounded-pill bg-success">Online</span>
+                  <span v-else class="badge rounded-pill bg-danger">Offline</span>
+                  <a type="button" href="http://zimmermatic" target="_blank" class="bi bi-box-arrow-up-right mx-2"></a>
                 </p>
                 <p>
                   MongoDB
-                  <span
-                    v-if="this.mongo == 200"
-                    class="badge rounded-pill bg-success"
-                    >Online</span
-                  >
-                  <span v-else class="badge rounded-pill bg-danger"
-                    >Offline</span
-                  >
+                  <span v-if="this.mongo == 200" class="badge rounded-pill bg-success">Online</span>
+                  <span v-else class="badge rounded-pill bg-danger">Offline</span>
                 </p>
                 <p>
                   nginx
-                  <span
-                    v-if="this.nginx == 200"
-                    class="badge rounded-pill bg-success"
-                    >Online</span
-                  >
-                  <span v-else class="badge rounded-pill bg-danger"
-                    >Offline</span
-                  >
-                  <a
-                    type="button"
-                    href="http://zimmermatic:81"
-                    target="_blank"
-                    class="bi bi-box-arrow-up-right mx-2"
-                  ></a>
+                  <span v-if="this.nginx == 200" class="badge rounded-pill bg-success">Online</span>
+                  <span v-else class="badge rounded-pill bg-danger">Offline</span>
+                  <a type="button" href="http://zimmermatic:81" target="_blank" class="bi bi-box-arrow-up-right mx-2"></a>
                 </p>
               </div>
             </div>
           </div>
           <div class="col-lg-3 mt-3">
-            <div class="card h-100">
+            <div class="card h-100 p-3">
               <div class="row justify-content-center">
-                <div class="col-lg-4 text-center">
+                <div class="col-lg-6 text-center">
                   <h3 class="p-0 m-0 mt-3">Bett</h3>
-                  <div class="row pt-0">
-                    <div class="col-lg-12 text-center">
-                      <button class="btnIcon" @click="send_fetch('UP', 'Bett')">
-                        <i class="fas fa-chevron-up fa-2x"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="col-lg-12 text-center">
-                    <button class="btnIcon" @click="send_fetch('DOWN', 'Bett')">
-                      <i class="fas fa-chevron-down fa-2x"></i>
-                    </button>
-                  </div>
+                  <button class="btnIcon" @click="send_fetch('UP', 'Bett')">
+                    <i class="fas fa-chevron-up fa-2x"></i>
+                  </button>
                 </div>
-                <div class="col-lg-4 text-center">
-                  <div class="row">
-                    <div class="col-lg-12 text-center">
-                      <h3 class="p-0 m-0 mt-3">Büro</h3>
-                      <button
-                        class="btnIcon"
-                        @click="send_fetch('UP', 'Schreibtisch')"
-                      >
-                        <i class="fas fa-chevron-up fa-2x"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="col-lg-12 text-center">
-                    <button
-                      class="btnIcon"
-                      @click="send_fetch('DOWN', 'Schreibtisch')"
-                    >
-                      <i class="fas fa-chevron-down fa-2x"></i>
-                    </button>
-                  </div>
+                <div class="col-lg-6 text-center">
+                  <h3 class="p-0 m-0 mt-3">Büro</h3>
+                  <button class="btnIcon" @click="send_fetch('UP', 'Schreibtisch')">
+                    <i class="fas fa-chevron-up fa-2x"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                  <button class="btnIcon" @click="send_fetch('DOWN', 'Bett')">
+                    <i class="fas fa-chevron-down fa-2x"></i>
+                  </button>
+                </div>
+                <div class="col-lg-6 text-center">
+                  <button class="btnIcon" @click="send_fetch('DOWN', 'Schreibtisch')">
+                    <i class="fas fa-chevron-down fa-2x"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -367,16 +241,11 @@ export default {
     },
     async get_system_info() {
       this.running_container = 0;
-      let res = await axios
-        .get("http://zimmermatic:3443/api/os_info")
-        .then((response) => response);
+      let res = await axios.get("http://zimmermatic:3443/api/os_info").then((response) => response);
       this.pi_info = res.data;
       this.backend = res.status;
       this.container = res.data.container;
-      this.mem_use = (
-        (this.pi_info.memory.free / this.pi_info.memory.used) *
-        100
-      ).toFixed(2);
+      this.mem_use = ((this.pi_info.memory.free / this.pi_info.memory.used) * 100).toFixed(2);
 
       for (let i = 0; i < this.container.length; i++) {
         if (this.container[i].State == "running") {
@@ -418,37 +287,27 @@ export default {
       axios.post(IP + "/api/Rolladen", { direction: pDirection });
     },
     async get_avg_tmp() {
-      this.avg_temp_info = await axios
-        .get(IP + "/api/averageTemp")
-        .then((response) => response.data);
+      this.avg_temp_info = await axios.get(IP + "/api/averageTemp").then((response) => response.data);
     },
     async get_homematic_bridge() {
       let res = await axios
-        .get(
-          "http://192.168.0.138:8080/rest/things/homematic:bridge:3014F711A0001F58A9A70A7A/status",
-          {
-            auth: {
-              username: "MH",
-              password: "1010",
-            },
-          }
-        )
+        .get("http://192.168.0.138:8080/rest/things/homematic:bridge:3014F711A0001F58A9A70A7A/status", {
+          auth: {
+            username: "MH",
+            password: "1010",
+          },
+        })
         .then((response) => response.data);
-      res.status == "OFFLINE"
-        ? (this.homematic = false)
-        : (this.homematic = true);
+      res.status == "OFFLINE" ? (this.homematic = false) : (this.homematic = true);
     },
     async get_tradfri_gateway() {
       let res = await axios
-        .get(
-          "http://192.168.0.138:8080/rest/things/tradfri:gateway:gw4491603198ed/status",
-          {
-            auth: {
-              username: "MH",
-              password: "1010",
-            },
-          }
-        )
+        .get("http://192.168.0.138:8080/rest/things/tradfri:gateway:gw4491603198ed/status", {
+          auth: {
+            username: "MH",
+            password: "1010",
+          },
+        })
         .then((response) => response.data);
       console.log(res.status);
       res.status == "OFFLINE" ? (this.tradfri = false) : (this.tradfri = true);

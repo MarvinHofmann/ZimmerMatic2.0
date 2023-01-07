@@ -1,17 +1,10 @@
 <template>
-   <div> 
+  <div>
     <p id="rangeValue" class="mb-0">{{ this.rangeSlider }}%</p>
     <p class="mt-0 mb-0">{{ this.caption_top }}</p>
-    <input
-      type="range"
-      orient="vertical"
-      min="0"
-      max="100"
-      v-model="rangeSlider"
-      @change="send_parent()"
-    />
+    <input type="range" orient="vertical" min="0" max="100" v-model="rangeSlider" @change="send_parent()" />
     <p class="mb-0">{{ this.caption_bottom }}</p>
-    <p >{{ this.slidername }}</p>
+    <p>{{ this.slidername }}</p>
   </div>
 </template>
 
@@ -24,11 +17,11 @@ export default {
     };
   },
   methods: {
-    send_parent(){
-      this.$emit("changeValue", {val:this.rangeSlider, name:this.slidername})
-    }
+    send_parent() {
+      this.$emit("changeValue", { val: this.rangeSlider, name: this.slidername });
+    },
   },
-  emits:["changeValue"]
+  emits: ["changeValue"],
 };
 </script>
 
@@ -67,7 +60,7 @@ input[type="range"]::-webkit-slider-thumb {
   background: #e7e2e2;
   border-radius: 10px;
   /**box-shadow: 0px 340px 0px 340px #017ce7;*/
-  box-shadow: 0px 340px 0px 340px #1266F1;
+  box-shadow: 0px 340px 0px 340px #1266f1;
   cursor: pointer;
   margin-right: -50px;
 }
@@ -81,7 +74,7 @@ input[type="range"][orient="vertical"]::-moz-range-thumb {
 input[type="range"]::-moz-range-thumb {
   -webkit-appearance: none;
   border-radius: 0px;
-  box-shadow: 0px 340px 0px 340px #1266F1;
+  box-shadow: 0px 340px 0px 340px #1266f1;
   cursor: pointer;
   margin-right: -50px;
 }

@@ -7,24 +7,10 @@
           <div class="col-lg-12 mx-auto mb-5 text-black text-center">
             <h1 class="display-3">3D-Drucker</h1>
             <div class="form-check form-switch" id="container">
-              <input
-                class="form-check-input mt-5 mb-5"
-                type="checkbox"
-                v-model="state"
-                @change="fetch_printer()"
-                style="transform: scale(2.5);"
-              />
+              <input class="form-check-input mt-5 mb-5" type="checkbox" v-model="state" @change="fetch_printer()" style="transform: scale(2.5)" />
             </div>
 
-            <button
-              @click="toOctoprint()"
-              type="button"
-              class="btn btn-primary mt-4"
-              id="btnOcto"
-              style="transform: scale(1.5);"
-            >
-              Zu OctoPrint
-            </button>
+            <button @click="toOctoprint()" type="button" class="btn btn-primary mt-4" id="btnOcto" style="transform: scale(1.5)">Zu OctoPrint</button>
           </div>
         </div>
       </div>
@@ -35,7 +21,7 @@
 
 <script>
 import Navbardark from "../components/navbardark.vue";
-import axios from "axios"
+import axios from "axios";
 export default {
   components: {
     Navbardark,
@@ -43,7 +29,7 @@ export default {
   data() {
     return {
       state: false,
-      requested_state: ""
+      requested_state: "",
     };
   },
   methods: {
@@ -51,21 +37,17 @@ export default {
       console.log(this.state);
       const value = this.state ? "ON" : "OFF";
       console.log(value);
-      axios.post(
-          "http://192.168.0.138:8080/rest/items/StD_Betrieb",
-          value ,
-          { headers: { "content-type": "text/plain" } }
-      );
+      axios.post("http://192.168.0.138:8080/rest/items/StD_Betrieb", value, { headers: { "content-type": "text/plain" } });
     },
-    toOctoprint(){
-        window.open('http://octopi.local');
-    }
+    toOctoprint() {
+      window.open("http://octopi.local");
+    },
   },
   async mounted() {
     this.requested_state = await axios.get("http://192.168.0.138:8080/rest/items/StD_Betrieb/state").then((response) => response.data);
     if (this.requested_state === "ON") {
       this.state = true;
-    }else{
+    } else {
       this.state = false;
     }
   },
