@@ -323,6 +323,7 @@ export default {
       console.log("backend unavailable", error);
     }
     this.openhab = await this.get_state("http://192.168.0.138:8080/rest/items");
+    this.pocketbase = await this.get_state("http://zimmermatic:8090/api/health");
     this.timer = setInterval(() => {
       this.get_avg_tmp();
       this.get_system_info();
