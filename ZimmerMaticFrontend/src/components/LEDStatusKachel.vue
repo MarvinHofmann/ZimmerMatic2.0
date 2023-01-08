@@ -2,7 +2,7 @@
   <tr>
     <th scope="row">{{ this.spot }}</th>
     <td><div :style="{ 'background-color': color }" class="square"></div></td>
-    <td class="text-center">{{ this.brightness }}%</td>
+    <td>{{ this.brightness }}%</td>
     <td>
       <span v-if="this.is_off" class="badge rounded-pill bg-danger">Aus</span>
       <span v-else class="badge rounded-pill bg-success">An</span>
