@@ -21,38 +21,41 @@ let cors = require('cors');
 app.options('*', cors())
 app.use(cors())
 
-/* //Init MongoDB
+//Import Routes
+const authRoute = require('./routes/auth');
+const ledRoute = require('./modules/LEDs');
+const infoRoute = require('./modules/OS_Infos');
+const iot_buttonRoute = require('./modules/IoTButtonEndpoints');
+const rolladenRoute = require('./modules/Rolladen');
+const tempRoute = require('./modules/Temperatur')
+
+//Routes Middleware
+app.use('/api/user', authRoute)
+app.use('/api/LED', ledRoute.router)
+app.use('/api/api', infoRoute)
+app.use('/', iot_buttonRoute)
+app.use('/api/Rolladen', rolladenRoute.router)
+app.use('/api', tempRoute)
+
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 const uri = process.env.DB_URL;
 MongoClient.connect(uri)
     .then(client => {
         try {
-            const db = client.db("TempDaB");
-            const tempCollection = db.collection('TempCollection');
-            app.locals.temperature = tempCollection;
-            //Initialise everything
-            leds.workLight();
-            Rolladen.rolladenUP();
-            //printDB();
+            const db = client.db("UserDB");
+            const userCollection = db.collection('userdata');
+            app.locals.userdata = userCollection;
+            console.log("Connected to DB");
         } catch (error) {
+            console.log("Fehler beim Verbinden mit der DB ", error);
         }
-    }); */
-
-
-//Bekanntmachen und Laden aller Module
-const temp = require("./modules/Temperatur.js");
-const time = require("./modules/timeLibrary")
-const Rolladen = require("./modules/Rolladen")
-const leds = require("./modules/LEDs")
-const Ikea = require("./modules/Tradfri")
-const IoTbtn = require("./modules/IoTButtonEndpoints")
-const os_info = require("./modules/OS_Infos")
+    });
 
 //App Listen
 app.listen(port, () => {
-    leds.workLight();
-    Rolladen.rolladenUP();
+    //leds.workLight();
+    //Rolladen.rolladenUP();
     console.log(`App listening at http://ZimmerMatic:${port}`);
 });
 
@@ -139,3 +142,4 @@ let jsonClients = {
     }
 }
 exports.jsonClients = jsonClients;
+

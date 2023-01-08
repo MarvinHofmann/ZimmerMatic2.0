@@ -1,3 +1,5 @@
+const router = require('express').Router();
+module.exports = router
 const main = require("../index.js")
 const time = require("./timeLibrary")
 const shutter = require("./Rolladen")
@@ -30,7 +32,7 @@ let spots = [
  * Middleware for fetching Temperature Data from frontend 
  * to Display current measured Temperature and Humidity
  */
-main.app.post("/api/TempData", function (req, res) {
+router.post("/TempData", function (req, res) {
   let _spot = req.body.spot;
   for (let i = 0; i < spots.length; i++) {
     console.log("Checking for spot:", _spot);
@@ -49,7 +51,7 @@ main.app.post("/api/TempData", function (req, res) {
  * self mande sensors
  * returns a json with average temp and humidity
  */
-main.app.get("/api/averageTemp", function (req, res) {
+router.get("/averageTemp", function (req, res) {
   let avg_t = 0
   let avg_h = 0
   for (let i = 0; i < spots.length; i++) {
@@ -68,7 +70,7 @@ main.app.get("/api/averageTemp", function (req, res) {
  * Middleware for fetching Temperature Data from frontend 
  * to Display current measured Temperature of the Heater
  */
-main.app.post("/api/TempData/Heater", function (req, res) {
+router.post("/TempData/Heater", function (req, res) {
   let _spot = req.body.spot;
   _spot === "Fenster" ? _spot = "HZFen" : _spot = "HZF"
   main.axios.get("http://192.168.0.138:8080/rest/items/" + _spot + "_AT/state")

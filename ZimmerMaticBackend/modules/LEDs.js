@@ -1,9 +1,10 @@
+const router = require('express').Router();
 const main = require("../index")
 
 /**
  * Middleware to Single fetch All LED strips with r,g,b and brightness
  */
-main.app.post("/api/LED/ALL", function (req, res) {
+router.post("/ALL", function (req, res) {
     //incoming:
     //{r: string, g: string, b: string, v: string, spot: string}
     let r = req.body.red;
@@ -28,12 +29,12 @@ function allLEDChange(r,g,b,v) {
         console.log("LED Send /ALL nicht Verfügbar");
     }
 }
-exports.allLEDChange = allLEDChange;
+exports.allLEDChange = allLEDChange
 
 /**
  * Middleware to Single fetch 1 LED strip with r,g,b and brightness
  */
-main.app.post("/api/LED/Single", function (req, res) {
+router.post("/Single", function (req, res) {
     //incoming:
     //{r: string, g: string, b: string, v: string, spot: string}
     let r = req.body.red;
@@ -125,3 +126,11 @@ function getSpot(nr) {
     }
 }
 exports.getSpot = getSpot;
+
+module.exports = { 
+    router:router,
+    allLEDChange: allLEDChange,
+    singleLEDChange: singleLEDChange,
+    getSpot: getSpot,
+    workLight: workLight
+  }

@@ -1,13 +1,15 @@
+const router = require('express').Router();
+module.exports = router
 const main = require("../index")
 const Ikea = require("./Tradfri")
 const homematic = require("./Homematic")
 const shutter = require("./Rolladen")
-const led = require("./LEDs")
+const led = require('./LEDs')
 
 /**
  * Middleware for IoT Button signals that dinner is ready
  */
-main.app.get("/essenFertig", function (req, res) {
+router.get("/essenFertig", function (req, res) {
     for (let i = 0; i < 3; i++) {
         led.allLEDChange(0,0,0,0);
         led.allLEDChange(255,0,0,255);
@@ -21,7 +23,7 @@ main.app.get("/essenFertig", function (req, res) {
 /**
  * Middleware for IoT Button for comming home
  */
-main.app.get("/hello", function (req, res) {
+router.get("/hello", function (req, res) {
     try { //Turn ambient leds on
         led.singleLEDChange("LED_COLOR/colorKamin", 256,161,20,255);
         led.singleLEDChange("LED_COLOR/colorcouch", 256,161,20,255);
@@ -50,7 +52,7 @@ main.app.get("/hello", function (req, res) {
 /**
  * Middleware IoT Button leaving the room
  */
-main.app.get("/tschuess", function (req, res) {
+router.get("/tschuess", function (req, res) {
     //close the shutter
     shutter.rolladenDown();
     //Turn all LEDs off
@@ -74,7 +76,7 @@ main.app.get("/tschuess", function (req, res) {
 /**
  * Middleware IoT Button turning on/off the 3D Printer
  */
-main.app.get("/druckerButton", function (req, res) {
+router.get("/druckerButton", function (req, res) {
     //Get current state
     let adresse = "http://192.168.0.138:8080/rest/items/StD_Betrieb/state";
     main.axios.get(adresse).then(response => response.data)
@@ -97,7 +99,7 @@ main.app.get("/druckerButton", function (req, res) {
 /**
  * Middleware for IoT Button turning all Off 
  */
-main.app.get('/fensterZu', function (request, response) {
+router.get('/fensterZu', function (request, response) {
     shutter.rolladenDown();
     syncDelay(1500);
     for (let i = 1; i < 5; i++) {

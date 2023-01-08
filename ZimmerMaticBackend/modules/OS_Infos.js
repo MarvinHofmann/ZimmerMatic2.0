@@ -1,11 +1,12 @@
+const router = require('express').Router();
+module.exports = router
 const main = require("../index.js")
 const si = require('systeminformation');
-
 /**
  * Returns Information about the pi 
  * cpu usage, total memory and free memory
  */
-main.app.get("/api/os_info", async function (req, res) {
+router.get("/os_info", async function (req, res) {
 
     let cpu = await si.cpu().then((data) => {
         return data
