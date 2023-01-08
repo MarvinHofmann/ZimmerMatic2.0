@@ -1,13 +1,14 @@
 import { defineStore } from 'pinia'
 import axios from "axios"
+import {useLocalStorage} from "@vueuse/core"
 
-export const useAuthStore = defineStore({
+export const useAuthStore = defineStore('store', {
     id: 'auth',
     state: () => ({
-        user: null
+        user: useLocalStorage('USER', null)
     }),
     getters: {
-        user: (state) => state.user,
+        myuser: (state) => state.user,
         isLoggedIn: (state) => state.user
     },
     actions: {
@@ -28,17 +29,17 @@ export const useAuthStore = defineStore({
             console.log(login_data);
             // update pinia state
             this.user = login_data;
-
+            console.log(this.user);
             // store user details and jwt in local storage to keep user logged in between page refreshes
-            localStorage.setItem('user', JSON.stringify(user));
-
-            // redirect to previous url or default to home page
-            router.push(this.returnUrl || '/');
+            localStorage.setItem('USER', JSON.stringify(this.user));
+            return {
+                status: "success"
+            }
         },
         logout() {
             this.user = null;
             localStorage.removeItem('user');
             router.push('/login');
-        }
-    }
+        },
+    },
 });

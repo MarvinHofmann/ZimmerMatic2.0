@@ -50,14 +50,17 @@ export default {
     },
     methods: {
         async sign_in() {
+            this.userStore = useAuthStore();
             let res = await this.userStore.login(this.username, this.password);
             if (res.status == "failed") {
                 console.log(res.error);
+            }else{
+                this.$router.push("/")
             }
         }
     },
     mounted() {
-        this.userStore = useAuthStore();
+        
     },
 };
 </script>

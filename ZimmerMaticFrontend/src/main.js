@@ -44,11 +44,11 @@ router.beforeEach(async (to) => {
     const publicPages = ["/login"];
     const authRequired = !publicPages.includes(to.path);
     const auth = userStore.user;
+    console.log(auth);
     if (authRequired && !auth) {
         return "/login";
     }
 })
-
 
 
 createApp(App)
