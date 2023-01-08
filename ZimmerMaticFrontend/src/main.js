@@ -13,12 +13,14 @@ import leds from './views/leds.vue'
 import heizung from './views/heizung.vue'
 import rolladen from './views/rolladen.vue'
 import drucker from './views/drucker.vue'
+import login from './views/login.vue'
 
 const router =
     createRouter({
         history: createWebHistory(),
         routes: [
             { path: '/', name: 'dashboard', component: dash },
+            { path: '/login', name: 'login', component: login },
             { path: '/temperatur', name: 'temperatur', component: temp },
             { path: '/licht', name: 'licht', component: licht },
             { path: '/leds', name: 'leds', component: leds },

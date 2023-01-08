@@ -32,7 +32,7 @@ const tempRoute = require('./modules/Temperatur')
 //Routes Middleware
 app.use('/api/user', authRoute)
 app.use('/api/LED', ledRoute.router)
-app.use('/api/api', infoRoute)
+app.use('/api', infoRoute)
 app.use('/', iot_buttonRoute)
 app.use('/api/Rolladen', rolladenRoute.router)
 app.use('/api', tempRoute)
