@@ -19,6 +19,7 @@
     "bootstrap-vue": "^2.22.0",
     "mdb-vue-ui-kit": "^1.12.0",
     "nouislider": "^15.6.0",
+    "pinia": "^2.0.28",
     "scss": "^0.2.4",
     "url-loader": "^4.1.1",
     "veeno": "^0.0.4",

@@ -16,14 +16,14 @@
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-envelope-at"></i></span>
                                     <input type="email" class="form-control" id="email" placeholder=""
-                                        v-model="email">
+                                        v-model="username">
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label for="pass" class="form-label">Passwort</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-key"></i></span>
-                                    <input type="password" class="form-control" id="pass" v-model="pass">
+                                    <input type="password" class="form-control" id="pass" v-model="password">
                                 </div>
                             </div>
                             <a href="#" class="btn btn-outline-primary float-end" @click="sign_in()">Einloggen</a>
@@ -37,8 +37,10 @@
 </template>
 
 <script>
+import {useAuthStore} from "../stores/auth.store"
 export default {
     components: {
+        userStore: null
     },
     data() {
         return {
@@ -47,12 +49,15 @@ export default {
         }
     },
     methods: {
-        sign_in() {
-            console.log(this.username, this.password);
-            this.$router.push("/")
+        async sign_in() {
+            let res = await this.userStore.login(this.username, this.password);
+            if (res.status == "failed") {
+                console.log(res.error);
+            }
         }
     },
     mounted() {
+        this.userStore = useAuthStore();
     },
 };
 </script>

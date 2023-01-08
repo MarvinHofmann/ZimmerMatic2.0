@@ -4,6 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 import 'bootstrap-icons/font/bootstrap-icons.css'
 
+import { createPinia } from "pinia";
+const pinia = createPinia();
+
 import { createRouter, createWebHistory } from 'vue-router'
 
 import dash from './views/dashboard.vue'
@@ -34,6 +37,21 @@ const router =
         },
     })
 
+import {useAuthStore} from "./stores/auth.store"
+
+router.beforeEach(async (to) => {
+    const userStore = useAuthStore();
+    const publicPages = ["/login"];
+    const authRequired = !publicPages.includes(to.path);
+    const auth = userStore.user;
+    if (authRequired && !auth) {
+        return "/login";
+    }
+})
+
+
+
 createApp(App)
     .use(router)
+    .use(pinia)
     .mount('#app')
