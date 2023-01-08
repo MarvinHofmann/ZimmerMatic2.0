@@ -34,7 +34,7 @@ router.post("/register", async function (req, res){
 router.post("/login", async (req, res) => {
     const vali = login_validation(req.body);
     if (vali.error != null) {
-        return res.status(400).send(vali.error.details);
+        return res.status(400).send(vali.error.details.message);
     }
 
     //check if user exists
