@@ -136,13 +136,6 @@
                   <span v-else class="badge rounded-pill bg-danger">Offline</span>
                   <a type="button" href="http://zimmermatic:18083" target="_blank" class="bi bi-box-arrow-up-right mx-2"></a>
                 </p>
-
-                <p>
-                  Pocketbase
-                  <span v-if="this.pocketbase == 200" class="badge rounded-pill bg-success">Online</span>
-                  <span v-else class="badge rounded-pill bg-danger">Offline</span>
-                  <a type="button" href="http://zimmermatic:8090/_/" target="_blank" class="bi bi-box-arrow-up-right mx-2"></a>
-                </p>
                 <p>
                   MongoDB
                   <span v-if="this.mongo == 200" class="badge rounded-pill bg-success">Online</span>
@@ -162,13 +155,13 @@
               <div class="row justify-content-center">
                 <div class="col-lg-6 text-center">
                   <h3 class="p-0 m-0 mt-3">Bett</h3>
-                  <button class="btn btn-outline-secondary  btnIcon" @click="send_fetch('UP', 'Bett')">
+                  <button class="btn btn-outline-secondary btnIcon" @click="send_fetch('UP', 'Bett')">
                     <i class="fas fa-chevron-up fa-2x text-success"></i>
                   </button>
                   <button class="btn btn-outline-secondary btnIcon" @click="send_fetch('DOWN', 'Bett')">
                     <i class="fas fa-chevron-down fa-2x text-success"></i>
                   </button>
-                  <p class="text-muted">Aktuell: {{this.shutter_state_bett}}</p>
+                  <p class="text-muted">Aktuell: {{ this.shutter_state_bett }}</p>
                 </div>
                 <div class="col-lg-6 text-center">
                   <h3 class="p-0 m-0 mt-3">Büro</h3>
@@ -178,7 +171,7 @@
                   <button class="btn btn-outline-secondary btnIcon" @click="send_fetch('DOWN', 'Schreibtisch')">
                     <i class="fas fa-chevron-down fa-2x text-success"></i>
                   </button>
-                  <p class="text-muted">Aktuell: {{this.shutter_state_schreibtisch}}</p>
+                  <p class="text-muted">Aktuell: {{ this.shutter_state_schreibtisch }}</p>
                 </div>
               </div>
             </div>
@@ -205,7 +198,6 @@ export default {
       mongo: 0,
       backend: 0,
       nginx: 0,
-      pocketbase: 0,
       pi_info: {
         cpu_si: {},
         memory: {},
@@ -281,12 +273,11 @@ export default {
       }
     },
     send_fetch(pDirection, shutter_spot) {
-      console.log("Fetch Rolladen: " + pDirection);
       axios.post(IP + "/api/Rolladen", { direction: pDirection });
       if (shutter_spot == "Bett") {
-          this.shutter_state_bett = "Fährt ..."
-      }else{
-        this.shutter_state_schreibtisch = "Fährt ..."
+        this.shutter_state_bett = "Fährt ...";
+      } else {
+        this.shutter_state_schreibtisch = "Fährt ...";
       }
     },
     async get_avg_tmp() {
@@ -312,16 +303,19 @@ export default {
           },
         })
         .then((response) => response.data);
-      console.log(res.status);
       res.status == "OFFLINE" ? (this.tradfri = false) : (this.tradfri = true);
     },
-    async get_shutter_state(){
-      this.shutter_state_bett = await axios.post(IP + "/api/Rolladen/state", {
-        "spot": "stateBett"  
-      }).then((response) => response.data);
-      this.shutter_state_schreibtisch = await axios.post(IP + "/api/Rolladen/state", {
-        "spot": "stateSchreibtisch"  
-      }).then((response) => response.data);
+    async get_shutter_state() {
+      this.shutter_state_bett = await axios
+        .post(IP + "/api/Rolladen/state", {
+          spot: "stateBett",
+        })
+        .then((response) => response.data);
+      this.shutter_state_schreibtisch = await axios
+        .post(IP + "/api/Rolladen/state", {
+          spot: "stateSchreibtisch",
+        })
+        .then((response) => response.data);
     },
   },
   async mounted() {
@@ -335,7 +329,6 @@ export default {
       console.log("backend unavailable", error);
     }
     this.openhab = await this.get_state("http://192.168.0.138:8080/rest/items");
-    this.pocketbase = await this.get_state("http://zimmermatic:8090/api/health");
     this.timer = setInterval(() => {
       this.get_avg_tmp();
       this.get_system_info();
