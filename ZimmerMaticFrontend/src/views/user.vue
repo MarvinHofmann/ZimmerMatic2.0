@@ -134,12 +134,12 @@ export default {
   methods: {
     async fetch_user() {
       console.log("user");
-      this.users = await axios.get("http://localhost:3443/api/user/getAllUser").then((response) => response.data);
+      this.users = await axios.get("http://zimmermatic:3443/api/user/getAllUser").then((response) => response.data);
     },
     async register() {
       this.loading = true;
       let res = await axios
-        .post("http://localhost:3443/api/user/register", {
+        .post("http://zimmermatic:3443/api/user/register", {
           username: this.userdata.username,
           password: this.userdata.password,
           name: this.userdata.name,
@@ -161,7 +161,7 @@ export default {
     async delete_user(id) {
       this.loading = true;
       let res = await axios
-        .post("http://localhost:3443/api/user/delete", {
+        .post("http://zimmermatic:3443/api/user/delete", {
           id: id,
         })
         .then((response) => response.data);

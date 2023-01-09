@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const mongouitl = require('../mongo_util')
-const {register_validation, login_validation} = require('../validation')
+const { register_validation, login_validation } = require('../validation')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-router.post("/register", async function (req, res){
+router.post("/register", async function (req, res) {
     //Validate data
-    const {username, password, name, role} = req.body;
+    const { username, password, name, role } = req.body;
     const vali = register_validation(req.body)
     if (vali.error != null) {
         return res.status(400).send(vali.error.details);
@@ -43,9 +43,9 @@ router.post("/login", async (req, res) => {
 
     const valid_password = await bcrypt.compare(req.body.password, user.password);
     if (!valid_password) return res.status(400).send("Username or [password] is wrong");
-    
+
     //create token
-    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
+    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET)
     res.header("auth-token", token).send({
         user: {
             username: user.username,
@@ -58,12 +58,12 @@ router.post("/login", async (req, res) => {
 })
 
 
-router.get("/getAllUser",  async (req, res) => {
+router.get("/getAllUser", async (req, res) => {
     const user = await mongouitl.mongo_get_all_user_data();
     res.status(200).send(user)
 })
 
-router.post("/delete",  async (req, res) => {
+router.post("/delete", async (req, res) => {
     const error = await mongouitl.delete_user(req.body.id);
     console.log(error);
     res.status(200).send(error)
