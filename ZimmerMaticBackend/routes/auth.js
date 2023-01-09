@@ -56,5 +56,18 @@ router.post("/login", async (req, res) => {
         message: "success"
     })
 })
+
+
+router.get("/getAllUser",  async (req, res) => {
+    const user = await mongouitl.mongo_get_all_user_data();
+    res.status(200).send(user)
+})
+
+router.post("/delete",  async (req, res) => {
+    const error = await mongouitl.delete_user(req.body.id);
+    console.log(error);
+    res.status(200).send(error)
+})
 module.exports = router
+
 

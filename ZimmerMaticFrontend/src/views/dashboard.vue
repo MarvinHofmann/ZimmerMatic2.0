@@ -77,16 +77,19 @@
           <div class="col-lg-2 mt-3">
             <div class="card h-100">
               <div class="card-header">Temperatur</div>
-              <div class="card-body text-center mt-3">
-                <h1 class="display3">
+              <div class="card-body text-center mt-5">
+                <div class="display-6 p-2">
                   <i class="bi bi-thermometer"></i>
                   {{ this.avg_temp_info.avg_temperature }}°C
-                </h1>
-                <hr class="border" />
-                <h1 class="display3">
+                </div>
+                <hr class="border mt-2"/>
+                <div class="display-6 p-2 pt-0">
                   <i class="bi bi-droplet"></i>
                   {{ this.avg_temp_info.avg_humidity }}%
-                </h1>
+                </div>
+              </div>
+              <div class="card-footer text-center">
+                <clock :clock_style="'display-5'" :date_style="'text-muted'"></clock>
               </div>
             </div>
           </div>
@@ -179,7 +182,6 @@
         </div>
       </div>
     </main>
-    <h1></h1>
   </div>
 </template>
 
@@ -188,8 +190,15 @@ const IP = import.meta.env.VITE_SERVER_IP;
 import Navbardark from "../components/navbardark.vue";
 import LED from "../components/LEDStatusKachel.vue";
 import LIGHT from "../components/LampeStatusKachel.vue";
+import clock from "../components/clock.vue";
 import axios from "axios";
 export default {
+  components: {
+    Navbardark,
+    LED,
+    LIGHT,
+    clock,
+  },
   data() {
     return {
       openhab: 0,
@@ -218,11 +227,6 @@ export default {
       shutter_state_bett: "ZU",
       shutter_state_schreibtisch: "ZU",
     };
-  },
-  components: {
-    Navbardark,
-    LED,
-    LIGHT,
   },
   methods: {
     async get_state(ip) {

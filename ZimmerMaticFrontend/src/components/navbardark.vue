@@ -1,7 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-light p-2 bg-custom">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand d-block d-lg-none" href="#">
         <img src="../../public/favicon.ico" class="ms-3 mt-0 p-0" alt="" height="35" id="image" @click="change_to_dash()" />
       </a>
       <button
@@ -16,7 +16,7 @@
         <i class="bi bi-list toggle-icon" style="font-size: 1.5rem; color: white; border-color: white"></i>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav mx-auto">
           <li class="nav-item">
             <router-link :to="'/'" id="btn" class="nav-link" active-class="active"> Dashboard </router-link>
           </li>
@@ -29,6 +29,11 @@
           <li class="nav-item">
             <router-link :to="'/leds'" id="btn" class="nav-link" active-class="active"> LEDs </router-link>
           </li>
+          <li class="nav-item d-none d-lg-block">
+            <a class="nav-link mx-2" href="#" @click="change_to_dash()">
+              <img src="../../public/favicon.ico" height="40" />
+            </a>
+          </li>
           <li class="nav-item">
             <router-link :to="'/heizung'" id="btn" class="nav-link" active-class="active"> Heizung </router-link>
           </li>
@@ -38,63 +43,68 @@
           <li class="nav-item">
             <router-link :to="'/drucker'" id="btn" class="nav-link" active-class="active"> Drucker </router-link>
           </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link mx-2 dropdown-toggle"
+              href="#"
+              id="navbarDropdownMenuLink"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {{this.store.user.username}}
+            </a>
+            <ul class="dropdown-menu py-1" aria-labelledby="navbarDropdownMenuLink">
+              <li>
+                <router-link :to="'/einstellungen'" id="btn" class="dropdown-item pt-0">Einstellungen </router-link>
+              </li>
+              <li v-if="this.store.user.role == 'Admin'">
+                <router-link :to="'/user'" id="btn" class="dropdown-item m-0">User </router-link>
+              </li>
+              <li>
+                <hr class="dropdown-divider m-0" />
+              </li>
+              <li>
+                <router-link :to="'/login'" id="btn" class="dropdown-item">Ausloggen </router-link>
+              </li>
+            </ul>
+          </li>
         </ul>
-        <div class="d-flex flex-shrink-0 dropdown p-2">
-          <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" id="avatar" aria-expanded="false">
-            <img
-              src="https://robohash.org/7ae5b4a9231acc4c57593f4114870365?set=set4&bgset=&size=500x500"
-              alt="mdo"
-              width="38"
-              height="38"
-              class="rounded-circle bg-light"
-            />
-          </a>
-          <ul class="dropdown-menu text-small shadow">
-            <li>
-              <router-link :to="'/settings'" id="btn" class="dropdown-item">Einstellungen </router-link>
-            </li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            <li>
-              <router-link :to="'/login'" id="btn" class="dropdown-item">Ausloggen </router-link>
-            </li>
-          </ul>
-        </div>
-        <div class="fs-6 pe-5 text-light">
-          {{ this.user }}
-        </div>
       </div>
     </div>
   </nav>
 </template>
 
 <script>
+import { useAuthStore } from "../stores/auth.store";
 export default {
   components: {},
-  data() {
+  setup() {
+    const store = useAuthStore()
     return {
-      user: "Marvin",
-    };
+      store
+    }
+  },
+  data() {
+    return {};
   },
   methods: {
     change_to_dash() {
       this.$router.push("/");
     },
   },
-  mounted() {
-    this.user = "Marvin";
-  },
+  mounted() {},
 };
 </script>
 
 <style scoped>
 .nav-link {
-  color: #c9c8c88c !important;
+  color: #05386b !important;
 }
 .navbar-nav .show > .nav-link,
 .navbar-nav .nav-link.active {
-  color: white !important;
+  background-color: rgb(142, 228, 175, 0.5);
+  border-radius: 8px;
 }
 #avatar:hover {
   opacity: 60%;
@@ -102,5 +112,19 @@ export default {
 #image:hover {
   opacity: 60%;
   cursor: pointer;
+}
+
+@media screen and (min-width: 992px) {
+  .nav-item {
+    color: #05386b;
+    line-height: 40px;
+    text-align: center;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+}
+
+.bg-custom {
+  background-color: rgba(194, 212, 249, 0.5) !important;
 }
 </style>
