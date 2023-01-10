@@ -112,7 +112,6 @@ export default {
       this.show_info = true;
     },
     set_page(page) {
-      this.active_page = page;
       this.show_info = false;
     },
   },
