@@ -3,10 +3,16 @@
     <navbardarkVue></navbardarkVue>
     <main class="px-3">
       <div class="container-fluid mt-4">
+        <Transition>
+          <div class="alert alert-danger" role="alert" v-if="this.danger.show">{{ this.danger.message }}</div>
+        </Transition>
+        <Transition>
+          <div class="alert alert-success" role="alert" v-if="this.success.show">{{ this.success.message }}</div>
+        </Transition>
         <div class="card">
           <div class="card-header card-title" dash>
             <div class="float-start mt-1">Registrierte Benutzer</div>
-            <div class="spinner-grow text-warning mx-2" role="status" style="width: 1.5rem; height: 1.5rem;" v-if="this.loading">
+            <div class="spinner-grow text-warning mx-2" role="status" style="width: 1.5rem; height: 1.5rem" v-if="this.loading">
               <span class="visually-hidden">Loading...</span>
             </div>
             <button class="btn btn-outline-secondary btn-sm float-end" role="button" data-bs-toggle="modal" data-bs-target="#addUserModal">
@@ -35,6 +41,7 @@
                         :role="item.role"
                         :id="item._id"
                         @delete_user="set_user_to_delete"
+                        @update_user="update_user"
                       ></userTableBody>
                     </tbody>
                   </table>
@@ -129,6 +136,14 @@ export default {
       },
       user_to_delete: "",
       loading: false,
+      danger: {
+        show: false,
+        message: "",
+      },
+      success: {
+        show: false,
+        message: "",
+      },
     };
   },
   methods: {
@@ -171,6 +186,27 @@ export default {
     },
     async set_user_to_delete(id) {
       this.user_to_delete = id;
+    },
+    async update_user(new_user_data, id) {
+      this.loading = true;
+      let res = await axios
+        .post("http://zimmermatic:3443/api/user/update", {
+          id: id,
+          username: new_user_data.username,
+          name: new_user_data.name,
+        })
+        .then((response) => response.data);
+      this.loading = false;
+      if (res.modifiedCount == 1 && res.matchedCount == 1) {
+        this.success.message = "Der Nutzer wurde erfolgreich geändert";
+        this.success.show = true;
+        setTimeout(() => (this.success.show = false), 1500);
+      } else {
+        this.danger.message = "Der Nutzer konnte nicht geändert werden";
+        this.danger.show = true;
+        setTimeout(() => (this.danger.show = false), 1500);
+      }
+      this.fetch_user();
     },
   },
   mounted() {

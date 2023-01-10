@@ -50,12 +50,10 @@ export default {
           subPath: this.mqtt_topic,
         })
         .then((response) => response.data);
-      console.log(color);
       this.json = JSON.stringify(color, undefined, 2);
       this.color = `rgb(${color.r}, ${color.g}, ${color.b}, ${color.v})`;
       this.brightness = (color.v / 2.55).toFixed(0);
       if (color.r == 0 && color.g == 0 && color.b == 0) {
-        console.log("All Null");
         this.setStateOff();
       }
     },

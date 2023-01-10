@@ -68,6 +68,12 @@ router.post("/delete", async (req, res) => {
     console.log(error);
     res.status(200).send(error)
 })
+
+router.post("/update", async (req, res) => {
+    const error = await mongouitl.mongo_update_user(req.body.id, req.body.username, req.body.name);
+    console.log(error);
+    res.status(200).send(error)
+})
 module.exports = router
 
 

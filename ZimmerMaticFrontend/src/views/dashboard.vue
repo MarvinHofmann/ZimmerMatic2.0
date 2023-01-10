@@ -76,7 +76,6 @@
           </div>
           <div class="col-lg-2 mt-3">
             <div class="card h-100">
-              <div class="card-header">Temperatur</div>
               <div class="card-body text-center mt-5">
                 <div class="display-6 p-2">
                   <i class="bi bi-thermometer"></i>

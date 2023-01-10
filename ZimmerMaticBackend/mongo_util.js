@@ -37,3 +37,12 @@ async function mongo_user_exists(username) {
     return await main.app.locals.userdata.findOne({ username: username })
 }
 exports.mongo_user_exists = mongo_user_exists;
+
+
+async function mongo_update_user(id, username, name) {
+    return await main.app.locals.userdata.updateOne({ _id: ObjectID(id) }, {$set: {
+        username: username,
+        name: name,
+    }}, {upsert: false})
+}
+exports.mongo_update_user = mongo_update_user;
