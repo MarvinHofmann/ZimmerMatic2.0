@@ -124,6 +124,7 @@ export default {
     line-height: 40px;
     margin-left: 5px;
     margin-right: 5px;
+    font-weight: 420;
   }
 }
 
