@@ -68,7 +68,6 @@ export default {
           },
         })
         .then((response) => response.data);
-      console.log(res.status);
       if (res.status == "OFFLINE") {
         this.offline = true;
       }

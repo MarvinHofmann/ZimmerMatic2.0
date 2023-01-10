@@ -90,12 +90,10 @@ export default {
     },
 
     uncheck_All(spot) {
-      console.log("uncheck " + spot);
       let ph = [];
       if (this.checkedSpots.includes("All")) {
         for (let i = 0; i < this.checkedSpots.length; i++) {
           if (this.checkedSpots[i] != "All" && this.checkedSpots[i] != spot) {
-            console.log(this.checkedSpots[i]);
             ph[i] = this.checkedSpots[i];
           }
         }
