@@ -82,6 +82,10 @@ export default {
       this.getState()
     }, 10000);
   },
+  beforeUnmount() {
+    // prevent memory leak
+    clearInterval(this.timer);
+  },
 };
 </script>
 <style scoped>

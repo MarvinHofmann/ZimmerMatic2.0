@@ -2,7 +2,7 @@
   <div>
     <navbardark></navbardark>
     <main class="px-3">
-      <div class="container-fluid mt-4">
+      <div class="container-fluid mt-3">
         <div class="row">
           <div class="col-lg-7 mt-3">
             <div class="card card-body h-100">
@@ -340,6 +340,10 @@ export default {
       this.get_tradfri_gateway();
       this.get_shutter_state();
     }, 10000);
+  },
+  beforeUnmount() {
+    // prevent memory leak
+    clearInterval(this.timer);
   },
 };
 </script>

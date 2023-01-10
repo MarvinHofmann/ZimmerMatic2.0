@@ -65,7 +65,7 @@
                 <hr class="dropdown-divider m-0" />
               </li>
               <li>
-                <router-link :to="'/login'" id="btn" class="dropdown-item">Ausloggen </router-link>
+                <a id="btn" class="dropdown-item" type="button" @click="logout">Ausloggen </a>
               </li>
             </ul>
           </li>
@@ -92,6 +92,10 @@ export default {
     change_to_dash() {
       this.$router.push("/");
     },
+    logout(){
+      this.$router.push('/login');
+      this.store.logout()
+    }
   },
   mounted() {},
 };
@@ -103,8 +107,8 @@ export default {
 }
 .navbar-nav .show > .nav-link,
 .navbar-nav .nav-link.active {
-  background-color: rgb(142, 228, 175, 0.5);
-  border-radius: 8px;
+  padding-bottom: 0;
+  border-bottom: 3px solid rgba(82, 115, 191, 0.5) !important;
 }
 #avatar:hover {
   opacity: 60%;
@@ -118,7 +122,6 @@ export default {
   .nav-item {
     color: #05386b;
     line-height: 40px;
-    text-align: center;
     margin-left: 5px;
     margin-right: 5px;
   }
@@ -126,5 +129,6 @@ export default {
 
 .bg-custom {
   background-color: rgba(194, 212, 249, 0.5) !important;
+  
 }
 </style>
