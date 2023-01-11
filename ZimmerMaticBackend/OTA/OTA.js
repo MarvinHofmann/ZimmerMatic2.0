@@ -4,7 +4,7 @@ const path = require("path")
 
 router.get("/software", function (req, res) {
     console.log("HIHI");
-    p = path.join(__dirnam)
+    p = path.join(__dirname)
     console.log(p);
     res.download(p + 'Blink.ino.bin', (err)=>{
         if (err) {
