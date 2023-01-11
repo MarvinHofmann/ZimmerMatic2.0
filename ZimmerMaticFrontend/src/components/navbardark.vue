@@ -13,7 +13,7 @@
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <i class="bi bi-list toggle-icon" style="font-size: 1.5rem; color: white; border-color: white"></i>
+        <i class="bi bi-list toggle-icon"></i>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav mx-auto">
@@ -130,6 +130,5 @@ export default {
 
 .bg-custom {
   background-color: rgba(194, 212, 249, 0.5) !important;
-  
 }
 </style>

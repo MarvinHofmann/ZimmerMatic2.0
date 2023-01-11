@@ -82,7 +82,7 @@
                     type="text"
                     v-model="v$.userdata.name.$model"
                     id="nameInput"
-                    :class="{ 'is-invalid': v$.userdata.username.$error }"
+                    :class="{ 'is-invalid': v$.userdata.name.$error }"
                   />
                   <!-- error message -->
                   <div class="text-danger" v-if="v$.userdata.name.$error">Bitte geben Sie einen Namen ein</div>
@@ -216,14 +216,14 @@ export default {
           role: this.userdata.role,
         })
         .then((response) => response.data);
-      this.fetch_user(); 
+      this.fetch_user();
       this.clear_form();
       this.loading = false;
       if (res == "Successful Added User") {
         this.success.message = "Der Benutzer " + this.userdata.username + " wurde erfolgreich angelegt.";
         this.success.show = true;
         setTimeout(() => (this.success.show = false), 2000);
-      }else{
+      } else {
         this.danger.message = "Der Nutzer konnte nicht angelegt werden";
         this.danger.show = true;
         setTimeout(() => (this.danger.show = false), 20000);

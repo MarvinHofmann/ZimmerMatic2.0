@@ -46,3 +46,10 @@ async function mongo_update_user(id, username, name) {
     }}, {upsert: false})
 }
 exports.mongo_update_user = mongo_update_user;
+
+async function mongo_update_password(username, password) {
+    return await main.app.locals.userdata.updateOne({ username: username }, {$set: {
+        password: password,
+    }}, {upsert: false})
+}
+exports.mongo_update_password = mongo_update_password;
