@@ -10,8 +10,6 @@ router.get("/software", function (req, res) {
         if (err) {
             console.error("Problem on download firmware: ", err)
         }else{
-            downloadCounter++;
         }
     });
-    console.log('Your file has been downloaded '+downloadCounter+' times!')
 });
