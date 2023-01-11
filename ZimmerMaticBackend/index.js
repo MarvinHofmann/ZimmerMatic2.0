@@ -28,6 +28,7 @@ const infoRoute = require('./modules/OS_Infos');
 const iot_buttonRoute = require('./modules/IoTButtonEndpoints');
 const rolladenRoute = require('./modules/Rolladen');
 const tempRoute = require('./modules/Temperatur')
+const otaRoute = require('./OTA/OTA')
 
 //Routes Middleware
 app.use('/api/user', authRoute)
@@ -36,6 +37,7 @@ app.use('/api', infoRoute)
 app.use('/', iot_buttonRoute)
 app.use('/api/Rolladen', rolladenRoute.router)
 app.use('/api', tempRoute)
+app.use('/api', otaRoute)
 
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
