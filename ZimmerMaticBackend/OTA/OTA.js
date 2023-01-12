@@ -16,6 +16,8 @@ router.get("/software", function (req, res) {
 
 let downloadCounter = 1;
 router.get('/update', (request, response) => {
+    console.log(request.headers);
+    console.log(request.body);
     response.download(path.join(__dirname, 'firmware/Blink.bin'), 'Blink.bin', (err)=>{
         if (err) {
             console.error("Problem on download firmware: ", err)
