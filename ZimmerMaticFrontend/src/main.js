@@ -19,6 +19,7 @@ import drucker from './views/drucker.vue'
 import login from './views/login.vue'
 import einstellungen from './views/settings.vue'
 import user from './views/user.vue'
+import ota from './views/otaHandling.vue'
 
 const router =
     createRouter({
@@ -34,6 +35,7 @@ const router =
             { path: '/drucker', name: 'drucker', component: drucker },
             { path: '/einstellungen', name: 'einstellungen', component: einstellungen },
             { path: '/user', name: 'user', component: user },
+            { path: '/ota', name: 'ota', component: ota },
         ],
         scrollBehavior(to, from, savedPosition) {
             // always scroll to top
