@@ -6,12 +6,18 @@ let downloadCounter = 1;
 router.get('/update', (request, response) => {
     console.log(request.headers);
     console.log(request.body);
-    response.download(path.join(__dirname, 'firmware/Blink.bin'), 'Blink.bin', (err)=>{
+    response.download(path.join(__dirname, 'firmware/Blink.bin'), 'Blink.bin', (err) => {
         if (err) {
             console.error("Problem on download firmware: ", err)
-        }else{
+        } else {
             downloadCounter++;
         }
     });
-    console.log('Your file has been downloaded '+downloadCounter+' times!')
+    console.log('Your file has been downloaded ' + downloadCounter + ' times!')
+})
+
+router.post('/ping', (request, response) => {
+    console.log(request.headers);
+    console.log(request.body);
+    res.send({ 'mac_id': 12, 'available_firmware_version': 0 })
 })
