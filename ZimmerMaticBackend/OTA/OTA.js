@@ -16,7 +16,7 @@ router.get('/update', (request, response) => {
     console.log('Your file has been downloaded ' + downloadCounter + ' times!')
 })
 
-router.post('/ping', (request, response) => {
+router.get('/ping', (request, response) => {
     console.log(request.headers);
     console.log(request.body);
     res.send({ 'mac_id': 12, 'available_firmware_version': 0 })
