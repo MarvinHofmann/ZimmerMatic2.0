@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const IP = "http://localhost:3443"
+const IP = import.meta.env.VITE_SERVER_IP;
 
 async function change_user_password(username, old_password, new_password) {
     try {

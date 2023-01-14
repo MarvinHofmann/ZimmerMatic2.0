@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('store', {
         async login(username, password) {
             let login_data = null
             try {
-                login_data = await axios.post("http://zimmermatic:3443/api/user/login", {
+                login_data = await axios.post("http://localhost:3443/api/user/login", {
                     username: username,
                     password: password
                 }).then(response => response.data)
