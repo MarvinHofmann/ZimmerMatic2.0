@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from "axios"
 import { useStorage } from "@vueuse/core"
+const IP = import.meta.env.VITE_SERVER_IP;
 
 export const useAuthStore = defineStore('store', {
     id: 'auth',
@@ -20,7 +21,7 @@ export const useAuthStore = defineStore('store', {
         async login(username, password) {
             let login_data = null
             try {
-                login_data = await axios.post("http://localhost:3443/api/user/login", {
+                login_data = await axios.post(IP + "/api/user/login", {
                     username: username,
                     password: password
                 }).then(response => response.data)

@@ -95,6 +95,7 @@ router.get('/files', (req, res) => {
         }
         parsed_files.push(file_properties)
     });
+    
     res.status(200).send(parsed_files)
 })
 
