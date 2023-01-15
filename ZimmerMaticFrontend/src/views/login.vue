@@ -1,14 +1,16 @@
 <template>
-  <main class="px-3 pt-5">
+  <main class="px-3 pt-2">
     <div class="container-fluid pt-5">
       <div class="row justify-content-center mt-5">
-        <div class="col-lg-4 col-sm-6 col-md-6">
-          <div class="d-flex justify-content-center">
-            <img src="../../public/favicon.ico" alt="Logo" />
+        <div class="col-lg-4 col-sm-8 col-md-8">
+          <div class="d-flex justify-content-center shadow imgb">
+            <img src="../assets/zMatic.svg" alt="Logo" />
           </div>
-          <div class="card mt-3">
-            <div class="card-header">Login</div>
+          <div class="card logincard shadow">
             <div class="card-body">
+              <div class="col-lg-12 text-center mb-2">
+                <h2 class="fw-bold">Wilkommen</h2>
+              </div>
               <form @submit.prevent="onSubmit">
                 <div class="mb-3">
                   <label for="email" class="form-label">Benutzername</label>
@@ -51,8 +53,9 @@
                   href="#"
                   type="submit"
                   role="button"
-                  class="btn btn-outline-primary float-end"
+                  class="btn btn-outline-primary my-2"
                   @click="sign_in()"
+                  style="width: 100%"
                   v-if="!this.loading"
                   :disabled="v$.form_login.$invalid"
                 >
@@ -115,4 +118,14 @@ export default {
 </script>
 
 <style scoped>
+.logincard {
+  margin-top: -40px;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(30px);
+}
+
+.imgb{
+  border-radius: 5px;
+  background-color: rgba(102, 140, 255, 0.4);
+}
 </style>

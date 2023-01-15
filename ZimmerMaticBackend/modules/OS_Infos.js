@@ -32,9 +32,9 @@ router.get("/os_info", async function (req, res) {
         return data
     })
 
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOjEsInNjb3BlIjoiZGVmYXVsdCIsImZvcmNlQ2hhbmdlUGFzc3dvcmQiOmZhbHNlLCJleHAiOjE3MDQxMDQ0MzcsImlhdCI6MTY3MzAwMDQzN30.wOHOSbcY6W7VrzEnGkOxePviNOWFRNu12OVqiq6E5Pg"
+    const token = "ptr_D5OhUvsHBfZ+WisYyVyGK0LSDIW+0SfoQAizDIGDxzM="
     const config = {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { "X-API-Key": `${token}` },
     };
 
     let container = await main.axios
