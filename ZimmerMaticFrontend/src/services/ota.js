@@ -9,11 +9,24 @@ async function get_files() {
     })
 }
 
-async function delete_file(file) {
+/**
+ * Deletes the given file from the backend
+ * @param {json} file_info 
+ * @returns 
+ */
+async function delete_file(file_info) {
     try {
-        return await axios.post(IP + "/api/firmware/delete")
-    } catch (error) {
-        return "Fehler beim laden der Programme"
+        const server_res = await axios.post(IP + "/api/firmware/delete/", { file_info })
+        return {
+            erro: false,
+            message: server_res
+        }
+    } catch (e) {
+        console.log(e);
+        return {
+            error: true,
+            message: e
+        }
     }
 }
 

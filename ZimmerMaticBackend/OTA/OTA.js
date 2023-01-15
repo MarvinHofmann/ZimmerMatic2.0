@@ -7,10 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 this_path = path.join(__dirname)
 
 const whitelist = [
-    'image/png',
-    'image/jpeg',
-    'image/jpg',
-    'image/webp'
+    'application/octet-stream'
 ]
 
 const storage = multer.diskStorage({
@@ -18,7 +15,8 @@ const storage = multer.diskStorage({
         cb(null, this_path + '/firmware/uploads/')
     },
     filename: function (req, file, cb) {
-        const uniqueSuffix = uuidv4() + '_' + file.originalname + "_003_"
+        const file_prop = file.originalname.split("#")
+        const uniqueSuffix = uuidv4() + '_' + file_prop[1] + "_" + file_prop[0]
         cb(null, uniqueSuffix)
     }
 })
@@ -26,6 +24,7 @@ const storage = multer.diskStorage({
 const multerUploader = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
+        console.log(file);
         if (!whitelist.includes(file.mimetype)) {
             return cb(new Error('file is not allowed'))
         }
@@ -97,4 +96,20 @@ router.get('/files', (req, res) => {
         parsed_files.push(file_properties)
     });
     res.status(200).send(parsed_files)
+})
+
+router.post('/delete', (req, res) => {
+    const file_info = req.body.file_info
+    const file_name = file_info.id + "_" + file_info.programm + "_" + file_info.version
+    const filePath = path.normalize(this_path + "/firmware/uploads/" + file_name); 
+    try {
+        fs.unlinkSync(filePath);
+        res.status(200).send({
+            message: "File is deleted.",
+        });
+    } catch (err) {
+        res.status(500).send({
+            message: "Could not delete the file. " + err,
+        });
+    }
 })

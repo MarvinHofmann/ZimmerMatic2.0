@@ -28,7 +28,7 @@
               <th style="width: 16.66%" scope="col">ESP</th>
               <th style="width: 16.66%" scope="col">Standort</th>
               <th style="width: 16.66%" scope="col">Programm</th>
-              <th style="width: 16.66%" scope="col">Version4</th>
+              <th style="width: 16.66%" scope="col">Version</th>
               <th style="width: 16.66%" scope="col">Aktionen</th>
             </tr>
           </thead>

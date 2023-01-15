@@ -58,6 +58,9 @@
               <li>
                 <router-link :to="'/einstellungen'" id="btn" class="dropdown-item pt-0">Einstellungen </router-link>
               </li>
+              <li>
+                <router-link :to="'/ota'" id="btn" class="dropdown-item pt-0">OTA </router-link>
+              </li>
               <li v-if="this.store.user.role == 'Admin'">
                 <router-link :to="'/user'" id="btn" class="dropdown-item m-0">User </router-link>
               </li>

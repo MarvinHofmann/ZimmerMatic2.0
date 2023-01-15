@@ -6,15 +6,7 @@
     <td>{{ this.programm }}</td>
     <td>{{ this.version }}</td>
     <td>
-      <button
-        @click="call_for_delete()"
-        class="btn btn-outline-danger action bi bi-trash mx-1"
-        data-bs-target="#DeleteCam"
-        data-bs-toggle="modal"
-        role="button"
-      ></button>
-      <button v-if="!this.edit" @click="edit_user()" class="btn btn-outline-secondary action bi bi-pencil mx-1"></button>
-      <button v-else @click="save_user()" class="btn btn-outline-success action bi bi-check-lg mx-1"></button>
+      <button @click="call_for_delete()" class="btn btn-outline-danger action bi bi-trash mx-1" role="button"></button>
     </td>
   </tr>
 </template>
