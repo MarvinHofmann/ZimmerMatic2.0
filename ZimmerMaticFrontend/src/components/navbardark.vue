@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light p-2 bg-custom">
-    <div class="container-fluid">
-      <a class="navbar-brand d-block d-lg-none" href="#">
+    <div class="container">
+      <a class="navbar-brand" href="#">
         <img src="../../public/favicon.ico" class="ms-3 mt-0 p-0" alt="" height="35" id="image" @click="change_to_dash()" />
       </a>
       <button
@@ -16,7 +16,7 @@
         <i class="bi bi-list toggle-icon"></i>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav mx-auto">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <router-link :to="'/'" id="btn" class="nav-link" active-class="active"> Dashboard </router-link>
           </li>
@@ -29,11 +29,6 @@
           <li class="nav-item">
             <router-link :to="'/leds'" id="btn" class="nav-link" active-class="active"> LEDs </router-link>
           </li>
-          <li class="nav-item d-none d-lg-block">
-            <a class="nav-link mx-2" href="#" @click="change_to_dash()">
-              <img src="../../public/favicon.ico" height="40" />
-            </a>
-          </li>
           <li class="nav-item">
             <router-link :to="'/heizung'" id="btn" class="nav-link" active-class="active"> Heizung </router-link>
           </li>
@@ -43,36 +38,40 @@
           <li class="nav-item">
             <router-link :to="'/drucker'" id="btn" class="nav-link" active-class="active"> Drucker </router-link>
           </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link mx-2 dropdown-toggle"
-              href="#"
-              id="navbarDropdownMenuLink"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              {{this.store.user.username}}
-            </a>
-            <ul class="dropdown-menu py-1" aria-labelledby="navbarDropdownMenuLink">
-              <li>
-                <router-link :to="'/einstellungen'" id="btn" class="dropdown-item pt-0">Einstellungen </router-link>
-              </li>
-              <li>
-                <router-link :to="'/ota'" id="btn" class="dropdown-item pt-0">OTA </router-link>
-              </li>
-              <li v-if="this.store.user.role == 'Admin'">
-                <router-link :to="'/user'" id="btn" class="dropdown-item m-0">User </router-link>
-              </li>
-              <li>
-                <hr class="dropdown-divider m-0" />
-              </li>
-              <li>
-                <a id="btn" class="dropdown-item" type="button" @click="logout">Ausloggen </a>
-              </li>
-            </ul>
-          </li>
         </ul>
+        <div class="d-flex flex-shrink-0 dropdown p-2">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a id="btn" class="nav-link m-0 pb-0"> {{this.store.user.username}} </a>
+            </li>
+          </ul>
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle avatar" data-bs-toggle="dropdown" id="avatar" aria-expanded="false">
+            <img
+              src="https://robohash.org/7ae5b4a9231acc4c57593f4114870365?set=set4&bgset=&size=500x500"
+              alt="mdo"
+              width="38"
+              height="38"
+              class="rounded-circle bg-light"
+            />
+          </a>
+          <ul class="dropdown-menu py-1" aria-labelledby="navbarDropdownMenuLink">
+            <li>
+              <router-link :to="'/einstellungen'" id="btn" class="dropdown-item pt-0">Einstellungen </router-link>
+            </li>
+            <li>
+              <router-link :to="'/ota'" id="btn" class="dropdown-item pt-0">OTA </router-link>
+            </li>
+            <li v-if="this.store.user.role == 'Admin'">
+              <router-link :to="'/user'" id="btn" class="dropdown-item m-0">User </router-link>
+            </li>
+            <li>
+              <hr class="dropdown-divider m-0" />
+            </li>
+            <li>
+              <a id="btn" class="dropdown-item" type="button" @click="logout">Ausloggen </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
@@ -83,10 +82,10 @@ import { useAuthStore } from "../stores/auth.store";
 export default {
   components: {},
   setup() {
-    const store = useAuthStore()
+    const store = useAuthStore();
     return {
-      store
-    }
+      store,
+    };
   },
   data() {
     return {};
@@ -95,10 +94,10 @@ export default {
     change_to_dash() {
       this.$router.push("/");
     },
-    logout(){
-      this.$router.push('/login');
-      this.store.logout()
-    }
+    logout() {
+      this.$router.push("/login");
+      this.store.logout();
+    },
   },
   mounted() {},
 };
@@ -113,6 +112,12 @@ export default {
   padding-bottom: 0;
   border-bottom: 3px solid rgba(82, 115, 191, 0.5) !important;
 }
+
+.avatar{
+  margin-top: 5%;
+  line-height: 40px;
+}
+
 #avatar:hover {
   opacity: 60%;
 }

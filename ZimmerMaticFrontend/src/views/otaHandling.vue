@@ -4,6 +4,7 @@
     <div class="container-fluid pt-3">
       <otaFilesTable></otaFilesTable>
       <otaTableESP></otaTableESP>
+      
     </div>
   </main>
 </template>
@@ -12,6 +13,7 @@
 import navbardark from "../components/navbardark.vue";
 import otaTableESP from "../components/OTA/otaTableESP.vue";
 import otaFilesTable from "../components/OTA/otaFilesTable.vue";
+
 export default {
   components: {
     navbardark,
@@ -19,9 +21,13 @@ export default {
     otaTableESP,
   },
   data() {
-    return {};
+    return {
+      
+    };
   },
-  methods: {},
+  methods: {
+    
+  },
   async mounted() {},
 };
 </script>

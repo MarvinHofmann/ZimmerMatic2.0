@@ -29,12 +29,13 @@
             </tr>
           </thead>
           <tbody>
-            <otaFilesTableBody @delete="deleteFile" v-for="item in this.files" :id="item.id" :programm="item.filename" :version="item.version"></otaFilesTableBody>
+            <otaFilesTableBody @flash="set_flash_values" @delete="deleteFile" v-for="item in this.files" :id="item.id" :programm="item.filename" :version="item.version"></otaFilesTableBody>
           </tbody>
         </table>
       </div>
     </div>
   </div>
+  <upload_modal id="flashModal" :programm="this.flash_programm"></upload_modal>
 </template>
 
 <script>
@@ -42,11 +43,13 @@ import transitionAlert from "../transitionAlert.vue";
 import uploadFileComp from "./upload_file.vue";
 import { get_files, delete_file } from "../../services/ota";
 import otaFilesTableBody from "./otaFilesTableBody.vue";
+import upload_modal from "./upload_modal.vue";
 export default {
   components: {
     otaFilesTableBody,
     uploadFileComp,
     transitionAlert,
+    upload_modal
   },
   data() {
     return {
@@ -55,6 +58,7 @@ export default {
       alert: {
         message: "",
       },
+      flash_programm: ""
     };
   },
   methods: {
@@ -67,6 +71,10 @@ export default {
       await get_files().then((response) =>
         response != "Error" ? (this.files = response) : ((this.alert.message = "Fehler beim laden der Programme"), this.$refs.alert.show_alert())
       );
+    },
+    set_flash_values(programm_name) {
+      console.log("HELLO");
+      this.flash_programm = programm_name;
     },
   },
   async mounted() {

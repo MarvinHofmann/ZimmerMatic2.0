@@ -18,7 +18,7 @@ router.post("/register", async function (req, res) {
     }
 
     //Hash pass
-    const salt = await bcrypt.genSalt(15)
+    const salt = await bcrypt.genSalt(10)
     const hashPassword = await bcrypt.hash(password, salt)
 
     let register_res = await mongouitl.mongo_store_user({
