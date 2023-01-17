@@ -35,10 +35,10 @@ const multerUploader = multer({
 const upload = multerUploader.single('file');
 
 let downloadCounter = 1;
-router.get('/update', (request, response) => {
+router.get('/update/:filename', (request, response) => {
     console.log(request.headers);
     console.log(request.body);
-    response.download(path.join(__dirname, 'firmware/Server.bin'), 'Server.bin', (err) => {
+    response.download(path.join(__dirname, request.params.filename), request.params.filename, (err) => {
         if (err) {
             console.error("Problem on download firmware: ", err)
         } else {
