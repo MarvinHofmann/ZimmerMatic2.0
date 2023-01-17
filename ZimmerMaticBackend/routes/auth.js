@@ -93,7 +93,7 @@ router.post("/change_pw", async (req, res) => {
     if (vali.error != null) return res.status(400).send(vali.error.details[0].message);
 
     //Hash pass
-    const salt = await bcrypt.genSalt(15)
+    const salt = await bcrypt.genSalt(10)
     const hashPassword = await bcrypt.hash(req.body.new_password, salt)
 
     const mongo_res = await mongouitl.mongo_update_password(req.body.username, hashPassword)
