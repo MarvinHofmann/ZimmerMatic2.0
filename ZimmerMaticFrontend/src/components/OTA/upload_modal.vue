@@ -10,7 +10,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="delete_answer" data-bs-dismiss="modal">Abbrechen</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Flashen</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Flashen
+          </button>
         </div>
       </div>
     </div>

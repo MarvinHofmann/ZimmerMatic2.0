@@ -38,9 +38,10 @@ let downloadCounter = 1;
 router.get('/update/:filename', (request, response) => {
     console.log(request.headers);
     console.log(request.body);
-    response.download(path.join(__dirname, request.params.filename), request.params.filename, (err) => {
+    response.download(path.join(__dirname, "/firmware/uploads", request.params.filename), request.params.filename, (err) => {
         if (err) {
             console.error("Problem on download firmware: ", err)
+            return response.status(500)
         } else {
             downloadCounter++;
         }
