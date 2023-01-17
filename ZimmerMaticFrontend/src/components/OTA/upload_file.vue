@@ -58,13 +58,13 @@ export default {
         let res_back = await axios.post(IP + "/api/firmware/upload", formData, config).then((response) => response);
         if (res_back.status == 200) {
           this.type = "alert-success";
-          this.message = "Fehler beim Hochladen der Datei";
+          this.message = "Die Datei wurde erfolgreich hochgeladen";
           this.$refs.alert.show_alert();
         } else {
           throw new Error("Fehler beim Hochladen");
         }
       } catch (error) {
-        this.message = "Die Datei wurde erfolgreich hochgeladen";
+        this.message = "Fehler beim Hochladen der Datei";
         this.$refs.alert.show_alert();
       }
       setTimeout(() => (this.progress = 0), 1000);
