@@ -30,7 +30,17 @@ async function delete_file(file_info) {
     }
 }
 
+async function get_clients(){
+    return await axios.get(IP + "/api/firmware/clients").then(
+        (respose) => respose.data
+    ).catch((error) => {
+        console.log(error);
+        return "Error"
+    })
+}
+
 export {
     get_files,
-    delete_file
+    delete_file,
+    get_clients
 }

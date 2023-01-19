@@ -122,25 +122,39 @@ client.on('message', function (topic, message) {
 
 let jsonClients = {
     colorCouch: {
+        position: "Couch",
         value: "",
+        description: "LEDs am an der Couch"
     },
     colorMarvin: {
         value: "",
+        position: "Schreibtisch Marvin",
+        description: "LEDs am Schreibtisch von Marvin"
     },
     colorEmely: {
         value: "",
+        position: "Schreibtisch Emely",
+        description: "LEDs am Schreibtisch von Emely"
     },
     colorUhr: {
         value: "",
+        position: "Uhr",
+        description: "LEDs in der Uhr"
     },
     colorKamin: {
         value: "",
+        position: "Kamin",
+        description: "LEDs hinter der Uhr am Kamin"
     },
     stateBett: {
-        state: ""
+        state: "",
+        position: "Rolladen Bett",
+        description: "Großer Rolladen am Bett"
     },
     stateSchreibtisch: {
-        state: ""
+        state: "",
+        position: "Rolladen Schreibitsch",
+        description: "Kleiner Rolladen an den Schreibtischen"
     }
 }
 exports.jsonClients = jsonClients;

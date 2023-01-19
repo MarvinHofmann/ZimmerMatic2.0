@@ -1,3 +1,4 @@
+const main = require("../index")
 const router = require('express').Router();
 module.exports = router
 const path = require('path');
@@ -114,4 +115,9 @@ router.post('/delete', (req, res) => {
             message: "Could not delete the file. " + err,
         });
     }
+})
+
+
+router.get("/clients", (req,res) => {
+    res.status(200).send(main.jsonClients);
 })
