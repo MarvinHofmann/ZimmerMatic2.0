@@ -39,6 +39,10 @@ app.use('/api/Rolladen', rolladenRoute.router)
 app.use('/api', tempRoute)
 app.use('/api/firmware', otaRoute)
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger/swagger.json');
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 const uri = process.env.DB_URL;
