@@ -81,7 +81,7 @@
                   <i class="bi bi-thermometer"></i>
                   {{ this.avg_temp_info.avg_temperature }}°C
                 </div>
-                <hr class="border mt-2"/>
+                <hr class="border mt-2" />
                 <div class="display-6 p-2 pt-0">
                   <i class="bi bi-droplet"></i>
                   {{ this.avg_temp_info.avg_humidity }}%
@@ -179,6 +179,16 @@
             </div>
           </div>
         </div>
+        <div class="row mb-5">
+          <div class="col-lg-12 mt-3">
+            <div class="card">
+              <div class="card-header">Cron Jobs</div>
+              <div class="card-body">
+                <cronjobs></cronjobs>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   </div>
@@ -191,12 +201,14 @@ import LED from "../components/LEDStatusKachel.vue";
 import LIGHT from "../components/LampeStatusKachel.vue";
 import clock from "../components/clock.vue";
 import axios from "axios";
+import cronjobs from "../components/cronjobs.vue";
 export default {
   components: {
     Navbardark,
     LED,
     LIGHT,
     clock,
+    cronjobs,
   },
   data() {
     return {

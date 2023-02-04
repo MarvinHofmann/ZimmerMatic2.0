@@ -56,8 +56,13 @@ router.beforeEach(async (to) => {
     }
 })
 
+import cronLight from '@vue-js-cron/light'
+import '@vue-js-cron/light/dist/light.css'
+import cronCore from '@vue-js-cron/core'
 
 createApp(App)
+    .use(cronLight)
+    .use(cronCore)
     .use(router)
     .use(pinia)
     .mount('#app')
