@@ -1,4 +1,4 @@
-FROM node:21-alpine as builder
+FROM node:latest as builder
 ENV TZ="Europe/Berlin"
 
 WORKDIR /vue-ui
