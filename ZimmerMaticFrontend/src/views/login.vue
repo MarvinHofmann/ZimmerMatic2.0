@@ -9,7 +9,7 @@
           <div class="card logincard shadow">
             <div class="card-body">
               <div class="col-lg-12 text-center mb-2">
-                <h2 class="fw-bold">Wilkommen</h2>
+                <h2 class="fw-bold">Hallo</h2>
               </div>
               <form @submit.prevent="onSubmit">
                 <div class="mb-3">

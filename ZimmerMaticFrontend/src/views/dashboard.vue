@@ -6,6 +6,7 @@
         <div class="row">
           <div class="col-lg-7 mt-3">
             <div class="card card-body h-100">
+
               <div class="table-responsive">
                 <table class="table align-middle">
                   <thead>
@@ -374,10 +375,11 @@ export default {
   width: 75px;
   margin: 10px 10px 10px 10px;
 }
+
 hr {
   margin-top: -2%;
-  color: #2c3e50;
-  background-color: #2c3e50;
+  color: #ffffff;
+  background-color: #fbfbfb;
   border: 0;
   opacity: 0.75;
 }

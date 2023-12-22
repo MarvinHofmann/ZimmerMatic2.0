@@ -1,6 +1,6 @@
 <template>
   <div class="col-lg-4 mb-3 px-3">
-    <div class="card" style="color: #4b515d; border-radius: 35px">
+    <div class="card" style="border-radius: 35px">
       <div class="card-body p-4">
         <div class="d-flex">
           <h5 class="flex-grow-1">{{ this.spot }}</h5>
@@ -8,11 +8,11 @@
         </div>
 
         <div class="d-flex flex-column text-center mt-5 mb-4">
-          <h6 class="display-4 mb-0" style="color: #1c2331; font-weight: 400">
+          <h6 class="display-4 mb-0" style="font-weight: 400">
             {{ responsedata.temperature }}
           </h6>
         </div>
-        <hr class="bg-dark border-3 border-dark border-top" />
+        <hr class="bg-light border-3 border-light border-top" />
         <div class="row">
           <div class="col-lg-12 text-center">
             <img id="img" :src="this.imgProp" />
@@ -50,8 +50,8 @@ export default {
 <style scoped>
 hr {
   margin-top: -2%;
-  color: #2c3e50;
-  background-color: #2c3e50;
+  color: #ffffff;
+  background-color: #ffffff;
   border: 0;
   opacity: 0.75;
 }

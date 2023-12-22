@@ -4,10 +4,7 @@
     <main class="px-3">
       <div class="container-fluid mt-4">
         <div class="row">
-          <div class="col-lg-12 mx-auto mb-3 text-black text-center">
-            <h1 class="display-3">LEDs</h1>
-          </div>
-          <div class="col-lg-4 mx-auto mb-3 text-black text-center">
+          <div class="col-lg-4 mx-auto mb-3  text-center">
             <input id="checkboxAll" class="btn-check" type="checkbox" value="All" v-model="checkedSpots" @click="check_All()" />
             <label class="btn btn-outline-primary" for="checkboxAll" :style="{ 'border-color': color }">Alle</label>
             <input id="checkboxCouch" class="btn-check" type="checkbox" value="2" v-model="checkedSpots" @click="uncheck_All('Couch')" />

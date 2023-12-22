@@ -4,8 +4,8 @@
     <main class="px-3">
       <div class="container-fluid mt-4">
         <div class="row">
-          <div class="col-lg-12 mx-auto mb-5 text-black text-center">
-            <h1 class="display-3">3D-Drucker</h1>
+          <div class="col-lg-12 mx-auto mb-5 text-center">
+            <h1 class="display-3 text-white">3D-Drucker</h1>
             <div class="form-check form-switch" id="container">
               <input class="form-check-input mt-5 mb-5" type="checkbox" v-model="state" @change="fetch_printer()" style="transform: scale(2.5)" />
             </div>

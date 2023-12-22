@@ -15,20 +15,10 @@
             <div class="spinner-grow text-warning mx-2" role="status" style="width: 1.5rem; height: 1.5rem" v-if="this.loading">
               <span class="visually-hidden">Loading...</span>
             </div>
-            <button
-              class="btn btn-outline-secondary btn-sm float-end d-none d-lg-block .d-xl-block .d-xxl-block"
-              role="button"
-              data-bs-toggle="modal"
-              data-bs-target="#addUserModal"
-            >
+            <button class="btn btn-outline-secondary btn-sm float-end d-none d-lg-block .d-xl-block .d-xxl-block" role="button" data-bs-toggle="modal" data-bs-target="#addUserModal">
               Nutzer hinzufügen
             </button>
-            <button
-              class="btn btn-outline-secondary btn-sm float-end d-lg-none d-xl-none d-xxl-none"
-              role="button"
-              data-bs-toggle="modal"
-              data-bs-target="#addUserModal"
-            >
+            <button class="btn btn-outline-secondary btn-sm float-end d-lg-none d-xl-none d-xxl-none" role="button" data-bs-toggle="modal" data-bs-target="#addUserModal">
               <i class="bi bi-person-add"></i>
             </button>
           </div>
@@ -47,15 +37,8 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <userTableBody
-                        v-for="item in this.users"
-                        :username="item.username"
-                        :name="item.name"
-                        :role="item.role"
-                        :id="item._id"
-                        @delete_user="set_user_to_delete"
-                        @update_user="update_user"
-                      ></userTableBody>
+                      <userTableBody v-for="item in this.users" :username="item.username" :name="item.name" :role="item.role" :id="item._id" @delete_user="set_user_to_delete" @update_user="update_user">
+                      </userTableBody>
                     </tbody>
                   </table>
                 </div>
@@ -77,13 +60,7 @@
               <div class="form-group row">
                 <label for="nameInput" class="col-lg-2 col-form-label">Name</label>
                 <div class="col-10">
-                  <input
-                    class="form-control"
-                    type="text"
-                    v-model="v$.userdata.name.$model"
-                    id="nameInput"
-                    :class="{ 'is-invalid': v$.userdata.name.$error }"
-                  />
+                  <input class="form-control" type="text" v-model="v$.userdata.name.$model" id="nameInput" :class="{ 'is-invalid': v$.userdata.name.$error }" />
                   <!-- error message -->
                   <div class="text-danger" v-if="v$.userdata.name.$error">Bitte geben Sie einen Namen ein</div>
                 </div>
@@ -92,13 +69,7 @@
               <div class="form-group row">
                 <label for="username" class="col-lg-2 col-form-label">Username</label>
                 <div class="col-10">
-                  <input
-                    class="form-control"
-                    type="text"
-                    v-model="v$.userdata.username.$model"
-                    id="username"
-                    :class="{ 'is-invalid': v$.userdata.username.$error }"
-                  />
+                  <input class="form-control" type="text" v-model="v$.userdata.username.$model" id="username" :class="{ 'is-invalid': v$.userdata.username.$error }" />
                   <!-- error message -->
                   <div class="text-danger" v-if="v$.userdata.username.$error">Der Username darf nicht kürzer als 3 Zeichen sein</div>
                 </div>
@@ -120,13 +91,7 @@
               <div class="form-group row">
                 <label for="pass" class="col-lg-2 col-form-label">Passwort</label>
                 <div class="col-10">
-                  <input
-                    class="form-control"
-                    type="password"
-                    v-model="this.userdata.password"
-                    id="pass"
-                    :class="{ 'is-invalid': v$.userdata.password.$error }"
-                  />
+                  <input class="form-control" type="password" v-model="this.userdata.password" id="pass" :class="{ 'is-invalid': v$.userdata.password.$error }" />
                   <!-- error message -->
                   <div class="text-danger" v-if="v$.userdata.password.$error">Bitte geben Sie ein 6 stelliges Passwort ein</div>
                 </div>
@@ -135,14 +100,8 @@
               <div class="form-group row">
                 <label for="rep_pass" class="col-lg-2 col-form-label">Passwort wiederholen</label>
                 <div class="col-10">
-                  <input
-                    class="form-control"
-                    type="password"
-                    v-model="this.userdata.repeat_password"
-                    id="rep_pass"
-                    :class="{ 'is-invalid': v$.userdata.repeat_password.$error }"
-                    @blur="v$.userdata.repeat_password.$touch"
-                  />
+                  <input class="form-control" type="password" v-model="this.userdata.repeat_password" id="rep_pass" :class="{ 'is-invalid': v$.userdata.repeat_password.$error }"
+                    @blur="v$.userdata.repeat_password.$touch" />
                   <!-- error message -->
                   <div class="text-danger" v-if="v$.userdata.repeat_password.$error">Die beiden Passwörter stimmen nicht überein</div>
                 </div>
@@ -159,8 +118,8 @@
         </div>
       </div>
     </div>
-    <deleteModal id="DeleteCam" :delete_item="this.user_to_delete" @delete_answer="delete_request"></deleteModal>
   </div>
+  <deleteModal id="DeleteCam" :delete_item="this.user_to_delete" @delete_answer="delete_request"></deleteModal>
 </template>
 
 <script>

@@ -4,10 +4,7 @@
     <main class="px-3">
       <div class="container-fluid mt-4">
         <div class="row">
-          <div class="col-lg-12 mx-auto mb-3 text-black text-center">
-            <h1 class="display-3">Rolladen</h1>
-          </div>
-          <div class="col-lg-12 mx-auto mb-3 text-black text-center" id="container">
+          <div class="col-lg-12 mx-auto mb-3 text-center" id="container">
             <div class="row">
               <button class="btnIcon" @click="send_fetch('UP')">
                 <i class="fas fa-chevron-up fa-5x"></i>
@@ -24,7 +21,7 @@
               </button>
             </div>
           </div>
-          <div class="col-lg-6 mx-auto mb-3 text-black text-center"></div>
+          <div class="col-lg-6 mx-auto mb-3 text-center"></div>
         </div>
       </div>
     </main>
@@ -60,14 +57,14 @@ export default {
 .btnIcon {
   width: 125px;
   height: 125px;
-  background-color: white;
   border-width: 2px;
   border-radius: 10px;
+  background-color: #212529;
   border-color: #1266f1;
   margin: 10px 10px 10px 10px;
 }
 .btnIcon:hover {
-  background-color: aliceblue;
+  background-color: #474848;
 }
 .fas {
   color: #1266f1;

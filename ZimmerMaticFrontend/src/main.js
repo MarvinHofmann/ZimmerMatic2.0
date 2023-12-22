@@ -3,6 +3,7 @@ import App from './App.vue'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import '../scss/custom.scss';
 
 import { createPinia } from "pinia";
 const pinia = createPinia();
@@ -17,7 +18,6 @@ import heizung from './views/heizung.vue'
 import rolladen from './views/rolladen.vue'
 import drucker from './views/drucker.vue'
 import login from './views/login.vue'
-import einstellungen from './views/settings.vue'
 import user from './views/user.vue'
 import ota from './views/otaHandling.vue'
 
@@ -33,7 +33,6 @@ const router =
             { path: '/heizung', name: 'heizung', component: heizung },
             { path: '/rolladen', name: 'rolladen', component: rolladen },
             { path: '/drucker', name: 'drucker', component: drucker },
-            { path: '/einstellungen', name: 'einstellungen', component: einstellungen },
             { path: '/user', name: 'user', component: user },
             { path: '/ota', name: 'ota', component: ota },
         ],

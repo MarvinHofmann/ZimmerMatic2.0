@@ -29,6 +29,7 @@ const iot_buttonRoute = require('./modules/IoTButtonEndpoints');
 const rolladenRoute = require('./modules/Rolladen');
 const tempRoute = require('./modules/Temperatur')
 const otaRoute = require('./OTA/OTA')
+const cronjobRoute = require('./modules/CronJobs')
 
 //Routes Middleware
 app.use('/api/user', authRoute)
@@ -38,6 +39,7 @@ app.use('/', iot_buttonRoute)
 app.use('/api/Rolladen', rolladenRoute.router)
 app.use('/api', tempRoute)
 app.use('/api/firmware', otaRoute)
+app.use('/api/cronjobs', cronjobRoute) 
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger.json');

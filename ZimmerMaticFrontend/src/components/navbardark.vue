@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light p-2 bg-custom">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary bg-primary p-2">
     <div class="container">
       <a class="navbar-brand" href="#">
         <img src="../../public/favicon.ico" class="ms-3 mt-0 p-0" alt="" height="35" id="image" @click="change_to_dash()" />
@@ -56,9 +56,6 @@
           </a>
           <ul class="dropdown-menu py-1" aria-labelledby="navbarDropdownMenuLink">
             <li>
-              <router-link :to="'/einstellungen'" id="btn" class="dropdown-item pt-0">Einstellungen </router-link>
-            </li>
-            <li>
               <router-link :to="'/ota'" id="btn" class="dropdown-item pt-0">OTA </router-link>
             </li>
             <li v-if="this.store.user.role == 'Admin'">
@@ -104,9 +101,6 @@ export default {
 </script>
 
 <style scoped>
-.nav-link {
-  color: #05386b !important;
-}
 .navbar-nav .show > .nav-link,
 .navbar-nav .nav-link.active {
   padding-bottom: 0;
@@ -136,7 +130,4 @@ export default {
   }
 }
 
-.bg-custom {
-  background-color: rgba(194, 212, 249, 0.5) !important;
-}
 </style>

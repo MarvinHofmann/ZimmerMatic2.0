@@ -4,7 +4,6 @@
     <div class="container-fluid pt-3">
       <otaFilesTable></otaFilesTable>
       <otaTableESP></otaTableESP>
-      
     </div>
   </main>
 </template>
@@ -22,13 +21,13 @@ export default {
   },
   data() {
     return {
-      
+
     };
   },
   methods: {
-    
+
   },
-  async mounted() {},
+  async mounted() { },
 };
 </script>
 

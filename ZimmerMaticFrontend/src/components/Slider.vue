@@ -26,17 +26,10 @@ export default {
 </script>
 
 <style scoped>
-.center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 
 #rangeValue {
   font-size: 35px;
   text-align: center;
-  color: rgb(54, 54, 54);
 }
 
 input[type="range"][orient="vertical"] {

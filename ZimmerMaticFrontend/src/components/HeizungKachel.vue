@@ -1,14 +1,14 @@
 <template>
   <div class="col-lg-6 mx-auto mb-3">
-    <div class="card" style="color: #4b515d; border-radius: 35px">
+    <div class="card" style="border-radius: 35px">
       <div class="card-body p-4">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-lg-6 text-black mt-4">
+            <div class="col-lg-6 mt-4">
               <h1 class="display-5 text-center mb-2">
                 <strong>{{ this.setTemp }}</strong>
               </h1>
-              <hr class="bg-dark border-4 border-top mb-3" />
+              <hr class="bg-light border-3 border-light border-top" />
               <h4>Gemessen: {{ this.measured }}</h4>
               <h4>Ventil: {{ this.valve }}</h4>
               <h4>Gesetzt: {{ this.rangeSlider }} {{ this.string }}</h4>
@@ -16,7 +16,7 @@
                 <img id="img" :src="this.imgProp" />
               </div>
             </div>
-            <div class="col-lg-6 text-black text-center mt-2">
+            <div class="col-lg-6 text-center mt-2">
               <input type="range" orient="vertical" min="5" max="31" v-model="rangeSlider" @input="changeStyle()" @change="send_fetch()" />
               <p class="mb-0">Temperatur</p>
             </div>
@@ -69,6 +69,7 @@ h4 {
   font-size: 20px;
   font-weight: 300;
 }
+
 .center {
   position: absolute;
   top: 50%;
@@ -128,8 +129,6 @@ input[type="range"]::-moz-range-thumb {
 
 hr {
   margin-top: -2%;
-  color: #2c3e50;
-  background-color: #2c3e50;
   border: 0;
   opacity: 0.75;
 }

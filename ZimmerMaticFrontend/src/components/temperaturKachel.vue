@@ -8,9 +8,9 @@
         </div>
 
         <div class="d-flex flex-column text-center mt-5 mb-4">
-          <h6 class="display-4 mb-0" style="color: #1c2331; font-weight: 400">{{ responsedata.temperature }} °C</h6>
+          <h6 class="display-4 mb-0" style="font-weight: 400">{{ responsedata.temperature }} °C</h6>
         </div>
-        <hr class="bg-dark border-3 border-dark border-top" />
+        <hr class="bg-light border-3 border-light border-top" />
         <div class="row">
           <div class="col-lg-6 text-center mt-4">
             <div>
@@ -55,8 +55,6 @@ export default {
 <style scoped>
 hr {
   margin-top: -2%;
-  color: #2c3e50;
-  background-color: #2c3e50;
   border: 0;
   opacity: 0.75;
 }
@@ -65,7 +63,6 @@ hr {
 }
 
 .card{
-  color: #4b515d;
   border-radius: 20px
 }
 </style>
