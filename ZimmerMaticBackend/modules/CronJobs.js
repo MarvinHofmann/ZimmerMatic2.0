@@ -16,7 +16,7 @@ const hex2rgb = (hex) => {
 }
 
 function generateLEDJob(cronEx, whichLED, color, name, persist) {
-    color = hex2rgb(color)
+    if (persist) color = hex2rgb(color)
     if (typeof (whichLED) == "string" && whichLED == "all") {
         const ledjob = cron.schedule(String(cronEx), () => {
             led.allLEDChange(color.r, color.g, color.b, 255);
