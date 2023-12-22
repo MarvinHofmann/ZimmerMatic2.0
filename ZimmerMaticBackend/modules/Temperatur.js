@@ -35,10 +35,7 @@ let spots = [
 router.post("/TempData", function (req, res) {
   let _spot = req.body.spot;
   for (let i = 0; i < spots.length; i++) {
-    console.log("Checking for spot:", _spot);
-    console.log(spots[i].spot);
     if (_spot == spots[i].spot) {
-      console.log("Spot is found");
       res.status(200).json(spots[i]);
       return;
     }

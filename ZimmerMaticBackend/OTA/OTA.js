@@ -37,8 +37,8 @@ const upload = multerUploader.single('file');
 
 let downloadCounter = 1;
 router.get('/update/:filename', (request, response) => {
-    console.log(request.headers);
-    console.log(request.body);
+    console.log("Header ", request.headers);
+    console.log("Body ", request.body);
     response.download(path.join(__dirname, "/firmware/uploads", request.params.filename), request.params.filename, (err) => {
         if (err) {
             console.error("Problem on download firmware: ", err)
@@ -51,8 +51,8 @@ router.get('/update/:filename', (request, response) => {
 })
 
 router.get('/update/server', (request, response) => {
-    console.log(request.headers);
-    console.log(request.body);
+    console.log("Header ",request.headers);
+    console.log("Body ", request.body);
     response.download(path.join(__dirname, 'firmware/Server.bin'), 'Server.bin', (err) => {
         if (err) {
             console.error("Problem on download firmware: ", err)
@@ -64,8 +64,8 @@ router.get('/update/server', (request, response) => {
 })
 
 router.get('/ping', (request, res) => {
-    console.log(request.headers);
-    console.log(request.body);
+    console.log("Header ",request.headers);
+    console.log("Body ", request.body);
     res.send({ 'mac_id': 12, 'available_firmware_version': 0 })
 })
 

@@ -11,7 +11,7 @@ router.post("/ALL", function (req, res) {
     let g = req.body.green;
     let b = req.body.blue;
     let v = Number(req.body.value) * 2.55;
-    allLEDChange(r,g,b,v);
+    allLEDChange(r, g, b, v);
     res.sendStatus(200);
 });
 
@@ -22,7 +22,7 @@ router.post("/ALL", function (req, res) {
  * @param {number} b Blue
  * @param {number} v Brightness 
  */
-function allLEDChange(r,g,b,v) {
+function allLEDChange(r, g, b, v) {
     try {
         main.client.publish("LED_COLOR/all", JSON.stringify({ r: r, g: g, b: b, v: v }))
     } catch (error) {
@@ -42,7 +42,7 @@ router.post("/Single", function (req, res) {
     let b = req.body.blue;
     let v = Number(req.body.value) * 2.55;
     let spot = getSpot(req.body.spot);
-    singleLEDChange(spot,r,g,b,v);    
+    singleLEDChange(spot, r, g, b, v);
     res.sendStatus(200);
 });
 
@@ -54,7 +54,7 @@ router.post("/Single", function (req, res) {
  * @param {number} b Blue
  * @param {number} v Brightness 
  */
-function singleLEDChange(spot, r,g,b,v) {
+function singleLEDChange(spot, r, g, b, v) {
     try {
         main.client.publish(spot, JSON.stringify({ r: r, g: g, b: b, v: v }))
     } catch (error) {
@@ -92,15 +92,12 @@ exports.workLight = workLight;
  * Middleware to get State of an LED Strip
  */
 main.app.post("/api/LED/state", function (req, res) {
-    console.log("State Acces");
     subPath = req.body.subPath;
-
     if (!isNaN(parseInt(subPath))) {
         subPath = getSpot(req.body.subPath)
         //Slice String at "/" and delete the front part
         subPath = subPath.split("/").pop();
     }
-    console.log(main.jsonClients[subPath].value);
     res.send(main.jsonClients[subPath].value);
 });
 
@@ -127,10 +124,10 @@ function getSpot(nr) {
 }
 exports.getSpot = getSpot;
 
-module.exports = { 
-    router:router,
+module.exports = {
+    router: router,
     allLEDChange: allLEDChange,
     singleLEDChange: singleLEDChange,
     getSpot: getSpot,
     workLight: workLight
-  }
+}

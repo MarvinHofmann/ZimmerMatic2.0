@@ -1,7 +1,9 @@
 <template>
   <tr>
     <th scope="row">{{ this.spot }}</th>
-    <td><div :style="{ 'background-color': color }" class="square"></div></td>
+    <td>
+      <div :style="{ 'background-color': color }" class="square"></div>
+    </td>
     <td>{{ this.brightness }}%</td>
     <td>
       <span v-if="this.is_off" class="badge rounded-pill bg-danger">Aus</span>
@@ -37,7 +39,7 @@ export default {
         this.out = true;
       } else {
         await this.fetch_led(255, 255, 255, 100);
-        setTimeout(() => {}, 2000);
+        setTimeout(() => { }, 2000);
         this.getState();
         this.fontcolor = "black";
         this.out = false;
@@ -94,14 +96,14 @@ export default {
   border: 1px dashed black;
 }
 
-.btn{
+.btn {
   margin: 10px 10px 10px 10px
 }
 
 .action {
   width: 50px;
 }
+
 h1 {
   font-size: 26pt;
-}
-</style>
+}</style>

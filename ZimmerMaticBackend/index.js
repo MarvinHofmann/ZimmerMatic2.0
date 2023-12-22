@@ -39,7 +39,7 @@ app.use('/', iot_buttonRoute)
 app.use('/api/Rolladen', rolladenRoute.router)
 app.use('/api', tempRoute)
 app.use('/api/firmware', otaRoute)
-app.use('/api/cronjobs', cronjobRoute) 
+app.use('/api/cronjobs', cronjobRoute.router)
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger.json');
@@ -52,8 +52,12 @@ MongoClient.connect(uri)
     .then(client => {
         try {
             const db = client.db("UserDB");
+            const dbCron = client.db("CronDB");
             const userCollection = db.collection('userdata');
+            const cronCollection = dbCron.collection('cronjobs');
             app.locals.userdata = userCollection;
+            app.locals.cronjobs = cronCollection;
+            cronjobRoute.readFromDB()
             console.log("Connected to DB");
         } catch (error) {
             console.log("Fehler beim Verbinden mit der DB ", error);
