@@ -53,6 +53,18 @@
           </label>
         </div>
       </div>
+      <div class="ms-1 mt-1" v-else-if="this.selectedOption == 'Licht'">
+        <div class="form-check" v-for="light in this.lights">
+          <input class="form-check-input" type="checkbox" v-model="this.selectedLights" :value="light.path" :id="'defaultCheck1' + light.path">
+          <label class="form-check-label" :for="'defaultCheck1' + light.path">
+            {{ light.name }}
+          </label>
+        </div>
+        <label for="sliderBright" class="form-label mt-2 mb-0">Helligkeit {{ this.lightBrightness }}%</label>
+        <input type="range" min="0" max="100" v-model="this.lightBrightness" class="form-range" id="sliderBright">
+        <label for="sliderTemp" class="form-label mb-0">Farbtemperatur {{ this.lightColor }}%</label>
+        <input type="range" min="0" max="100" v-model="this.lightColor" class="form-range" id="sliderTemp">
+      </div>
       <div class="d-grid gap-2 mt-3">
         <button class="btn btn-outline-success" type="button" @click="generateNewJob()">Job Anlegen</button>
       </div>
@@ -93,7 +105,7 @@
       </div>
     </div>
   </div>
-  <deleteModal id="deleteModal" :delete_item="this.jobToDelete" @delete_answer="delete_request"></deleteModal>
+  <deleteModal id="deleteModal" class="mt-5" :delete_item="this.jobToDelete" @delete_answer="delete_request"></deleteModal>
 </template>
 
 <script>
@@ -120,21 +132,40 @@ export default {
         { name: "Marvin", path: "LED_COLOR/colorMarvin" },
         { name: "Emely", path: "LED_COLOR/colorEmely" },
       ],
-      lights: [],
+      lights: [
+        { name: "Bett Links", path: "BL" },
+        { name: "Bett Rechts", path: "BR" },
+        { name: "Basteltisch", path: "BT" }
+      ],
       jobs: [],
       shutterOption: 'up',
       selectedShutter: 'ROLLADEN/stateBett',
-      jobToDelete: ""
+      jobToDelete: "",
+      selectedLights: [],
+      lightBrightness: 50,
+      lightColor: 50
     };
   },
   methods: {
     async generateNewJob() {
       if (this.selectedOption == "Rolladen") {
         await this.generateNewJobShutter();
-      } else {
+      } else if (this.selectedOption == "LED") {
         await this.generateNewLEDJob()
+      } else {
+        await this.generateNewLightJob()
       }
       await this.fetchJobs()
+    },
+    async generateNewLightJob() {
+      await axios.post(IP + "/api/cronjobs/generate-job/light", {
+        jobName: this.jobName,
+        whichLights: this.selectedLights,
+        brightness: this.lightBrightness,
+        color: this.lightColor,
+        expression: this.value
+      });
+      this.resetEvents()
     },
     async generateNewJobShutter() {
       await axios.post(IP + "/api/cronjobs/generate-job/shutter", {
@@ -143,6 +174,7 @@ export default {
         direction: this.shutterOption,
         expression: this.value
       });
+      this.resetEvents()
     },
     async generateNewLEDJob() {
       await axios.post(IP + "/api/cronjobs/generate-job/led", {
@@ -151,6 +183,7 @@ export default {
         color: this.color,
         expression: this.value
       });
+      this.resetEvents()
     },
     async fetchJobs() {
       this.jobs = await axios.get(IP + "/api/cronjobs/all-jobs/").then((response) => response.data);
@@ -174,6 +207,11 @@ export default {
         jobName: jobName
       }).then((response) => console.log(response.data));
       await this.fetchJobs()
+    },
+    resetEvents() {
+      this.jobName = "";
+      this.selectedOption = null;
+      this.value = "* * * * *"
     }
   },
   async mounted() {
@@ -181,3 +219,35 @@ export default {
   }
 };
 </script>
+
+<style>
+.vcron-select-input {
+  color: #dee2e6 !important;
+  background-color: #212529 !important;
+  border-radius: 0.375rem !important;
+  background-clip: padding-box !important;
+  border: 1px solid #495057 !important;
+  font-size: 1rem !important;
+  display: block !important;
+  width: 100% !important;
+  font-weight: 400 !important;
+}
+
+.vcron-select-list {
+  border: 1px solid #495057 !important;
+  background-color: #212529 !important;
+}
+
+.vcron-select-col {
+  color: #dee2e6 !important;
+}
+
+.vcron-select-col:hover {
+  color: #dee2e6 !important;
+  background-color: rgb(69, 101, 170) !important;
+}
+
+.vcron-select-selected {
+  background-color: rgb(69, 101, 170) !important;
+}
+</style>

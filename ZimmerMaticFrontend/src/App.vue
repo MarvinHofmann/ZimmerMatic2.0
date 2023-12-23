@@ -7,7 +7,7 @@
 </script>
 
 <style>
-html{
+html {
   background: #212529;
 }
 

@@ -4,6 +4,7 @@ const router = require('express').Router();
 const led = require('./LEDs')
 const hexToRgba = require("hex-to-rgba");
 const shutter = require("./Rolladen")
+const ikea = require("./Tradfri")
 //hash map to map keys to jobs
 let jobMap = new Map();
 
@@ -45,21 +46,40 @@ async function generateShutterJob(cronEx, whichShutter, direction, name, persist
     }
     if (persist) await main.app.locals.cronjobs.insertOne({ title: name, description: jobMap.get(name).description });
 }
+
+async function generateLightJob(cronEx, whichLight, brightness, color, name, persist) {
+    if (typeof (whichLight) == "object") {
+        const lightJob = cron.schedule(String(cronEx), () => {
+            whichLight.forEach(lightBulb => {
+                ikea.fetchLampe(lightBulb, "Helligkeit", brightness);
+                ikea.fetchLampe(lightBulb, "Farbtemperatur", color);
+            });
+        }, { scheduled: false })
+        jobMap.set(name, { job: lightJob, description: { jobName: name, type: "Licht", brightness: brightness, color: color, whichLight: whichLight, expression: cronEx, active: true, } })
+        lightJob.start()
+    }
+    if (persist) await main.app.locals.cronjobs.insertOne({ title: name, description: jobMap.get(name).description });
+}
+
 async function readFromDB() {
     const documents = await main.app.locals.cronjobs.find({}).toArray();
     documents.forEach((doc) => {
-        console.log(doc);
-        if (doc.description.type == "Rolladen") {
-            description = doc.description;
+        description = doc.description;
+        if (description.type == "Rolladen") {
             generateShutterJob(description.expression, description.whichShutter, description.direction, description.jobName, false)
-        } else if (doc.description.type == "LED") {
-            description = doc.description;
+        } else if (description.type == "LED") {
             generateLEDJob(description.expression, description.whichLED, description.color, description.jobName, false)
+        } else if (description.type == "Licht") {
+            generateLightJob(description.expression, description.whichLight, description.brightness, description.color, description.jobName, false)
         }
     });
 }
 exports.readFromDB = readFromDB;
 
+router.post('/generate-job/light', (req, res) => {
+    generateLightJob(req.body.expression, req.body.whichLights, req.body.brightness, req.body.color, req.body.jobName, true)
+    res.status(200).json({ message: "OK" })
+})
 
 router.post('/generate-job/led', (req, res) => {
     generateLEDJob(req.body.expression, req.body.whichLED, req.body.color, req.body.jobName, true)

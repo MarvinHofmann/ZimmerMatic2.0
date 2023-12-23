@@ -52,6 +52,8 @@ export default {
       this.color = await axios.get("http://192.168.0.138:8080/rest/items/" + this.name + "_Farbtemperatur/state").then((response) => response.data);
       if (this.brightness == 0) {
         this.out = true;
+      }else{
+        this.out = false
       }
     },
     async setLampBrightness(value) {
