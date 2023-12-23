@@ -8,6 +8,13 @@ const ikea = require("./Tradfri")
 //hash map to map keys to jobs
 let jobMap = new Map();
 
+/**
+ * The function `hex2rgb` takes a hexadecimal color code as input and returns an object with the
+ * corresponding RGB values.
+ * @param hex - The `hex` parameter is a string representing a hexadecimal color code.
+ * @returns The function `hex2rgb` returns an object with properties `r`, `g`, and `b`, which represent
+ * the red, green, and blue values respectively of the given hexadecimal color code.
+ */
 const hex2rgb = (hex) => {
     console.log(hex);
     const r = parseInt(hex.slice(1, 3), 16);
@@ -16,6 +23,19 @@ const hex2rgb = (hex) => {
     return { r, g, b };
 }
 
+/**
+ * The function generates a job that changes the color of LED lights based on a cron expression, and
+ * optionally persists the job and stops it after one execution.
+ * @param cronEx - The cron expression that determines when the job should run.
+ * @param whichLED - The `whichLED` parameter is used to specify which LED(s) should be changed. It is an array of LED strings.
+ * @param color - The "color" parameter is the color value that will be used for the LED job. An RGB object (e.g., { r: 255, g: 0, b:
+ * @param name - The name of the LED job. It is used as a unique identifier for the job.
+ * @param persist - The "persist" parameter is a boolean value that determines whether the LED color
+ * should persist or not. If set to true, the color will persist, meaning it will remain the same until
+ * changed again. If set to false, the color will only be applied temporarily.
+ * @param oneTime - A boolean value indicating whether the job should run only once or repeatedly
+ * according to the cron expression.
+ */
 async function generateLEDJob(cronEx, whichLED, color, name, persist, oneTime) {
     if (persist) color = hex2rgb(color)
     if (typeof (whichLED) == "object") {
@@ -24,6 +44,7 @@ async function generateLEDJob(cronEx, whichLED, color, name, persist, oneTime) {
                 led.singleLEDChange(ledString, color.r, color.g, color.b, 255);
             });
             if (oneTime) {
+                jobMap.get(name).stop()
                 jobMap.delete(name)
                 main.app.locals.cronjobs.deleteOne({ "title": name })
             }
@@ -34,10 +55,27 @@ async function generateLEDJob(cronEx, whichLED, color, name, persist, oneTime) {
     if (persist) await main.app.locals.cronjobs.insertOne({ title: name, description: jobMap.get(name).description });
 }
 
+/**
+ * The function `generateShutterJob` creates and starts a cron job that moves a shutter in a specified
+ * direction, and optionally persists the job in a database.
+ * @param cronEx - The cron expression that determines when the job should run.
+ * @param whichShutter - The parameter "whichShutter" is used to specify which shutter to move. It
+ * could be an identifier or a reference to a specific shutter object.
+ * @param direction - The "direction" parameter specifies the direction in which the shutter should
+ * move.
+ * @param name - The name of the shutter job. It is used as a unique identifier for the job.
+ * @param persist - The `persist` parameter is a boolean value that determines whether the shutter job
+ * should be persisted or stored in a database. If `persist` is set to `true`, the job will be stored
+ * in the database. If `persist` is set to `false`, the job will not be stored in
+ * @param oneTime - The `oneTime` parameter is a boolean value that determines whether the shutter job
+ * should be executed only once or repeatedly according to the cron expression. If `oneTime` is `true`,
+ * the job will be executed once and then stopped. If `oneTime` is `false`, the job will
+ */
 async function generateShutterJob(cronEx, whichShutter, direction, name, persist, oneTime) {
     const shutterJob = cron.schedule(String(cronEx), () => {
         shutter.moveShutter(whichShutter, direction);
         if (oneTime) {
+            jobMap.get(name).stop()
             jobMap.delete(name)
             main.app.locals.cronjobs.deleteOne({ "title": name })
         }
@@ -47,6 +85,24 @@ async function generateShutterJob(cronEx, whichShutter, direction, name, persist
     if (persist) await main.app.locals.cronjobs.insertOne({ title: name, description: jobMap.get(name).description });
 }
 
+/**
+ * The function generates a scheduled job to control the brightness and color of one or more light
+ * bulbs based on a cron expression, with the option to persist the job and make it a one-time job.
+ * @param cronEx - The cron expression that determines when the job should run.
+ * @param whichLight - The `whichLight` parameter is used to specify which light bulbs should be
+ * affected by the job. It can be either a single light bulb or an array of light bulbs. (BR,BL,BT)
+ * @param brightness - The brightness parameter determines the level of brightness for the light. It is
+ * a value between 0 and 100, where 0 represents the lowest brightness and 100 represents the highest
+ * brightness.
+ * @param color - The "color" parameter represents the desired color of the light. It could be a
+ * specific color value or a color temperature value, depending on the implementation.
+ * @param name - The name of the light job. It is used as a unique identifier for the job.
+ * @param persist - The "persist" parameter determines whether the job should be persisted in a
+ * database or not. If set to true, the job will be stored in a database for future reference. If set
+ * to false, the job will not be stored in the database.
+ * @param oneTime - A boolean value indicating whether the job should run only once or repeatedly
+ * according to the cron expression.
+ */
 async function generateLightJob(cronEx, whichLight, brightness, color, name, persist, oneTime) {
     if (typeof (whichLight) == "object") {
         const lightJob = cron.schedule(String(cronEx), () => {
@@ -55,6 +111,7 @@ async function generateLightJob(cronEx, whichLight, brightness, color, name, per
                 ikea.fetchLampe(lightBulb, "Farbtemperatur", color);
             });
             if (oneTime) {
+                jobMap.get(name).stop()
                 jobMap.delete(name)
                 main.app.locals.cronjobs.deleteOne({ "title": name })
             }
@@ -65,6 +122,10 @@ async function generateLightJob(cronEx, whichLight, brightness, color, name, per
     if (persist) await main.app.locals.cronjobs.insertOne({ title: name, description: jobMap.get(name).description });
 }
 
+/**
+ * The function reads documents from a database and generates different types of jobs based on the
+ * document's description.
+ */
 async function readFromDB() {
     const documents = await main.app.locals.cronjobs.find({}).toArray();
     documents.forEach((doc) => {
