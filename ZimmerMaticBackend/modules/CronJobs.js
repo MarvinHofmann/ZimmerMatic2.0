@@ -16,39 +16,50 @@ const hex2rgb = (hex) => {
     return { r, g, b };
 }
 
-async function generateLEDJob(cronEx, whichLED, color, name, persist) {
+async function generateLEDJob(cronEx, whichLED, color, name, persist, oneTime) {
     if (persist) color = hex2rgb(color)
     if (typeof (whichLED) == "object") {
         const ledjob = cron.schedule(String(cronEx), () => {
             whichLED.forEach(ledString => {
                 led.singleLEDChange(ledString, color.r, color.g, color.b, 255);
             });
+            if (oneTime) {
+                jobMap.delete(name)
+                main.app.locals.cronjobs.deleteOne({ "title": name })
+            }
         }, { scheduled: false })
-        jobMap.set(name, { job: ledjob, description: { jobName: name, type: "LED", color: color, whichLED: whichLED, expression: cronEx, active: true, } })
+        jobMap.set(name, { job: ledjob, description: { jobName: name, type: "LED", color: color, whichLED: whichLED, expression: cronEx, active: true, oneTimeJob: oneTime } })
         ledjob.start()
     }
     if (persist) await main.app.locals.cronjobs.insertOne({ title: name, description: jobMap.get(name).description });
 }
 
-async function generateShutterJob(cronEx, whichShutter, direction, name, persist) {
-
+async function generateShutterJob(cronEx, whichShutter, direction, name, persist, oneTime) {
     const shutterJob = cron.schedule(String(cronEx), () => {
         shutter.moveShutter(whichShutter, direction);
+        if (oneTime) {
+            jobMap.delete(name)
+            main.app.locals.cronjobs.deleteOne({ "title": name })
+        }
     }, { scheduled: false })
-    jobMap.set(name, { job: shutterJob, description: { jobName: name, type: "Rolladen", whichShutter, direction, expression: cronEx, active: true, } })
+    jobMap.set(name, { job: shutterJob, description: { jobName: name, type: "Rolladen", whichShutter, direction, expression: cronEx, active: true, oneTimeJob: oneTime } })
     shutterJob.start()
     if (persist) await main.app.locals.cronjobs.insertOne({ title: name, description: jobMap.get(name).description });
 }
 
-async function generateLightJob(cronEx, whichLight, brightness, color, name, persist) {
+async function generateLightJob(cronEx, whichLight, brightness, color, name, persist, oneTime) {
     if (typeof (whichLight) == "object") {
         const lightJob = cron.schedule(String(cronEx), () => {
             whichLight.forEach(lightBulb => {
                 ikea.fetchLampe(lightBulb, "Helligkeit", brightness);
                 ikea.fetchLampe(lightBulb, "Farbtemperatur", color);
             });
+            if (oneTime) {
+                jobMap.delete(name)
+                main.app.locals.cronjobs.deleteOne({ "title": name })
+            }
         }, { scheduled: false })
-        jobMap.set(name, { job: lightJob, description: { jobName: name, type: "Licht", brightness: brightness, color: color, whichLight: whichLight, expression: cronEx, active: true, } })
+        jobMap.set(name, { job: lightJob, description: { jobName: name, type: "Licht", brightness: brightness, color: color, whichLight: whichLight, expression: cronEx, active: true, oneTimeJob: oneTime } })
         lightJob.start()
     }
     if (persist) await main.app.locals.cronjobs.insertOne({ title: name, description: jobMap.get(name).description });
@@ -70,17 +81,17 @@ async function readFromDB() {
 exports.readFromDB = readFromDB;
 
 router.post('/generate-job/light', (req, res) => {
-    generateLightJob(req.body.expression, req.body.whichLights, req.body.brightness, req.body.color, req.body.jobName, true)
+    generateLightJob(req.body.expression, req.body.whichLights, req.body.brightness, req.body.color, req.body.jobName, true, req.body.oneTimeJob)
     res.status(200).json({ message: "OK" })
 })
 
 router.post('/generate-job/led', (req, res) => {
-    generateLEDJob(req.body.expression, req.body.whichLED, req.body.color, req.body.jobName, true)
+    generateLEDJob(req.body.expression, req.body.whichLED, req.body.color, req.body.jobName, true, req.body.oneTimeJob)
     res.status(200).json({ message: "OK" })
 })
 
 router.post('/generate-job/shutter', (req, res) => {
-    generateShutterJob(req.body.expression, req.body.whichShutter, req.body.direction, req.body.jobName, true)
+    generateShutterJob(req.body.expression, req.body.whichShutter, req.body.direction, req.body.jobName, true, req.body.oneTimeJob)
     res.status(200).json({ message: "OK" })
 })
 

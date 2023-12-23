@@ -3,6 +3,12 @@
     <div class="col-lg-6">
       <cron-light v-model="value" @error="error = $event" :locale="'de'"></cron-light>
       <div class="mt-1 text-muted">Cron Expression: {{ value }}</div>
+      <div class="form-check mt-1 ms-1 mb-1">
+        <input class="form-check-input" type="checkbox" v-model="this.oneTimeJob" id="oneTimeJob">
+        <label class="form-check-label" for="oneTimeJob">
+          Einmaliger Task
+        </label>
+      </div>
       <div class="form-floating mt-1">
         <select class="form-select" v-model="this.selectedOption" placeholder="Choose" id="floatingSelect" aria-label="Floating label select example">
           <option v-for="option in this.actions" :value="option">
@@ -65,12 +71,10 @@
         <label for="sliderTemp" class="form-label mb-0">Farbtemperatur {{ this.lightColor }}%</label>
         <input type="range" min="0" max="100" v-model="this.lightColor" class="form-range" id="sliderTemp">
       </div>
-      <div class="d-grid">
-        <div v-if="this.showErrName" class="alert alert-danger mt-3" role="alert">
-          Fehler: EMELY:1 Es muss ein Name angegeben werden!
-        </div>
-        <button class="btn btn-outline-success" type="button" @click="generateNewJob()">Job Anlegen</button>
+      <div v-if="this.showErrName" class="alert alert-danger mt-3 mb-0" role="alert">
+        Fehler: EMELY:1 Es muss ein Name angegeben werden!
       </div>
+      <button class="btn w-100 btn-outline-success mt-3" type="button" @click="generateNewJob()">Job Anlegen</button>
     </div>
     <div class="col-lg-6 text-center">
       <div class="table-responsive">
@@ -83,6 +87,7 @@
               </th>
               <th scope="col">Aktion</th>
               <th scope="col">Status</th>
+              <th scope="col">Häufigkeit</th>
               <th scope="col">Aktionen</th>
             </tr>
           </thead>
@@ -94,6 +99,10 @@
               <td>
                 <span v-if="item.active" class="badge rounded-pill bg-success">Aktiv</span>
                 <span v-else class="badge rounded-pill bg-danger">Inaktiv</span>
+              </td>
+              <td>
+                <span v-if="item.oneTimeJob" class="badge rounded-pill bg-warning">Einmalig</span>
+                <span v-else class="badge rounded-pill bg-primary">Dauerhaft</span>
               </td>
               <td>
                 <div class="d-flex justify-content-center">
@@ -147,7 +156,8 @@ export default {
       selectedLights: [],
       lightBrightness: 50,
       lightColor: 50,
-      showErrName: false
+      showErrName: false,
+      oneTimeJob: false
     };
   },
   methods: {
@@ -171,7 +181,8 @@ export default {
         whichLights: this.selectedLights,
         brightness: this.lightBrightness,
         color: this.lightColor,
-        expression: this.value
+        expression: this.value,
+        oneTimeJob: this.oneTimeJob
       });
       this.resetEvents()
     },
@@ -184,7 +195,8 @@ export default {
         jobName: this.jobName,
         whichShutter: this.selectedShutter,
         direction: this.shutterOption,
-        expression: this.value
+        expression: this.value,
+        oneTimeJob: this.oneTimeJob
       });
       this.resetEvents()
     },
@@ -197,7 +209,8 @@ export default {
         jobName: this.jobName,
         whichLED: this.selectedLEDs,
         color: this.color,
-        expression: this.value
+        expression: this.value,
+        oneTimeJob: this.oneTimeJob
       });
       this.resetEvents()
     },
