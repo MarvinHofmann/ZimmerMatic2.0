@@ -44,7 +44,7 @@ async function generateLEDJob(cronEx, whichLED, color, name, persist, oneTime) {
                 led.singleLEDChange(ledString, color.r, color.g, color.b, 255);
             });
             if (oneTime) {
-                jobMap.get(name).job.stop()
+                jobMap.get(name).job.destroy()
                 jobMap.delete(name)
                 main.app.locals.cronjobs.deleteOne({ "title": name })
             }
@@ -75,7 +75,7 @@ async function generateShutterJob(cronEx, whichShutter, direction, name, persist
     const shutterJob = cron.schedule(String(cronEx), () => {
         shutter.moveShutter(whichShutter, direction);
         if (oneTime) {
-            jobMap.get(name).job.stop()
+            jobMap.get(name).job.destroy()
             jobMap.delete(name)
             main.app.locals.cronjobs.deleteOne({ "title": name })
         }
@@ -113,7 +113,7 @@ async function generateLightJob(cronEx, whichLight, brightness, color, name, per
             if (oneTime) {
                 console.log("KILL ME NOW");
                 console.log(jobMap.get(name));
-                jobMap.get(name).job.stop()
+                jobMap.get(name).job.destroy()
                 console.log(jobMap.get(name));
                 jobMap.delete(name)
                 main.app.locals.cronjobs.deleteOne({ "title": name })
