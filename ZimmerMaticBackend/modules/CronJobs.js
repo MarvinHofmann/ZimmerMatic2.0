@@ -131,11 +131,11 @@ async function readFromDB() {
     documents.forEach((doc) => {
         description = doc.description;
         if (description.type == "Rolladen") {
-            generateShutterJob(description.expression, description.whichShutter, description.direction, description.jobName, false)
+            generateShutterJob(description.expression, description.whichShutter, description.direction, description.jobName, false, decription.oneTimeJob)
         } else if (description.type == "LED") {
-            generateLEDJob(description.expression, description.whichLED, description.color, description.jobName, false)
+            generateLEDJob(description.expression, description.whichLED, description.color, description.jobName, false, decription.oneTimeJob)
         } else if (description.type == "Licht") {
-            generateLightJob(description.expression, description.whichLight, description.brightness, description.color, description.jobName, false)
+            generateLightJob(description.expression, description.whichLight, description.brightness, description.color, description.jobName, false, decription.oneTimeJob)
         }
     });
 }
