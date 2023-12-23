@@ -1,7 +1,7 @@
 <template>
   <tr>
     <th scope="row">{{ this.spot }}</th>
-    <td>
+    <td class="d-none d-lg-table-cell">
       <div :style="{ 'background-color': color }" class="square"></div>
     </td>
     <td>{{ this.brightness }}%</td>

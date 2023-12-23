@@ -37,7 +37,7 @@
                   <thead>
                     <tr>
                       <th style="width: 20%" scope="col">Standort</th>
-                      <th style="width: 20%" scope="col">Color</th>
+                      <th class="d-none d-lg-table-cell" style="width: 20%" scope="col">Color</th>
                       <th style="width: 20%" scope="col">Helligkeit</th>
                       <th style="width: 20%" scope="col">Status</th>
                       <th style="width: 20%" scope="col">Aktionen</th>
@@ -81,8 +81,8 @@
                   <thead>
                     <tr>
                       <th style="width: 20%" scope="col">Standort</th>
-                      <th style="width: 20%" scope="col">Farbtemperatur</th>
-                      <th style="width: 20%" scope="col">Helligkeit</th>
+                      <th class="d-none d-lg-table-cell" style="width: 20%" scope="col">Farbtemperatur</th>
+                      <th class="d-none d-lg-table-cell" style="width: 20%" scope="col">Helligkeit</th>
                       <th style="width: 20%" scope="col">Staus</th>
                       <th style="width: 20%" scope="col">Aktionen</th>
                     </tr>

@@ -1,8 +1,8 @@
 <template>
   <tr>
     <th scope="row">{{ this.spot }}</th>
-    <td>{{ this.color }}%</td>
-    <td>{{ this.brightness }}%</td>
+    <td class="d-none d-lg-table-cell">{{ this.color }}%</td>
+    <td class="d-none d-lg-table-cell">{{ this.brightness }}%</td>
     <td v-if="!this.offline">
       <span v-if="this.out" class="badge rounded-pill bg-danger">Aus</span>
       <span v-else class="badge rounded-pill bg-success">An</span>
