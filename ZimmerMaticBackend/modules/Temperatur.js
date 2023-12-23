@@ -52,8 +52,10 @@ router.get("/averageTemp", function (req, res) {
   let avg_t = 0
   let avg_h = 0
   for (let i = 0; i < spots.length; i++) {
-    avg_t = avg_t + spots[i].temperature
-    avg_h = avg_h + spots[i].humidity
+    if (spots[i].temperature > 0 && spots[i].humidity > 0) {
+      avg_t = avg_t + spots[i].temperature
+      avg_h = avg_h + spots[i].humidity
+    }
   }
   avg_h = (avg_h / 3).toFixed(2)
   avg_t = (avg_t / 3).toFixed(2)
