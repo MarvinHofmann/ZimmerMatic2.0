@@ -44,7 +44,7 @@ async function generateLEDJob(cronEx, whichLED, color, name, persist, oneTime) {
                 led.singleLEDChange(ledString, color.r, color.g, color.b, 255);
             });
             if (oneTime) {
-                jobMap.get(name).stop()
+                jobMap.get(name).job.stop()
                 jobMap.delete(name)
                 main.app.locals.cronjobs.deleteOne({ "title": name })
             }
@@ -75,7 +75,7 @@ async function generateShutterJob(cronEx, whichShutter, direction, name, persist
     const shutterJob = cron.schedule(String(cronEx), () => {
         shutter.moveShutter(whichShutter, direction);
         if (oneTime) {
-            jobMap.get(name).stop()
+            jobMap.get(name).job.stop()
             jobMap.delete(name)
             main.app.locals.cronjobs.deleteOne({ "title": name })
         }
@@ -111,7 +111,7 @@ async function generateLightJob(cronEx, whichLight, brightness, color, name, per
                 ikea.fetchLampe(lightBulb, "Farbtemperatur", color);
             });
             if (oneTime) {
-                jobMap.get(name).stop()
+                jobMap.get(name).job.stop()
                 jobMap.delete(name)
                 main.app.locals.cronjobs.deleteOne({ "title": name })
             }
