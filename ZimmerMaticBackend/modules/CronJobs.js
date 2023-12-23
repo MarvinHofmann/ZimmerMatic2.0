@@ -7,6 +7,7 @@ const shutter = require("./Rolladen")
 const ikea = require("./Tradfri")
 //hash map to map keys to jobs
 let jobMap = new Map();
+let doneOneTimeJobList = []
 
 /**
  * The function `hex2rgb` takes a hexadecimal color code as input and returns an object with the
@@ -43,11 +44,7 @@ async function generateLEDJob(cronEx, whichLED, color, name, persist, oneTime) {
             whichLED.forEach(ledString => {
                 led.singleLEDChange(ledString, color.r, color.g, color.b, 255);
             });
-            if (oneTime) {
-                jobMap.get(name).job.destroy()
-                jobMap.delete(name)
-                main.app.locals.cronjobs.deleteOne({ "title": name })
-            }
+            if (oneTime) doneOneTimeJobList.push(name)
         }, { scheduled: false })
         jobMap.set(name, { job: ledjob, description: { jobName: name, type: "LED", color: color, whichLED: whichLED, expression: cronEx, active: true, oneTimeJob: oneTime } })
         ledjob.start()
@@ -74,11 +71,7 @@ async function generateLEDJob(cronEx, whichLED, color, name, persist, oneTime) {
 async function generateShutterJob(cronEx, whichShutter, direction, name, persist, oneTime) {
     const shutterJob = cron.schedule(String(cronEx), () => {
         shutter.moveShutter(whichShutter, direction);
-        if (oneTime) {
-            jobMap.get(name).job.destroy()
-            jobMap.delete(name)
-            main.app.locals.cronjobs.deleteOne({ "title": name })
-        }
+        if (oneTime) doneOneTimeJobList.push(name)
     }, { scheduled: false })
     jobMap.set(name, { job: shutterJob, description: { jobName: name, type: "Rolladen", whichShutter, direction, expression: cronEx, active: true, oneTimeJob: oneTime } })
     shutterJob.start()
@@ -105,19 +98,12 @@ async function generateShutterJob(cronEx, whichShutter, direction, name, persist
  */
 async function generateLightJob(cronEx, whichLight, brightness, color, name, persist, oneTime) {
     if (typeof (whichLight) == "object") {
-        const lightJob = cron.schedule(String(cronEx), () => {
+        const lightJob = cron.schedule(String(cronEx), async () => {
             whichLight.forEach(lightBulb => {
                 ikea.fetchLampe(lightBulb, "Helligkeit", brightness);
                 ikea.fetchLampe(lightBulb, "Farbtemperatur", color);
             });
-            if (oneTime) {
-                console.log("KILL ME NOW");
-                console.log(jobMap.get(name));
-                jobMap.get(name).job.destroy()
-                console.log(jobMap.get(name));
-                jobMap.delete(name)
-                main.app.locals.cronjobs.deleteOne({ "title": name })
-            }
+            if (oneTime) doneOneTimeJobList.push(name)
         }, { scheduled: false })
         jobMap.set(name, { job: lightJob, description: { jobName: name, type: "Licht", brightness: brightness, color: color, whichLight: whichLight, expression: cronEx, active: true, oneTimeJob: oneTime } })
         lightJob.start()
@@ -141,6 +127,18 @@ async function readFromDB() {
             generateLightJob(description.expression, description.whichLight, description.brightness, description.color, description.jobName, false, description.oneTimeJob)
         }
     });
+
+    // Check every 50 seconds for oneTime jobs that already done
+    const crawlerJob = cron.schedule("30 * * * * *", () => {
+        doneOneTimeJobList.forEach(oneTimeJob => {
+            console.log("REMOVE jobs ", oneTimeJob);
+            jobMap.get(oneTimeJob).job.stop();
+            jobMap.delete(oneTimeJob)
+            main.app.locals.cronjobs.deleteOne({ "title": oneTimeJob })
+        });
+        doneOneTimeJobList = []
+    }, { scheduled: false })
+    crawlerJob.start()
 }
 exports.readFromDB = readFromDB;
 
