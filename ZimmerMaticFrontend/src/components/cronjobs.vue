@@ -65,7 +65,10 @@
         <label for="sliderTemp" class="form-label mb-0">Farbtemperatur {{ this.lightColor }}%</label>
         <input type="range" min="0" max="100" v-model="this.lightColor" class="form-range" id="sliderTemp">
       </div>
-      <div class="d-grid gap-2 mt-3">
+      <div class="d-grid">
+        <div v-if="this.showErrName" class="alert alert-danger mt-3" role="alert">
+          Fehler: EMELY:1 Es muss ein Name angegeben werden!
+        </div>
         <button class="btn btn-outline-success" type="button" @click="generateNewJob()">Job Anlegen</button>
       </div>
     </div>
@@ -143,7 +146,8 @@ export default {
       jobToDelete: "",
       selectedLights: [],
       lightBrightness: 50,
-      lightColor: 50
+      lightColor: 50,
+      showErrName: false
     };
   },
   methods: {
@@ -158,6 +162,10 @@ export default {
       await this.fetchJobs()
     },
     async generateNewLightJob() {
+      if (this.jobName == "") {
+        this.showErrName = true
+        return
+      }
       await axios.post(IP + "/api/cronjobs/generate-job/light", {
         jobName: this.jobName,
         whichLights: this.selectedLights,
@@ -168,6 +176,10 @@ export default {
       this.resetEvents()
     },
     async generateNewJobShutter() {
+      if (this.jobName == "") {
+        this.showErrName = true
+        return
+      }
       await axios.post(IP + "/api/cronjobs/generate-job/shutter", {
         jobName: this.jobName,
         whichShutter: this.selectedShutter,
@@ -177,6 +189,10 @@ export default {
       this.resetEvents()
     },
     async generateNewLEDJob() {
+      if (this.jobName == "") {
+        this.showErrName = true
+        return
+      }
       await axios.post(IP + "/api/cronjobs/generate-job/led", {
         jobName: this.jobName,
         whichLED: this.selectedLEDs,
@@ -209,6 +225,7 @@ export default {
       await this.fetchJobs()
     },
     resetEvents() {
+      this.showErrName = false
       this.jobName = "";
       this.selectedOption = null;
       this.value = "* * * * *"
