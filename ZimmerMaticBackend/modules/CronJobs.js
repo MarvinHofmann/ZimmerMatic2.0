@@ -15,15 +15,9 @@ const hex2rgb = (hex) => {
     return { r, g, b };
 }
 
-function generateLEDJob(cronEx, whichLED, color, name, persist) {
+async function generateLEDJob(cronEx, whichLED, color, name, persist) {
     if (persist) color = hex2rgb(color)
-    if (typeof (whichLED) == "string" && whichLED == "all") {
-        const ledjob = cron.schedule(String(cronEx), () => {
-            led.allLEDChange(color.r, color.g, color.b, 255);
-        }, { scheduled: false })
-        jobMap.set(name, { job: ledjob, description: { jobName: name, type: "LED", color: color, whichLED: whichLED, expression: cronEx, active: true, } })
-        ledjob.start()
-    } else if (typeof (whichLED) == "object") {
+    if (typeof (whichLED) == "object") {
         const ledjob = cron.schedule(String(cronEx), () => {
             whichLED.forEach(ledString => {
                 led.singleLEDChange(ledString, color.r, color.g, color.b, 255);
@@ -32,10 +26,10 @@ function generateLEDJob(cronEx, whichLED, color, name, persist) {
         jobMap.set(name, { job: ledjob, description: { jobName: name, type: "LED", color: color, whichLED: whichLED, expression: cronEx, active: true, } })
         ledjob.start()
     }
-    if (persist) writeToDB()
+    if (persist) await main.app.locals.cronjobs.insertOne({ title: name, description: jobMap.get(name).description });
 }
 
-function generateShutterJob(cronEx, whichShutter, direction, name, persist) {
+async function generateShutterJob(cronEx, whichShutter, direction, name, persist) {
     if (direction == "up") {
         const shutterJob = cron.schedule(String(cronEx), () => {
             shutter.rolladenUP()
@@ -49,18 +43,12 @@ function generateShutterJob(cronEx, whichShutter, direction, name, persist) {
         jobMap.set(name, { job: shutterJob, description: { jobName: name, type: "Rolladen", whichShutter, direction, expression: cronEx, active: true, } })
         shutterJob.start()
     }
-    if (persist) writeToDB()
+    if (persist) await main.app.locals.cronjobs.insertOne({ title: name, description: jobMap.get(name).description });
 }
-
-async function writeToDB() {
-    for (const [key, value] of jobMap) {
-        await main.app.locals.cronjobs.insertOne({ title: key, description: value.description });
-    }
-}
-
 async function readFromDB() {
     const documents = await main.app.locals.cronjobs.find({}).toArray();
     documents.forEach((doc) => {
+        console.log(doc);
         if (doc.description.type == "Rolladen") {
             description = doc.description;
             generateShutterJob(description.expression, description.whichShutter, description.direction, description.jobName, false)
@@ -102,7 +90,7 @@ router.post('/stop-job', (req, res) => {
 
     if (!job) return res.status(400).json({ message: 'invalid job name' })
     else job.stop()
-    res.status(200).json({ message: `job ${jobName} started successfully` })
+    res.status(200).json({ message: `job ${jobName} stopped successfully` })
 })
 
 router.get('/all-jobs', (req, res) => {
@@ -112,6 +100,12 @@ router.get('/all-jobs', (req, res) => {
     }
     res.status(200).send(jobs)
 })
+
+router.delete("/job/:jobName", async (req, res) => {
+    jobMap.delete(req.params.jobName)
+    main.app.locals.cronjobs.deleteOne({ "title": req.params.jobName })
+    res.status(200).send("OK")
+});
 
 module.exports = {
     router: router,

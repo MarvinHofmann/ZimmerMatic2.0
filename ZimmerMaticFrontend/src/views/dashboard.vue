@@ -96,7 +96,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3 mt-3">
+          <div class="col-lg-2 mt-3">
             <div class="card h-100">
               <div class="card-header">Services</div>
               <div class="card-body">
@@ -132,49 +132,55 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3 mt-3">
+          <div class="col-lg-4 mt-3">
             <div class="card h-100">
               <div class="card-header">Serverstatus</div>
               <div class="card-body">
-                <p class="text-muted">
-                  Backend
-                  <span v-if="this.backend == 200" class="badge rounded-pill bg-success">Online</span>
-                  <span v-else class="badge rounded-pill bg-danger">Offline</span>
-                </p>
-                <p class="text-muted">
-                  Systemload: <b>{{ this.pi_info.load.avgLoad }}</b>
-                </p>
-                <p class="text-muted">
-                  RAM: <b>{{ this.mem_use }} % </b>
-                </p>
-                <p class="text-muted">
-                  Speicherbelegung: <b>{{ this.pi_info.disk[0].use }}% </b>
-                </p>
-                <p v-if="this.pi_info.cpu_temp.main >= 50" class="text-warning">
-                  Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b>
-                </p>
-                <p v-else-if="this.pi_info.cpu_temp.main > 55" class="text-muted">
-                  Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b>
-                </p>
-                <p v-else class="text-muted">
-                  Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b>
-                </p>
-                <p class="text-muted">
-                  Laufende Container: <b>{{ this.running_container }} </b>
-                </p>
-                <p class="text-muted">
-                  Anzahl Container: <b>{{ this.container.length }} </b>
-                </p>
-                <p class="text-muted">
-                  Homematic Bridge
-                  <span v-if="this.homematic" class="badge rounded-pill bg-success">Online</span>
-                  <span v-else class="badge rounded-pill bg-danger">Offline</span>
-                </p>
-                <p class="text-muted">
-                  Tradfri Gateway
-                  <span v-if="this.tradfri" class="badge rounded-pill bg-success">Online</span>
-                  <span v-else class="badge rounded-pill bg-danger">Offline</span>
-                </p>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <p class="text-muted">
+                      Backend
+                      <span v-if="this.backend == 200" class="badge rounded-pill bg-success">Online</span>
+                      <span v-else class="badge rounded-pill bg-danger">Offline</span>
+                    </p>
+                    <p class="text-muted">
+                      Systemload: <b>{{ this.pi_info.load.avgLoad }}</b>
+                    </p>
+                    <p class="text-muted">
+                      RAM: <b>{{ this.mem_use }} % </b>
+                    </p>
+                    <p class="text-muted">
+                      Speicherbelegung: <b>{{ this.pi_info.disk[0].use }}% </b>
+                    </p>
+                    <p v-if="this.pi_info.cpu_temp.main >= 50" class="text-warning">
+                      Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b>
+                    </p>
+                    <p v-else-if="this.pi_info.cpu_temp.main > 55" class="text-muted">
+                      Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b>
+                    </p>
+                    <p v-else class="text-muted">
+                      Temperatur: <b> {{ this.pi_info.cpu_temp.main }}°C </b>
+                    </p>
+                  </div>
+                  <div class="col-lg-6">
+                    <p class="text-muted">
+                      Laufende Container: <b>{{ this.running_container }} </b>
+                    </p>
+                    <p class="text-muted">
+                      Anzahl Container: <b>{{ this.container.length }} </b>
+                    </p>
+                    <p class="text-muted">
+                      Homematic Bridge
+                      <span v-if="this.homematic" class="badge rounded-pill bg-success">Online</span>
+                      <span v-else class="badge rounded-pill bg-danger">Offline</span>
+                    </p>
+                    <p class="text-muted">
+                      Tradfri Gateway
+                      <span v-if="this.tradfri" class="badge rounded-pill bg-success">Online</span>
+                      <span v-else class="badge rounded-pill bg-danger">Offline</span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -381,5 +387,4 @@ hr {
   background-color: #fbfbfb;
   border: 0;
   opacity: 0.75;
-}
-</style>
+}</style>

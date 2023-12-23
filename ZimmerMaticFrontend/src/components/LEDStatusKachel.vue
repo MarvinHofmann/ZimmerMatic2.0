@@ -9,8 +9,8 @@
       <span v-if="this.is_off" class="badge rounded-pill bg-danger">Aus</span>
       <span v-else class="badge rounded-pill bg-success">An</span>
     </td>
-    <td v-if="this.is_off"><button @click="switchState()" class="btn btn-outline-success action bi bi-power"></button></td>
-    <td v-else><button @click="switchState()" class="btn btn-outline-danger action bi bi-power"></button></td>
+    <td v-if="this.is_off"><button @click="switchState()" class="btn btn-sm btn-outline-success bi bi-power"></button></td>
+    <td v-else><button @click="switchState()" class="btn btn-sm btn-outline-danger bi bi-power"></button></td>
   </tr>
 </template>
 
@@ -94,14 +94,6 @@ export default {
   width: 100px;
   border-radius: 5px;
   border: 1px dashed black;
-}
-
-.btn {
-  margin: 10px 10px 10px 10px
-}
-
-.action {
-  width: 50px;
 }
 
 h1 {

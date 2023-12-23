@@ -17,20 +17,13 @@
         <label for="floatingInput">Name des Jobs</label>
       </div>
       <div class="ms-1 mt-1" v-if="this.selectedOption == 'LED'">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" v-model="this.selectedLEDs" :value="'all'" id="defaultCheck1">
-          <label class="form-check-label" for="defaultCheck1">
-            Alle
-          </label>
-        </div>
         <div class="form-check" v-for="led in this.leds">
           <input class="form-check-input" type="checkbox" v-model="this.selectedLEDs" :value="led.path" id="defaultCheck1">
           <label class="form-check-label" for="defaultCheck1">
             {{ led.name }}
           </label>
         </div>
-        {{ this.color }}
-        <input type="color" v-model="this.color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+        <input type="color" v-model="this.color" class="form-control form-control-color" id="exampleColorInput" title="Choose your color">
       </div>
       <div class="ms-1 mt-1" v-else-if="this.selectedOption == 'Rolladen'">
         <p class="mb-0 text-muted">Richtung</p>
@@ -70,7 +63,9 @@
           <thead>
             <tr>
               <th scope="col">Job Name</th>
-              <th scope="col">Cron Expression</th>
+              <th scope="col">
+                <p class="mb-0">Cron Expression</p> <small class="text-muted">m/h/d/m/wd</small>
+              </th>
               <th scope="col">Aktion</th>
               <th scope="col">Status</th>
               <th scope="col">Aktionen</th>
@@ -82,16 +77,15 @@
               <td>{{ item.expression }}</td>
               <td>{{ item.type }}</td>
               <td>
-                <div v-if="item.active">Aktiv</div>
-                <div v-else>Inaktiv</div>
+                <span v-if="item.active" class="badge rounded-pill bg-success">Aktiv</span>
+                <span v-else class="badge rounded-pill bg-danger">Inaktiv</span>
               </td>
-              <td v-if="item.active">
-                <button class="me-1 btn btn-sm btn-outline-danger bi bi-power"></button>
-                <button class="btn btn-sm btn-outline-danger bi bi-trash"></button>
-              </td>
-              <td v-else>
-                <button class="me-1 btn btn-sm btn-outline-success bi bi-power"></button>
-                <button class="btn btn-sm btn-outline-danger bi bi-trash"></button>
+              <td>
+                <div class="d-flex justify-content-center">
+                  <button v-if="item.active" @click="this.deactivateJob(item.jobName)" class="btn btn-sm btn-outline-danger bi bi-power mx-2"></button>
+                  <button v-else @click="this.activateJob(item.jobName)" class="btn btn-sm btn-outline-success bi bi-power mx-2"></button>
+                  <button @click="this.jobToDelete = item.jobName" data-bs-target="#deleteModal" data-bs-toggle="modal" class="btn btn-sm btn-outline-danger bi bi-trash"></button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -99,21 +93,26 @@
       </div>
     </div>
   </div>
+  <deleteModal id="deleteModal" :delete_item="this.jobToDelete" @delete_answer="delete_request"></deleteModal>
 </template>
 
 <script>
 import axios from 'axios';
 const IP = import.meta.env.VITE_SERVER_IP;
+import deleteModal from "./deleteModal.vue"
 export default {
+  components: {
+    deleteModal
+  },
   data() {
     return {
-      jobName: "Beschreibung",
+      jobName: "",
       selectedOption: null,
       selectedLEDs: [],
-      color: null,
+      color: "#d4520c",
       value: "* * * * *",
       error: "",
-      actions: ["LED", "Rolladen"],
+      actions: ["LED", "Rolladen", "Licht"],
       leds: [
         { name: "Kamin", path: "LED_COLOR/colorKamin" },
         { name: "Couch", path: "LED_COLOR/colorCouch" },
@@ -121,9 +120,11 @@ export default {
         { name: "Marvin", path: "LED_COLOR/colorMarvin" },
         { name: "Emely", path: "LED_COLOR/colorEmely" },
       ],
+      lights: [],
       jobs: [],
       shutterOption: 'up',
-      selectedShutter: 'ROLLADEN/stateBett'
+      selectedShutter: 'ROLLADEN/stateBett',
+      jobToDelete: ""
     };
   },
   methods: {
@@ -154,6 +155,25 @@ export default {
     async fetchJobs() {
       this.jobs = await axios.get(IP + "/api/cronjobs/all-jobs/").then((response) => response.data);
       console.log(this.jobs);
+    },
+    async delete_request(request_bool) {
+      if (request_bool) {
+        let res = await axios.delete(IP + "/api/cronjobs/job/" + this.jobToDelete).then((response) => response.data);
+        this.jobToDelete = ""
+        await this.fetchJobs()
+      }
+    },
+    async activateJob(jobName) {
+      await axios.post(IP + "/api/cronjobs/start-job", {
+        jobName: jobName
+      }).then((response) => console.log(response.data));
+      await this.fetchJobs()
+    },
+    async deactivateJob(jobName) {
+      await axios.post(IP + "/api/cronjobs/stop-job", {
+        jobName: jobName
+      }).then((response) => console.log(response.data));
+      await this.fetchJobs()
     }
   },
   async mounted() {

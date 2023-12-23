@@ -11,10 +11,10 @@
       <span v-if="this.offline" class="badge rounded-pill bg-dark">unavailable</span>
     </td>
     <td v-if="this.out">
-      <button :disabled="this.offline" @click="switchState()" class="btn btn-outline-success action bi bi-power m-1"></button>
+      <button :disabled="this.offline" @click="switchState()" class="btn btn-sm btn-outline-success bi bi-power"></button>
     </td>
     <td v-else>
-      <button :disabled="this.offline" @click="switchState()" class="btn btn-outline-danger action bi bi-power m-1"></button>
+      <button :disabled="this.offline" @click="switchState()" class="btn btn-sm btn-outline-danger bi bi-power"></button>
     </td>
   </tr>
 </template>
@@ -88,7 +88,4 @@ export default {
 };
 </script>
 <style scoped>
-.action {
-  width: 50px;
-}
 </style>
