@@ -66,8 +66,6 @@ MongoClient.connect(uri)
 
 //App Listen
 app.listen(port, () => {
-    //leds.workLight();
-    //Rolladen.rolladenUP();
     console.log(`App listening at http://ZimmerMatic:${port}`);
 });
 

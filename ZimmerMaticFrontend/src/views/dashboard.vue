@@ -299,7 +299,7 @@ export default {
       }
     },
     send_fetch(pDirection, shutter_spot) {
-      axios.post(IP + "/api/Rolladen", { direction: pDirection });
+      axios.post(IP + "/api/Rolladen", { direction: pDirection, spot: shutter_spot });
       if (shutter_spot == "Bett") {
         this.shutter_state_bett = "Fährt ...";
       } else {

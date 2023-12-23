@@ -6,17 +6,18 @@ const verify = require("../routes/verify_token")
  * Middleware for shutter close, open and stop possible
  */
 router.post("/", function (req, res) {
-    let dir = req.body.direction;
+    const dir = req.body.direction;
+    const spot = req.body.spot
+    const shutter = "Rolladen/state" + spot
     //Executes the Direction requested by frontend
     try {
-        main.client.publish("ROLLADEN/stateBett", dir);
+        main.client.publish(shutter, dir);
         res.sendStatus(200)
     } catch (error) {
         console.log("Shutter Not available!");
         res.sendStatus(500)
     }
 });
-
 
 router.post("/state", function (req, res) {
     let spot = req.body.spot;
@@ -34,44 +35,20 @@ router.post("/state", function (req, res) {
 
 //Export Functions
 /**
- * opens the shutter
+ * Moves the given shutter to the given direction
+ * @param {*} shutter shutter Channel ("ROLLADEN/stateBett" or "ROLLADEN/stateSchreibitsch")
+ * @param {*} direction (UP, STOP, DOWN)
  */
-function rolladenUP() {
+function moveShutter(shutter, direction) {
     try {
-        main.client.publish("ROLLADEN/stateBett", "UP");
+        main.client.publish(shutter, direction);
     } catch (error) {
         console.log("Shutter Not available!");
     }
 }
-exports.rolladenUP = rolladenUP;
-
-/**
- * stops the shutter
- */
-function rolladenStop() {
-    try {
-        main.client.publish("ROLLADEN/stateBett", "STOP");
-    } catch (error) {
-        console.log("Shutter Not available!");
-    }
-}
-exports.rolladenStop = rolladenStop;
-
-/**
- * closes the shutter
- */
-function rolladenDown() {
-    try {
-        main.client.publish("ROLLADEN/stateBett", "DOWN");
-    } catch (error) {
-        console.log("Shutter Not available!");
-    }
-}
-exports.rolladenDown = rolladenDown;
+exports.moveShutter = moveShutter;
 
 module.exports = {
     router: router,
-    rolladenDown: rolladenDown,
-    rolladenStop: rolladenStop,
-    rolladenUP: rolladenUP
+    moveShutter: moveShutter
 }

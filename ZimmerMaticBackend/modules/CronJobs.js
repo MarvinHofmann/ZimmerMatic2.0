@@ -31,19 +31,12 @@ async function generateLEDJob(cronEx, whichLED, color, name, persist) {
 }
 
 async function generateShutterJob(cronEx, whichShutter, direction, name, persist) {
-    if (direction == "up") {
-        const shutterJob = cron.schedule(String(cronEx), () => {
-            shutter.rolladenUP()
-        }, { scheduled: false })
-        jobMap.set(name, { job: shutterJob, description: { jobName: name, type: "Rolladen", whichShutter, direction, expression: cronEx, active: true, } })
-        shutterJob.start()
-    } else {
-        const shutterJob = cron.schedule(String(cronEx), () => {
-            shutter.rolladenDown()
-        }, { scheduled: false })
-        jobMap.set(name, { job: shutterJob, description: { jobName: name, type: "Rolladen", whichShutter, direction, expression: cronEx, active: true, } })
-        shutterJob.start()
-    }
+
+    const shutterJob = cron.schedule(String(cronEx), () => {
+        shutter.moveShutter(whichShutter, direction);
+    }, { scheduled: false })
+    jobMap.set(name, { job: shutterJob, description: { jobName: name, type: "Rolladen", whichShutter, direction, expression: cronEx, active: true, } })
+    shutterJob.start()
     if (persist) await main.app.locals.cronjobs.insertOne({ title: name, description: jobMap.get(name).description });
 }
 

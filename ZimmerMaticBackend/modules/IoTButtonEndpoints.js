@@ -40,7 +40,7 @@ router.get("/hello", function (req, res) {
         Ikea.fetchLampe("BR", "Helligkeit", 30);
     } else {
         //open the shutter
-        shutter.rolladenUP();
+        shutter.moveShutter("ROLLADEN/stateBett", "UP");
     }
     //If its winter start the heater
     if ((a.getHours() < 21 || a.getHours() > 8) && (a.getMonth() + 1 < 4 || a.getMonth() + 1 > 10)) {
@@ -54,7 +54,7 @@ router.get("/hello", function (req, res) {
  */
 router.get("/tschuess", function (req, res) {
     //close the shutter
-    shutter.rolladenDown();
+    shutter.moveShutter("ROLLADEN/stateBett", "DOWN");
     //Turn all LEDs off
     for (let i = 0; i < 5; i++) {
         try {
@@ -100,7 +100,7 @@ router.get("/druckerButton", function (req, res) {
  * Middleware for IoT Button turning all Off 
  */
 router.get('/fensterZu', function (request, response) {
-    shutter.rolladenDown();
+    shutter.moveShutter("ROLLADEN/stateBett", "DOWN");
     syncDelay(1500);
     for (let i = 1; i < 5; i++) {
         try {
