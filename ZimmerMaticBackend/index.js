@@ -73,6 +73,7 @@ const mqtt = require('mqtt');  // require mqtt
 const client = mqtt.connect({
     host: '192.168.0.138',
     port: 1883,
+    clientId: "ServerBackend",
     username: process.env.MQTT_NAME,
     password: process.env.MQTT_PASS
 });
