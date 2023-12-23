@@ -34,13 +34,13 @@
       <div class="ms-1 mt-1" v-else-if="this.selectedOption == 'Rolladen'">
         <p class="mb-0 text-muted">Richtung</p>
         <div class="form-check">
-          <input class="form-check-input" type="radio" v-model="this.shutterOption" :value="'up'" id="defaultCheck1">
+          <input class="form-check-input" type="radio" v-model="this.shutterOption" :value="'UP'" id="defaultCheck1">
           <label class="form-check-label" for="defaultCheck0">
             Hoch
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" v-model="this.shutterOption" :value="'down'" id="defaultCheck1">
+          <input class="form-check-input" type="radio" v-model="this.shutterOption" :value="'DOWN'" id="defaultCheck1">
           <label class="form-check-label" for="defaultCheck0">
             Runter
           </label>
@@ -150,7 +150,7 @@ export default {
         { name: "Basteltisch", path: "BT" }
       ],
       jobs: [],
-      shutterOption: 'up',
+      shutterOption: 'UP',
       selectedShutter: 'ROLLADEN/stateBett',
       jobToDelete: "",
       selectedLights: [],
