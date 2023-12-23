@@ -51,14 +51,18 @@ router.post("/TempData", function (req, res) {
 router.get("/averageTemp", function (req, res) {
   let avg_t = 0
   let avg_h = 0
+  let participants = 0;
   for (let i = 0; i < spots.length; i++) {
     if (spots[i].temperature > 0 && spots[i].humidity > 0) {
       avg_t = avg_t + spots[i].temperature
       avg_h = avg_h + spots[i].humidity
+      participants++;
     }
   }
-  avg_h = (avg_h / 3).toFixed(2)
-  avg_t = (avg_t / 3).toFixed(2)
+  if (participants > 0) {
+    avg_h = (avg_h / participants).toFixed(2)
+    avg_t = (avg_t / participants).toFixed(2)
+  }
   res.status(200).json({
     avg_temperature: avg_t,
     avg_humidity: avg_h

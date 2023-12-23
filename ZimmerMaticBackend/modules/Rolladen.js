@@ -8,8 +8,9 @@ const verify = require("../routes/verify_token")
 router.post("/", function (req, res) {
     const dir = req.body.direction;
     const spot = req.body.spot
-    const shutter = "Rolladen/state" + spot
+    const shutter = "ROLLADEN/state" + spot
     //Executes the Direction requested by frontend
+    console.log(shutter, dir);
     try {
         main.client.publish(shutter, dir);
         res.sendStatus(200)
