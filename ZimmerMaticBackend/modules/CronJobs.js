@@ -111,7 +111,10 @@ async function generateLightJob(cronEx, whichLight, brightness, color, name, per
                 ikea.fetchLampe(lightBulb, "Farbtemperatur", color);
             });
             if (oneTime) {
+                console.log("KILL ME NOW");
+                console.log(jobMap.get(name));
                 jobMap.get(name).job.stop()
+                console.log(jobMap.get(name));
                 jobMap.delete(name)
                 main.app.locals.cronjobs.deleteOne({ "title": name })
             }
