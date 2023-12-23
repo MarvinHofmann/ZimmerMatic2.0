@@ -252,11 +252,16 @@ export default {
     },
     async get_system_info() {
       this.running_container = 0;
-      let res = await axios.get("http://zimmermatic:3443/api/os_info").then((response) => response);
+      let res = await axios
+        .get("http://zimmermatic:3443/api/os_info")
+        .then((response) => response);
       this.pi_info = res.data;
       this.backend = res.status;
       this.container = res.data.container;
-      this.mem_use = ((this.pi_info.memory.free / this.pi_info.memory.used) * 100).toFixed(2);
+      this.mem_use = (
+        (this.pi_info.memory.free / this.pi_info.memory.used) *
+        100
+      ).toFixed(2);
 
       for (let i = 0; i < this.container.length; i++) {
         if (this.container[i].State == "running") {
@@ -302,27 +307,35 @@ export default {
       }
     },
     async get_avg_tmp() {
-      this.avg_temp_info = await axios.get(IP + "/api/averageTemp").then((response) => response.data);
+      this.avg_temp_info = await axios
+        .get(IP + "/api/averageTemp")
+        .then((response) => response.data);
     },
     async get_homematic_bridge() {
       let res = await axios
-        .get("http://192.168.0.138:8080/rest/things/homematic:bridge:3014F711A0001F58A9A70A7A/status", {
-          auth: {
-            username: "MH",
-            password: "1010",
-          },
-        })
+        .get(
+          "http://192.168.0.138:8080/rest/things/homematic:bridge:3014F711A0001F58A9A70A7A/status",
+          {
+            auth: {
+              username: "MH",
+              password: "1010",
+            },
+          }
+        )
         .then((response) => response.data);
       res.status == "OFFLINE" ? (this.homematic = false) : (this.homematic = true);
     },
     async get_tradfri_gateway() {
       let res = await axios
-        .get("http://192.168.0.138:8080/rest/things/tradfri:gateway:gw4491603198ed/status", {
-          auth: {
-            username: "MH",
-            password: "1010",
-          },
-        })
+        .get(
+          "http://192.168.0.138:8080/rest/things/tradfri:gateway:gw4491603198ed/status",
+          {
+            auth: {
+              username: "MH",
+              password: "1010",
+            },
+          }
+        )
         .then((response) => response.data);
       res.status == "OFFLINE" ? (this.tradfri = false) : (this.tradfri = true);
     },
@@ -387,4 +400,5 @@ hr {
   background-color: #fbfbfb;
   border: 0;
   opacity: 0.75;
-}</style>
+}
+</style>
