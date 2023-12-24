@@ -25,11 +25,14 @@
                   <button class="btn btn-outline-secondary btnIcon" @click="send_fetch('DOWN', 'Schreibtisch')">
                     <i class="fas fa-chevron-down fa-2x text-success"></i>
                   </button>
-                  <p class="text-muted mb-0">Aktuell: {{ this.shutter_state_schreibtisch }}</p>
+                  <p class="text-muted mb-0">
+                    Aktuell: {{ this.shutter_state_schreibtisch }}
+                  </p>
                 </div>
               </div>
+              <hr class="border mt-3 mb-0" />
               <div class="row text-center">
-                <h4 class="p-0 m-0 mb-2 mt-1">3D-Drucker</h4>
+                <h4 class="p-0 m-0 mb-2 mt-4">3D-Drucker</h4>
                 <div class="col-lg-12 d-flex justify-content-center">
                   <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" v-model="this.state" @change="fetch_printer()" style="transform: scale(2)" />
@@ -45,7 +48,9 @@
                   <thead>
                     <tr>
                       <th style="width: 20%" scope="col">Standort</th>
-                      <th class="d-none d-lg-table-cell" style="width: 20%" scope="col">Color</th>
+                      <th class="d-none d-lg-table-cell" style="width: 20%" scope="col">
+                        Color
+                      </th>
                       <th style="width: 20%" scope="col">Helligkeit</th>
                       <th style="width: 20%" scope="col">Status</th>
                       <th style="width: 20%" scope="col">Aktionen</th>
@@ -89,8 +94,12 @@
                   <thead>
                     <tr>
                       <th style="width: 20%" scope="col">Standort</th>
-                      <th class="d-none d-lg-table-cell" style="width: 20%" scope="col">Farbtemperatur</th>
-                      <th class="d-none d-lg-table-cell" style="width: 20%" scope="col">Helligkeit</th>
+                      <th class="d-none d-lg-table-cell" style="width: 20%" scope="col">
+                        Farbtemperatur
+                      </th>
+                      <th class="d-none d-lg-table-cell" style="width: 20%" scope="col">
+                        Helligkeit
+                      </th>
                       <th style="width: 20%" scope="col">Staus</th>
                       <th style="width: 20%" scope="col">Aktionen</th>
                     </tr>
@@ -251,7 +260,7 @@ export default {
       tradfri: false,
       shutter_state_bett: "ZU",
       shutter_state_schreibtisch: "ZU",
-      state: false
+      state: false,
     };
   },
   methods: {
@@ -362,7 +371,9 @@ export default {
     },
     fetch_printer() {
       const value = this.state ? "ON" : "OFF";
-      axios.post("http://192.168.0.138:8080/rest/items/StD_Betrieb", value, { headers: { "content-type": "text/plain" } });
+      axios.post("http://192.168.0.138:8080/rest/items/StD_Betrieb", value, {
+        headers: { "content-type": "text/plain" },
+      });
     },
   },
   async mounted() {
