@@ -4,8 +4,8 @@
     <main class="px-3">
       <div class="container-fluid mt-3">
         <div class="row">
-          <div class="col-lg-3 mt-3">
-            <div class="card h-100 p-3">
+          <div class="col-lg-3 mt-3 mb-0">
+            <div class="card h-100 p-3 pt-0">
               <div class="row justify-content-center">
                 <div class="col-lg-6 text-center">
                   <h3 class="p-0 m-0 mt-3">Bett</h3>
@@ -15,7 +15,7 @@
                   <button class="btn btn-outline-secondary btnIcon" @click="send_fetch('DOWN', 'Bett')">
                     <i class="fas fa-chevron-down fa-2x text-success"></i>
                   </button>
-                  <p class="text-muted">Aktuell: {{ this.shutter_state_bett }}</p>
+                  <p class="text-muted mb-0">Aktuell: {{ this.shutter_state_bett }}</p>
                 </div>
                 <div class="col-lg-6 text-center">
                   <h3 class="p-0 m-0 mt-3">Büro</h3>
@@ -25,7 +25,15 @@
                   <button class="btn btn-outline-secondary btnIcon" @click="send_fetch('DOWN', 'Schreibtisch')">
                     <i class="fas fa-chevron-down fa-2x text-success"></i>
                   </button>
-                  <p class="text-muted">Aktuell: {{ this.shutter_state_schreibtisch }}</p>
+                  <p class="text-muted mb-0">Aktuell: {{ this.shutter_state_schreibtisch }}</p>
+                </div>
+              </div>
+              <div class="row text-center">
+                <h4 class="p-0 m-0 mb-2 mt-1">3D-Drucker</h4>
+                <div class="col-lg-12 d-flex justify-content-center">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" v-model="this.state" @change="fetch_printer()" style="transform: scale(2)" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -57,7 +65,7 @@
           <div class="col-lg-2 mt-3">
             <div class="card h-100">
               <div class="card-body text-center mt-5">
-                <div class="display-6 p-2">
+                <div class="display-6 p-2 pt-1">
                   <i class="bi bi-thermometer"></i>
                   {{ this.avg_temp_info.avg_temperature }}°C
                 </div>
@@ -243,6 +251,7 @@ export default {
       tradfri: false,
       shutter_state_bett: "ZU",
       shutter_state_schreibtisch: "ZU",
+      state: false
     };
   },
   methods: {
@@ -350,6 +359,10 @@ export default {
           spot: "stateSchreibtisch",
         })
         .then((response) => response.data);
+    },
+    fetch_printer() {
+      const value = this.state ? "ON" : "OFF";
+      axios.post("http://192.168.0.138:8080/rest/items/StD_Betrieb", value, { headers: { "content-type": "text/plain" } });
     },
   },
   async mounted() {
