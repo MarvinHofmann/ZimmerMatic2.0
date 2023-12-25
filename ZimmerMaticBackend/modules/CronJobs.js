@@ -142,18 +142,27 @@ async function readFromDB() {
 }
 exports.readFromDB = readFromDB;
 
-router.post('/generate-job/light', (req, res) => {
-    generateLightJob(req.body.expression, req.body.whichLights, req.body.brightness, req.body.color, req.body.jobName, true, req.body.oneTimeJob)
+router.post('/generate-job/light', async (req, res) => {
+    let persist = true
+    if (jobMap.has(req.body.jobName)) persist = false;
+    generateLightJob(req.body.expression, req.body.whichLights, req.body.brightness, req.body.color, req.body.jobName, persist, req.body.oneTimeJob)
+    if (!persist) await main.app.locals.cronjobs.replaceOne({ title: req.body.jobName }, { title: req.body.jobName, description: jobMap.get(req.body.jobName).description });
     res.status(200).json({ message: "OK" })
 })
 
-router.post('/generate-job/led', (req, res) => {
-    generateLEDJob(req.body.expression, req.body.whichLED, req.body.color, req.body.jobName, true, req.body.oneTimeJob)
+router.post('/generate-job/led', async (req, res) => {
+    let persist = true
+    if (jobMap.has(req.body.jobName)) persist = false;
+    generateLEDJob(req.body.expression, req.body.whichLED, req.body.color, req.body.jobName, persist, req.body.oneTimeJob)
+    if (!persist) await main.app.locals.cronjobs.replaceOne({ title: req.body.jobName }, { title: req.body.jobName, description: jobMap.get(req.body.jobName).description });
     res.status(200).json({ message: "OK" })
 })
 
-router.post('/generate-job/shutter', (req, res) => {
-    generateShutterJob(req.body.expression, req.body.whichShutter, req.body.direction, req.body.jobName, true, req.body.oneTimeJob)
+router.post('/generate-job/shutter', async (req, res) => {
+    let persist = true
+    if (jobMap.has(req.body.jobName)) persist = false;
+    generateShutterJob(req.body.expression, req.body.whichShutter, req.body.direction, req.body.jobName, persist, req.body.oneTimeJob)
+    if (!persist) await main.app.locals.cronjobs.replaceOne({ title: req.body.jobName }, { title: req.body.jobName, description: jobMap.get(req.body.jobName).description });
     res.status(200).json({ message: "OK" })
 })
 

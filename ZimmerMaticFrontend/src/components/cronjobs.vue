@@ -10,7 +10,7 @@
         </label>
       </div>
       <div class="form-floating mt-1">
-        <select class="form-select" v-model="this.selectedOption" placeholder="Choose" id="floatingSelect" aria-label="Floating label select example">
+        <select :disabled="this.edit" class="form-select" v-model="this.selectedOption" placeholder="Choose" id="floatingSelect" aria-label="Floating label select example">
           <option v-for="option in this.actions" :value="option">
             {{ option }}
           </option>
@@ -19,7 +19,7 @@
         <label for="floatingSelect">Aktion Wählen</label>
       </div>
       <div class="form-floating mt-3">
-        <input type="text" class="form-control" id="floatingInput" v-model="this.jobName" placeholder="Name" />
+        <input :disabled="this.edit" type="text" class="form-control" id="floatingInput" v-model="this.jobName" placeholder="Name" />
         <label for="floatingInput">Name des Jobs</label>
       </div>
       <div class="ms-1 mt-1" v-if="this.selectedOption == 'LED'">
@@ -74,7 +74,8 @@
       <div v-if="this.showErrName" class="alert alert-danger mt-3 mb-0" role="alert">
         Fehler: EMELY:1 Es muss ein Name angegeben werden!
       </div>
-      <button class="btn w-100 btn-outline-success mt-3" type="button" @click="generateNewJob()">Job Anlegen</button>
+      <button v-if="this.edit" class="btn w-100 btn-outline-warning mt-3" type="button" @click="generateNewJob()">Job Ändern</button>
+      <button v-else class="btn w-100 btn-outline-success mt-3" type="button" @click="generateNewJob()">Job Anlegen</button>
     </div>
     <div class="col-lg-6 text-center">
       <div class="table-responsive">
@@ -92,15 +93,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in this.jobs" @click="this.clickedCronjob = item" class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#cronInfoModal">
-              <th scope="row">{{ item.jobName }}</th>
-              <td>{{ item.expression }}</td>
-              <td>{{ item.type }}</td>
-              <td>
+            <tr v-for="item in this.jobs" @click="this.clickedCronjob = item" class="cursor-pointer">
+              <th data-bs-toggle="modal" data-bs-target="#cronInfoModal" scope="row">{{ item.jobName }}</th>
+              <td data-bs-toggle="modal" data-bs-target="#cronInfoModal">{{ item.expression }}</td>
+              <td data-bs-toggle="modal" data-bs-target="#cronInfoModal">{{ item.type }}</td>
+              <td data-bs-toggle="modal" data-bs-target="#cronInfoModal">
                 <span v-if="item.active" class="badge rounded-pill bg-success">Aktiv</span>
                 <span v-else class="badge rounded-pill bg-danger">Inaktiv</span>
               </td>
-              <td>
+              <td data-bs-toggle="modal" data-bs-target="#cronInfoModal">
                 <span v-if="item.oneTimeJob" class="badge rounded-pill bg-warning">Einmalig</span>
                 <span v-else class="badge rounded-pill bg-primary">Dauerhaft</span>
               </td>
@@ -108,6 +109,7 @@
                 <div class="d-flex justify-content-center">
                   <button v-if="item.active" @click="this.deactivateJob(item.jobName)" class="btn btn-sm btn-outline-danger bi bi-power mx-2"></button>
                   <button v-else @click="this.activateJob(item.jobName)" class="btn btn-sm btn-outline-success bi bi-power mx-2"></button>
+                  <button @click="this.setEdit(item)" class="btn btn-sm btn-outline-warning bi bi-pencil me-2"></button>
                   <button @click="this.jobToDelete = item.jobName" data-bs-target="#deleteModal" data-bs-toggle="modal" class="btn btn-sm btn-outline-danger bi bi-trash"></button>
                 </div>
               </td>
@@ -161,7 +163,8 @@ export default {
       lightColor: 50,
       showErrName: false,
       oneTimeJob: false,
-      clickedCronjob: {}
+      clickedCronjob: {},
+      edit: false,
     };
   },
   methods: {
@@ -241,11 +244,36 @@ export default {
       }).then((response) => console.log(response.data));
       await this.fetchJobs()
     },
+    setEdit(job) {
+      if (this.edit) {
+        this.resetEvents()
+      } else {
+        this.edit = true
+      }
+      this.jobName = job.jobName;
+      this.value = job.expression;
+      this.oneTimeJob = job.oneTimeJob;
+      this.selectedOption = job.type
+      if (job.type == "Rolladen") {
+        this.shutterOption = job.direction
+        this.whichShutter = job.whichShutter
+      } else if (job.type == "LED") {
+        this.selectedLEDs = job.whichLED;
+      } else if (job.type == "Licht") {
+        console.log(job);
+        this.selectedLights = job.whichLight;
+        this.lightColor = job.color;
+        this.lightBrightness = job.brightness;
+      }
+    },
     resetEvents() {
-      this.showErrName = false
-      this.jobName = "";
-      this.selectedOption = null;
-      this.value = "* * * * *"
+      this.edit = false
+      this.$nextTick(() => {
+        this.showErrName = false
+        this.jobName = "";
+        this.selectedOption = null;
+        this.value = "* * * * *"
+      })
     }
   },
   async mounted() {
@@ -285,7 +313,7 @@ export default {
   background-color: rgb(69, 101, 170) !important;
 }
 
-.cursor-pointer{
+.cursor-pointer {
   cursor: pointer;
 }
 </style>
