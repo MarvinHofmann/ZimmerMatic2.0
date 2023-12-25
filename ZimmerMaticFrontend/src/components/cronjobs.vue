@@ -92,7 +92,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in this.jobs">
+            <tr v-for="item in this.jobs" @click="this.clickedCronjob = item" class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#cronInfoModal">
               <th scope="row">{{ item.jobName }}</th>
               <td>{{ item.expression }}</td>
               <td>{{ item.type }}</td>
@@ -118,15 +118,18 @@
     </div>
   </div>
   <deleteModal id="deleteModal" class="mt-5" :delete_item="this.jobToDelete" @delete_answer="delete_request"></deleteModal>
+  <cronInfoModal :cronjob="this.clickedCronjob"></cronInfoModal>
 </template>
 
 <script>
 import axios from 'axios';
 const IP = import.meta.env.VITE_SERVER_IP;
 import deleteModal from "./deleteModal.vue"
+import cronInfoModal from './cronInfoModal.vue';
 export default {
   components: {
-    deleteModal
+    deleteModal,
+    cronInfoModal
   },
   data() {
     return {
@@ -157,7 +160,8 @@ export default {
       lightBrightness: 50,
       lightColor: 50,
       showErrName: false,
-      oneTimeJob: false
+      oneTimeJob: false,
+      clickedCronjob: {}
     };
   },
   methods: {
@@ -279,5 +283,9 @@ export default {
 
 .vcron-select-selected {
   background-color: rgb(69, 101, 170) !important;
+}
+
+.cursor-pointer{
+  cursor: pointer;
 }
 </style>
