@@ -26,7 +26,7 @@ router.get("/essenFertig", function (req, res) {
 router.get("/hello", function (req, res) {
     //close the shutter
     shutter.moveShutter("ROLLADEN/stateBett", "DOWN");
-    shutter.moveShutter("ROLLADEN/stateSchreibitsch", "DOWN");
+    shutter.moveShutter("ROLLADEN/stateSchreibtisch", "DOWN");
     //Turn all LEDs off
     for (let i = 0; i < 5; i++) {
         try {
