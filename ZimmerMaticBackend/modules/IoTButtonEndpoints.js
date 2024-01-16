@@ -11,12 +11,12 @@ const led = require('./LEDs')
  */
 router.get("/essenFertig", function (req, res) {
     for (let i = 0; i < 3; i++) {
-        led.allLEDChange(0,0,0,0);
-        led.allLEDChange(255,0,0,255);
-        led.allLEDChange(0,0,0,0);
-        led.allLEDChange(255,0,0,255);
+        led.allLEDChange(0, 0, 0, 0);
+        led.allLEDChange(255, 0, 0, 255);
+        led.allLEDChange(0, 0, 0, 0);
+        led.allLEDChange(255, 0, 0, 255);
     }
-    led.allLEDChange(255,255,255,255);
+    led.allLEDChange(255, 255, 255, 255);
     res.sendStatus(200);
 });
 
@@ -25,9 +25,10 @@ router.get("/essenFertig", function (req, res) {
  */
 router.get("/hello", function (req, res) {
     try { //Turn ambient leds on
-        led.singleLEDChange("LED_COLOR/colorKamin", 256,161,20,255);
-        led.singleLEDChange("LED_COLOR/colorcouch", 256,161,20,255);
-        led.singleLEDChange("LED_COLOR/colorUhr", 40,191,255,255);
+        led.singleLEDChange("LED_COLOR/colorKamin", 256, 161, 20, 255);
+        led.singleLEDChange("LED_COLOR/colorCouch", 256, 161, 20, 255);
+        led.singleLEDChange("LED_COLOR/colorUhr", 40, 191, 255, 255);
+        led.singleLEDChange("LED_COLOR/colorMarvin", 256, 161, 20, 255);
     } catch (error) {
         console.log("Client LEDs [1,2,3] not available")
         res.sendStatus(500);
@@ -41,10 +42,11 @@ router.get("/hello", function (req, res) {
     } else {
         //open the shutter
         shutter.moveShutter("ROLLADEN/stateBett", "UP");
+        shutter.moveShutter("ROLLADEN/stateSchreibitsch", "UP");
     }
     //If its winter start the heater
     if ((a.getHours() < 21 || a.getHours() > 8) && (a.getMonth() + 1 < 4 || a.getMonth() + 1 > 10)) {
-        homematic.heizungON(21);
+        homematic.heizungON(20);
     }
     res.sendStatus(200);
 });
@@ -55,10 +57,11 @@ router.get("/hello", function (req, res) {
 router.get("/tschuess", function (req, res) {
     //close the shutter
     shutter.moveShutter("ROLLADEN/stateBett", "DOWN");
+    shutter.moveShutter("ROLLADEN/stateSchreibitsch", "DOWN");
     //Turn all LEDs off
     for (let i = 0; i < 5; i++) {
         try {
-            led.allLEDChange(0,0,0,0);
+            led.allLEDChange(0, 0, 0, 0);
         } catch (error) {
             console.log("Error turning off LEDs for /tschuess :" + error);
             res.sendStatus(500);
@@ -88,7 +91,7 @@ router.get("/druckerButton", function (req, res) {
                 Ikea.fetchSteckdose("OFF");
             }
         })
-        .catch(function(err){
+        .catch(function (err) {
             console.log("Error fetching current state of Printer: " + err)
             res.sendStaus(500);
             return;
@@ -104,7 +107,7 @@ router.get('/fensterZu', function (request, response) {
     syncDelay(1500);
     for (let i = 1; i < 5; i++) {
         try {
-            led.allLEDChange(0,0,0,0);
+            led.allLEDChange(0, 0, 0, 0);
         } catch (error) {
             console.log("Error at /fensterZu while turning LED " + i + " Off")
             response.sendStatus(500)
