@@ -27,6 +27,7 @@ function allLEDChange(r, g, b, v) {
         main.client.publish("LED_COLOR/all", JSON.stringify({ r: r, g: g, b: b, v: v }))
     } catch (error) {
         console.log("LED Send /ALL nicht Verfügbar");
+        
     }
 }
 exports.allLEDChange = allLEDChange

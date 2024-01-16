@@ -24,37 +24,6 @@ router.get("/essenFertig", function (req, res) {
  * Middleware for IoT Button for comming home
  */
 router.get("/hello", function (req, res) {
-    try { //Turn ambient leds on
-        led.singleLEDChange("LED_COLOR/colorKamin", 256, 161, 20, 255);
-        led.singleLEDChange("LED_COLOR/colorCouch", 256, 161, 20, 255);
-        led.singleLEDChange("LED_COLOR/colorUhr", 40, 191, 255, 255);
-        led.singleLEDChange("LED_COLOR/colorMarvin", 256, 161, 20, 255);
-    } catch (error) {
-        console.log("Client LEDs [1,2,3] not available")
-        res.sendStatus(500);
-        return;
-    }
-    let a = new Date();
-    //If its in the evening turn a small light on when comming home
-    if (a.getHours() >= 18 || a.getHours() <= 6) {
-        Ikea.fetchLampe("BL", "Helligkeit", 30);
-        Ikea.fetchLampe("BR", "Helligkeit", 30);
-    } else {
-        //open the shutter
-        shutter.moveShutter("ROLLADEN/stateBett", "UP");
-        shutter.moveShutter("ROLLADEN/stateSchreibitsch", "UP");
-    }
-    //If its winter start the heater
-    if ((a.getHours() < 21 || a.getHours() > 8) && (a.getMonth() + 1 < 4 || a.getMonth() + 1 > 10)) {
-        homematic.heizungON(20);
-    }
-    res.sendStatus(200);
-});
-
-/**
- * Middleware IoT Button leaving the room
- */
-router.get("/tschuess", function (req, res) {
     //close the shutter
     shutter.moveShutter("ROLLADEN/stateBett", "DOWN");
     shutter.moveShutter("ROLLADEN/stateSchreibitsch", "DOWN");
@@ -73,6 +42,37 @@ router.get("/tschuess", function (req, res) {
     Ikea.fetchLampe("BR", "Helligkeit", "0");
     Ikea.fetchLampe("BT", "Helligkeit", "0");
     homematic.heizungOff();
+    res.sendStatus(200);
+});
+
+/**
+ * Middleware IoT Button leaving the room
+ */
+router.get("/tschuess", function (req, res) {
+    try { //Turn ambient leds on
+        led.singleLEDChange("LED_COLOR/colorKamin", 255, 73, 0, 255);
+        led.singleLEDChange("LED_COLOR/colorCouch", 255, 73, 0, 255);
+        led.singleLEDChange("LED_COLOR/colorUhr", 0, 165, 255, 255);
+        led.singleLEDChange("LED_COLOR/colorMarvin", 255, 73, 0, 255);
+    } catch (error) {
+        console.log("Client LEDs [1,2,3] not available")
+        res.sendStatus(500);
+        return;
+    }
+    let a = new Date();
+    //If its in the evening turn a small light on when comming home
+    if (a.getHours() >= 18 || a.getHours() <= 6) {
+        Ikea.fetchLampe("BL", "Helligkeit", 30);
+        Ikea.fetchLampe("BR", "Helligkeit", 30);
+    } else {
+        //open the shutter
+        shutter.moveShutter("ROLLADEN/stateBett", "UP");
+        shutter.moveShutter("ROLLADEN/stateSchreibtisch", "UP");
+    }
+    //If its winter start the heater
+    if ((a.getHours() < 21 || a.getHours() > 8) && (a.getMonth() + 1 < 4 || a.getMonth() + 1 > 10)) {
+        homematic.heizungON(20);
+    }
     res.sendStatus(200);
 });
 
