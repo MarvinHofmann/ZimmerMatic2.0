@@ -25,9 +25,10 @@ router.post("/ALL", function (req, res) {
 function allLEDChange(r, g, b, v) {
     try {
         main.client.publish("LED_COLOR/all", JSON.stringify({ r: r, g: g, b: b, v: v }))
+        main.client.publish("LED_COLOR/colorCouch", JSON.stringify({ r: 0, g: 0, b: 0, v: 0 }));
     } catch (error) {
         console.log("LED Send /ALL nicht Verfügbar");
-        
+
     }
 }
 exports.allLEDChange = allLEDChange
